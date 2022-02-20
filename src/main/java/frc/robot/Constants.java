@@ -22,83 +22,84 @@ public final class Constants {
    /* MOTOR CAN ADDRESS ASSIGNMENTS */
     // NOTE: These are tentative and are subject to change
     // Drive Motors (FALCON 500)
-    public static final int DRV_MTR_FT_LT           = 1;  //  Front Left
-    public static final int DRV_MTR_RR_LT           = 2;  //  Rear  Left
-    public static final int DRV_MTR_FT_RT           = 3;  //  Front Right
-    public static final int DRV_MTR_RR_RT           = 4;  //  Rear Right
+    public static final int DRV_MTR_FT_LT         =  2;  //  Front Left
+    public static final int DRV_MTR_RR_LT         =  8;  //  Rear  Left
+    public static final int DRV_MTR_FT_RT         =  7;  //  Front Right
+    public static final int DRV_MTR_RR_RT         =  6;  //  Rear Right
     // Swerve Steer Motors (FALCON 500)
-    public static final int SWRV_MTR_FT_LT          = 5;  //  Front Left
-    public static final int SWRV_MTR_RR_LT          = 6;  //  Rear  Left
-    public static final int SWRV_MTR_FT_RT          = 7;  //  Front Right
-    public static final int SWRV_MTR_RR_RT          = 8;  //  Rear Right
+    public static final int SWRV_MTR_FT_LT        =  3;  //  Front Left
+    public static final int SWRV_MTR_RR_LT        =  1;  //  Rear  Left
+    public static final int SWRV_MTR_FT_RT        =  4;  //  Front Right
+    public static final int SWRV_MTR_RR_RT        =  5;  //  Rear Right
 
     
-    // Shooter Motors (SPARK MAX)
-    public static final int SHOOTER1                = 9;
-    public static final int SHOOTER2                = 10;
-    // Robot Lift (SPARK MAX)
-    public static final int ROBOT_LIFT              = 11;
-    // Shooter Tilt (CAN TALON SRX)
-    public static final int SHOOTER_AIM_TILT        = 12;
-    // Shooter PAN (CAN TALON SRX)
-    public static final int SHOOTER_AIM_PAN         = 13;
-    // Shooter Intake (CAN TALON SRX)
-    public static final int SHOOTER_BALL_INTAKE     = 14;
-    // Shooter Intake Lift (CAN TALON SRX)
-    public static final int SHOOTER_INTAKE_LIFT     = 15;
-    // Shooter Advance (CAN TALON SRX)
-    public static final int SHOOTER_BALL_ADVANCE    = 16;
+    // Shooter Motors (FALCON 500)
+    public static final int SHOOTER_MTR_LT        =  9;
+    public static final int SHOOTER_MTR_RT        = 10;
+
+    // Shooter Motors (Servo)
+    public static final int SHOOTER_SERVO_DIST    = 11;
+
+    // Ball Advance Motor (FALCON 500)
+    public static final int BALL_MTR_ADVANCE      = 12;
+    // Ball Intake Motor (CAN TALON SRX)
+    public static final int BALL_MTR_INTAKE       = 13;
+
+    // Robot Lift Motor (FALCON 500)
+    public static final int LIFT_MTR              = 14;
 
 
     /* Analog Inputs */
     // Swerve Steer Motors Position
-    public static final int SWRV_ANG_FT_LT          = 3;  //  Front Left
-    public static final int SWRV_ANG_RR_LT          = 2;  //  Rear  Left
-    public static final int SWRV_ANG_FT_RT          = 0;  //  Front Right
-    public static final int SWRV_ANG_RR_RT          = 1;  //  Rear Right
+    public static final int ANA_SWRV_ANG_FT_LT    = 3;  //  Front Left
+    public static final int ANA_SWRV_ANG_RR_LT    = 2;  //  Rear  Left
+    public static final int ANA_SWRV_ANG_FT_RT    = 0;  //  Front Right
+    public static final int ANA_SWRV_ANG_RR_RT    = 1;  //  Rear Right
 
 
 
     /* Digital Inputs */
-    public static final int BALL_SENSE_INPUT    = 1;
-    public static final int BALL_SENSE_OUTPUT   = 2;    
-    public static final int SWRV_ZERO_FT_RT     = 4;
-    public static final int SWRV_ZERO_FT_LT     = 6;
-    public static final int SWRV_ZERO_RR_LT     = 5;
-    public static final int SWRV_ZERO_RR_RT     = 3;
+    public static final int SW_BALL_INTAKE_LT     = 0;
+    public static final int SW_BALL_INTAKE_RT     = 1;
+    public static final int SW_BALL_INTAKE_FT     = 2;
+    public static final int SW_BALL_INTAKE_RR     = 3;
+    public static final int SW_LIFT_SLIDE_FT      = 4;
+    public static final int SW_LIFT_SLIDE_RR      = 4;
 
 
 
    /* Pneumatic Actuators */
-    public static final int BALL_INTAKE_BLOCK   = 0;
-    public static final int BALL_INTAKE_OPEN    = 1;
-    public static final int HANG_HOOK_UP        = 2;
-    public static final int HANG_HOOK_RETRACT   = 3;
+    public static final int PNEU_BALL_INTAKE_LT   = 0;
+    public static final int PNEU_BALL_INTAKE_RT   = 1;
+    public static final int PNEU_BALL_INTAKE_FT   = 2;
+    public static final int PNEU_BALL_INTAKE_RR   = 3;
+    public static final int PNEU_LIFT_SLIDE       = 4;
+    public static final int PNEU_SHOOTER_CAMERA   = 5;
 
 
 
     /* X-BOX CONTROLLER MAPPING */
     // Controller Assignments
-    public static final int DRVR_CNTRLR       =  0;
-    public static final int AUX_CNTRLR        =  1;
+    public static final int DRVR_CNTRLR           =  0;
+    public static final int AUX_CNTRLR            =  1;
     // Button Assignments
-    public static final int BUTTON_A          =  1;
-    public static final int BUTTON_B          =  2;
-    public static final int BUTTON_X          =  3;
-    public static final int BUTTON_Y          =  4;
-    public static final int BUMPER_LEFT       =  5;
-    public static final int BUMPER_RIGHT      =  6;
-    public static final int BUTTON_BACK       =  7;  // LEFT(SELECT)
-    public static final int BUTTON_START      =  8;  // RIGHT
-    public static final int STICK_LEFT_PRESS  =  9;  // JOYSTICK PRESS
-    public static final int STICK_RIGHT_PRESS = 10;  // JOYSTICK PRESS
+    public static final int BUTTON_A              =  1;
+    public static final int BUTTON_B              =  2;
+    public static final int BUTTON_X              =  3;
+    public static final int BUTTON_Y              =  4;
+    public static final int BUMPER_LEFT           =  5;
+    public static final int BUMPER_RIGHT          =  6;
+    public static final int BUTTON_BACK           =  7;  // LEFT(SELECT)
+    public static final int BUTTON_START          =  8;  // RIGHT
+    public static final int STICK_LEFT_PRESS      =  9;  // JOYSTICK PRESS
+    public static final int STICK_RIGHT_PRESS     = 10;  // JOYSTICK PRESS
     // Analog Assignments
-    public static final int STICK_LEFT_XAXIS  = 1;
-    public static final int STICK_LEFT_YAXIS  = 2;
-    public static final int TRIGGERS          = 3;
-    public static final int STICK_RIGHT_XAXIS = 4;
-    public static final int STICK_RIGHT_YAXIS = 5;
-    public static final int DPAD              = 6;
+    public static final int STICK_LEFT_XAXIS      = 1;
+    public static final int STICK_LEFT_YAXIS      = 2;
+    public static final int TRIGGERS              = 3;
+    public static final int STICK_RIGHT_XAXIS     = 4;
+    public static final int STICK_RIGHT_YAXIS     = 5;
+    public static final int DPAD                  = 6;
 
 
 }
