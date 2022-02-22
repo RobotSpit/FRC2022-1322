@@ -40,16 +40,9 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
 
-  private int debugInstrDisplayUpdCounter;
-  public boolean debugInstrDisplayUpdNow;
-
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    debugInstrDisplayUpdCounter = (int)0;
-    debugInstrDisplayUpdNow = true;
-
-
 
     // Configure the button bindings
     configureButtonBindings();
@@ -71,11 +64,15 @@ public class RobotContainer {
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
     auxStick = new XboxController(Constants.AUX_CNTRLR); 
 
+    // Manual Shoot
+    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, ballSubsystem, auxStick));
+
   }
 
 
   private void setDefaultCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new SWRV_DrvManual(swerveSubsystem, driverStick));
+    CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
+    CommandScheduler.getInstance().setDefaultCommand(shooterSubsystem, new ManualShoot(shooterSubsystem, ballSubsystem, auxStick));
   }
 
 
@@ -98,28 +95,6 @@ public class RobotContainer {
     return m_autoCommand;
   }
 
-
-  /**
-   * Method: updateInstrDisplayUpd{}
-   * Use this to Service the Instrumenation Display Update Counter and Flag.
-   * Used to Trigger the Debug Insturmentation Display Flag to update data
-   * display every 10 loops so that it will not bog down processing.
-   * 
-   * @return none
-   */
-  private void updateInstrDisplayUpd() {
-    if (debugInstrDisplayUpdCounter == (int)0) {
-      debugInstrDisplayUpdNow = true;  
-    } else {
-      debugInstrDisplayUpdNow = false;  
-    }
-
-    debugInstrDisplayUpdCounter++;
-    if (debugInstrDisplayUpdCounter >= (int)11) {
-      debugInstrDisplayUpdCounter = (int)0;
-    }
-
-  }
 
     
 }

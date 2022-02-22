@@ -7,18 +7,46 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-
-
-
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BallSubsystem extends SubsystemBase {
 
+public enum slctArm {
+  Left,
+  Right,
+  Front,
+  Rear;
+}
+
+
 
 
   private WPI_TalonFX BallAdvanceMotor = new WPI_TalonFX(Constants.BALL_MTR_ADVANCE, "rio");
+
   private TalonSRX BallIntakeMotor = new TalonSRX(Constants.BALL_MTR_INTAKE);
-  
+
+  private Solenoid[] BallIntakeArm = new Solenoid[] {
+    new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_LT),
+    new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_RR),
+    new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_RT),
+    new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_FT)
+  };
+
+
+
+  private DigitalInput[] BallArmDetect = new DigitalInput[] {
+    new DigitalInput(Constants.SW_BALL_INTAKE_LT),
+    new DigitalInput(Constants.SW_BALL_INTAKE_RR),
+    new DigitalInput(Constants.SW_BALL_INTAKE_RT),
+    new DigitalInput(Constants.SW_BALL_INTAKE_FT)
+  };
+
+  private DigitalInput BallAdvanceIntake = new DigitalInput(Constants.SW_BALL_ADVANCE_IN);
+  private DigitalInput BallAdvanceOuttake = new DigitalInput(Constants.SW_BALL_ADVANCE_OUT);
+
 
 
 
@@ -90,6 +118,10 @@ public class BallSubsystem extends SubsystemBase {
 
 
 
+
+
+
+
   /**
    * Method: getAdvanceMtr - Shooter Drive System - Gets the Master Ball Feed Advance Object 
    * @return ShooterMotor[Master]; (WPI_TalonFX: Ball Feed Advance Motor Object)
@@ -115,6 +147,48 @@ public class BallSubsystem extends SubsystemBase {
   }
 
 
+
+
+
+  public void closeIntakeArms() {
+    int i;
+    for (i = 0; i < 4; i++) {
+      BallIntakeArm[i].set(true);
+    }
+  }
+
+
+  public void releaseIntakeArms() {
+    int i;
+    for (i = 0; i < 4; i++) {
+      BallIntakeArm[i].set(false);
+    }
+  }
+
+
+
+  public boolean detectBallAtArm() {
+    boolean ballDetected = false;
+    int i;
+    for (i = 0; i < 4; i++) {
+      if (BallArmDetect[i].get() == true) {
+        ballDetected = true;
+      }
+    }
+    return ballDetected;
+  }
+
+
+
+  public boolean detectBallAdvIntake() {
+    return (BallAdvanceIntake.get());
+  }
+
+
+
+  public boolean detectBallAdvOuttake() {
+    return (BallAdvanceOuttake.get());
+  }
 
 
 

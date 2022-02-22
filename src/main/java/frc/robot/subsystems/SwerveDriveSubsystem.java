@@ -83,8 +83,14 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
     */
 	private boolean VeSDRV_b_RotZeroLearnNotRun;
 
+
+	private int VeSDRV_Cnt_DebugInstrDisplayUpdCounter;
+	private boolean VeSDRV_b_DebugInstrDisplayUpdNow;
+
+
 	private int     VeTEST_Cnt_TestBrnchCntr;
 	private boolean VeTEST_b_TestInitTrig;
+
 
 
 
@@ -139,8 +145,12 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 
 		VeSDRV_b_RotZeroLearnNotRun = false;
 
+		VeSDRV_Cnt_DebugInstrDisplayUpdCounter  = (int)0;
+		VeSDRV_b_DebugInstrDisplayUpdNow = true;
+	
 		VeTEST_Cnt_TestBrnchCntr = 0;
 		VeTEST_b_TestInitTrig = false;
+
 	}
 
 
@@ -204,6 +214,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	  mngSDRV_RZL_PeriodicIntrsvTask();
 	  mngSDRV_RZL_PeriodicPassiveTask();
 
+      updateInstrDisplayUpd();
 	  if (K_SWRV.KeSWRV_b_DebugEnbl == true)  {
 	    updateSmartDash();	
 	  }
@@ -294,7 +305,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	public void HolonomicDrv(double Le_r_PwrLong, double Le_r_PwrLat, double Le_r_PwrRot, boolean Le_b_FieldOriented) {
 		boolean Le_b_RotAngUpdPwrCond;
 
-        if (K_SWRV.KeSWRV_b_DebugEnbl == true)  {
+        if ((K_SWRV.KeSWRV_b_DebugEnbl == true) && (VeSDRV_b_DebugInstrDisplayUpdNow == true))  {
 		  SmartDashboard.putNumber("X-Box Pwr Long " , Le_r_PwrLong);
 		  SmartDashboard.putNumber("X-Box Pwr Lat "  , Le_r_PwrLat);
 		  SmartDashboard.putNumber("X-Box Pwr Rot "  , Le_r_PwrRot);
@@ -1099,15 +1110,39 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 
 
     /*************************************************/
-	/*     Subsystem Instrumenation Display          */
-	/*************************************************/
-
-	private void updateSmartDash() {
-		/* Print to SmartDashboard */
-	
-      if (true) {
-
-		SmartDashboard.putNumber("Cntrlr Pwr Long " , VeSDRV_r_PwrLong);
+  	/*     Subsystem Instrumenation Display          */
+  	/*************************************************/
+  
+  
+    /**
+     * Method: updateInstrDisplayUpd{}
+     * Use this to Service the Instrumenation Display Update Counter and Flag.
+     * Used to Trigger the Debug Insturmentation Display Flag to update data
+     * display every 10 loops so that it will not bog down processing.
+     * 
+     * @return none
+     */
+    private void updateInstrDisplayUpd() {
+      if (VeSDRV_Cnt_DebugInstrDisplayUpdCounter == (int)0) {
+  		VeSDRV_b_DebugInstrDisplayUpdNow = true;  
+      } else {
+  		VeSDRV_b_DebugInstrDisplayUpdNow = false;  
+      }
+  
+      VeSDRV_Cnt_DebugInstrDisplayUpdCounter++;
+      if (VeSDRV_Cnt_DebugInstrDisplayUpdCounter >= (int)11) {
+  		VeSDRV_Cnt_DebugInstrDisplayUpdCounter = (int)0;
+      }
+    }	
+  
+  
+  
+  	private void updateSmartDash() {
+  		/* Print to SmartDashboard */
+  	
+        if (VeSDRV_b_DebugInstrDisplayUpdNow) {
+  
+  		SmartDashboard.putNumber("Cntrlr Pwr Long " , VeSDRV_r_PwrLong);
 		SmartDashboard.putNumber("Cntrlr Pwr Lat " ,  VeSDRV_r_PwrLat);
 		SmartDashboard.putNumber("Cntrlr Pwr Rot " ,  VeSDRV_r_PwrRot);
 
@@ -1133,7 +1168,8 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	
 		   SmartDashboard.putNumber("Rot Zero Ofst " + i ,     SwrvDrvMod[i].getRotEncdrZeroOfst());
 		   SmartDashboard.putNumber("Rot Mtr Cur " + i ,       SwrvDrvMod[i].getRotMtrCurr());
-		
+		   SmartDashboard.putNumber("Rot Zero Learn" + i ,     SwrvDrvMod[i].getRotEncdrZeroLearnCntr());
+		   
 		   SmartDashboard.putNumber("Tgt Spd Raw " + i ,       VaSDRV_v_DrvSpdCalcRaw[i]);
 		   SmartDashboard.putNumber("Tgt Spd Cnvrtd " + i ,    VaSDRV_v_DrvSpdCalcCnvrtd[i]);
 		   SmartDashboard.putNumber("Drv Encdr Cnts " + i ,    SwrvDrvMod[i].getDrvEncdrCntsRel());	   
@@ -1144,6 +1180,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	  }	
 	
 	}
+
 
     
 }

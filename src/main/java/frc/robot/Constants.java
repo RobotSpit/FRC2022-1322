@@ -49,32 +49,43 @@ public final class Constants {
     public static final int LIFT_MTR              = 14;
 
 
-    /* Analog Inputs */
+
+    /* PWM OUTPUT ADDRESS ASSIGNMENTS */
+    public static final int PWM_SHOOTER_ANGLE     = 0;
+    public static final int PWM_CAMERA_TILT       = 1;
+    public static final int PWM_CAMERA_PAN        = 2;
+
+
+
+    /* PNEUMATIC ACTUATOR ADDRESS ASSIGNMENTS */
+    public static final int PNEU_BALL_INTAKE_LT   = 11;
+    public static final int PNEU_BALL_INTAKE_RT   =  9;
+    public static final int PNEU_BALL_INTAKE_FT   = 10;
+    public static final int PNEU_BALL_INTAKE_RR   = 12;
+    public static final int PNEU_LIFT_TRACK       = 13;
+    public static final int PNEU_SHOOTER_CAMERA   =  8;
+   
+
+
+    /* ANALOG INPUT ADDRESS ASSIGNMENTS */
     // Swerve Steer Motors Position
     public static final int ANA_SWRV_ANG_FT_LT    = 3;  //  Front Left
     public static final int ANA_SWRV_ANG_RR_LT    = 2;  //  Rear  Left
     public static final int ANA_SWRV_ANG_FT_RT    = 0;  //  Front Right
-    public static final int ANA_SWRV_ANG_RR_RT    = 1;  //  Rear Right
+    public static final int ANA_SWRV_ANG_RR_RT    = 1;  //  Rear  Right
 
 
 
-    /* Digital Inputs */
-    public static final int SW_BALL_INTAKE_LT     = 0;
-    public static final int SW_BALL_INTAKE_RT     = 1;
-    public static final int SW_BALL_INTAKE_FT     = 2;
-    public static final int SW_BALL_INTAKE_RR     = 3;
-    public static final int SW_LIFT_SLIDE_FT      = 4;
-    public static final int SW_LIFT_SLIDE_RR      = 4;
+    /* DIGITAL INPUT ADDRESS ASSIGNMENTS */
+    public static final int SW_LIFT_TRACK_TRIG    =  0;
+    public static final int SW_BALL_INTAKE_LT     =  1;
+    public static final int SW_BALL_INTAKE_RT     =  3;
+    public static final int SW_BALL_INTAKE_FT     =  4;
+    public static final int SW_BALL_INTAKE_RR     =  2;
+    public static final int SW_BALL_ADVANCE_IN    =  5;
+    public static final int SW_BALL_ADVANCE_OUT   =  6;
 
 
-
-   /* Pneumatic Actuators */
-    public static final int PNEU_BALL_INTAKE_LT   = 0;
-    public static final int PNEU_BALL_INTAKE_RT   = 1;
-    public static final int PNEU_BALL_INTAKE_FT   = 2;
-    public static final int PNEU_BALL_INTAKE_RR   = 3;
-    public static final int PNEU_LIFT_SLIDE       = 4;
-    public static final int PNEU_SHOOTER_CAMERA   = 5;
 
 
 

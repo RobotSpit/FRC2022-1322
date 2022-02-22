@@ -7,6 +7,8 @@
 
 package frc.robot.calibrations;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /**
  * Add your docs here.
  */
@@ -50,9 +52,16 @@ public class K_SHOT {
     public static final double KeSHOT_n_AtTgtDB = 300;
 
 
+    /** KeSHOT_t_PostLaunchRunTime: The amount of time
+     * to keep the Shooter Motors Running after the balls
+     * have left the Ball Feed Advance Positions (assuming
+     * the Controller Button is still not being held). 
+     */
+    public static final double KeSHOT_t_PostLaunchRunTime = 3.0;
 
 
 
+    
   /*************************************************/
   /*  Shooter System Control PID Coefficients      */
  	/*************************************************/	 	

@@ -15,9 +15,9 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SWRV_DrvManual extends CommandBase {
+public class ManualDrive extends CommandBase {
   /**
-   * Command: SDRV_DrvFwd Command t    driveSubsystem.zeroGyro();o Drive the Swerve Drive
+   * Command: ManualDrive Command t    driveSubsystem.zeroGyro();o Drive the Swerve Drive
    * Forward or Backwards at a specific Power Request. 
    */
   private final SwerveDriveSubsystem swerveSubsystem;
@@ -26,7 +26,7 @@ public class SWRV_DrvManual extends CommandBase {
   private double Xe_r_LongPwr, Xe_r_LatPwr, Xe_r_RotPwr;
 
 
-  public SWRV_DrvManual(SwerveDriveSubsystem swerveSubsystem, XboxController driverStick) {
+  public ManualDrive(SwerveDriveSubsystem swerveSubsystem, XboxController driverStick) {
       this.swerveSubsystem = swerveSubsystem;
       this.driverStick = driverStick;
       swerveSubsystem.resetDrvEncdrs();
@@ -53,12 +53,6 @@ public class SWRV_DrvManual extends CommandBase {
     Xe_r_RotPwr  = rfsLIB.ApplyDB_Scld(Xe_r_RotPwr, K_SWRV.KeSWRV_r_CntlrDeadBandThrsh, 1.0);
   
     swerveSubsystem.HolonomicDrv(Xe_r_LongPwr, Xe_r_LatPwr, Xe_r_RotPwr, false);
-
-    if (K_SWRV.KeSWRV_b_DebugEnbl == true)  {
-	    SmartDashboard.putNumber("DMnl Pwr Long " ,  Xe_r_LongPwr);
-	    SmartDashboard.putNumber("DMnl Pwr Lat " ,   Xe_r_LatPwr);
-	    SmartDashboard.putNumber("DMnl Pwr Rot " ,   Xe_r_RotPwr);
-      }
 
   }
 

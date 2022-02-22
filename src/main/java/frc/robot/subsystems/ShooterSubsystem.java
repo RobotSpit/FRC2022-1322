@@ -8,28 +8,25 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  public enum slctMtr {
+public enum slctMtr {
     Left,
     Right;
- }
+}
 
 
 
 
- private WPI_TalonFX[] ShooterMotor = new WPI_TalonFX[] {
+private WPI_TalonFX[] ShooterMotor = new WPI_TalonFX[] {
   new WPI_TalonFX(Constants.SHOOTER_MTR_LT, "rio"),
   new WPI_TalonFX(Constants.SHOOTER_MTR_RT, "rio")  
 };
 
-
-
-
-
+Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
 
 
 
@@ -59,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase {
     ShooterMotor[Constants.SHOOTER_MTR_RT].setInverted(true);			
     ShooterMotor[Constants.SHOOTER_MTR_RT].follow(ShooterMotor[Constants.SHOOTER_MTR_LT]);
 
-    
+    ShooterServoAim.set(0);
 
   }
 
@@ -93,6 +90,17 @@ public class ShooterSubsystem extends SubsystemBase {
       getShooterMtr().set(TalonFXControlMode.Velocity,0);
     }
   }
+
+  /**
+   * Method: aimShooter - Shooter Drive System - Used to Aim the Shooter by sending
+   * a Percent to the Servo to Deflect the Shooter Mechanism Value (0 to 100%) 
+   * @return ShooterMotor[Master]; (WPI_TalonFX: Shooter Motor Object)
+   */  
+  public void aimShooter(double percent) {
+    ShooterServoAim.set(percent/100);
+  }
+
+
 
 
   @Override

@@ -7,7 +7,7 @@ import frc.robot.calibrations.K_LIFT;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LiftSubsystem extends SubsystemBase {
@@ -15,6 +15,7 @@ public class LiftSubsystem extends SubsystemBase {
 
 private WPI_TalonFX LiftMotor = new WPI_TalonFX(Constants.LIFT_MTR, "rio");
 
+private DigitalInput TrackExtendTrig = new DigitalInput(Constants.SW_LIFT_TRACK_TRIG);
 
 
   /********************************/
@@ -31,7 +32,6 @@ private WPI_TalonFX LiftMotor = new WPI_TalonFX(Constants.LIFT_MTR, "rio");
    LiftMotor.setInverted(false);	
    LiftMotor.setNeutralMode(NeutralMode.Brake);
 
-
    LiftMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,(int)0,(int)0);
    LiftMotor.setSelectedSensorPosition(0);   
    LiftMotor.config_kP(0, K_LIFT.KeLIFT_K_Prop);
@@ -40,6 +40,8 @@ private WPI_TalonFX LiftMotor = new WPI_TalonFX(Constants.LIFT_MTR, "rio");
    LiftMotor.config_IntegralZone(0, K_LIFT.KeLIFT_r_IntglErrMaxEnbl);
    LiftMotor.config_kF(0, K_LIFT.KeLIFT_K_FdFwd);
 
+   LiftMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+   LiftMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
   }
 
@@ -75,6 +77,28 @@ private WPI_TalonFX LiftMotor = new WPI_TalonFX(Constants.LIFT_MTR, "rio");
       haltLift();
     }
   }
+
+
+  public boolean detectTrackExtendTrigger() {
+    return TrackExtendTrig.get();
+  }  
+
+
+  public boolean detectTrackLimitFront() {
+    boolean limitDetected = false;
+    if (LiftMotor.getSensorCollection().isFwdLimitSwitchClosed() == 1) {
+      limitDetected = true;    
+    }
+    return limitDetected;
+  }   
+
+  public boolean detectTrackLimitRear() {
+    boolean limitDetected = false;
+    if (LiftMotor.getSensorCollection().isRevLimitSwitchClosed() == 1) {
+      limitDetected = true;    
+    }
+    return limitDetected;
+  }   
 
 
 
