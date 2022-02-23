@@ -82,8 +82,8 @@ public final class Constants {
     public static final int SW_BALL_INTAKE_RT     =  3;
     public static final int SW_BALL_INTAKE_FT     =  4;
     public static final int SW_BALL_INTAKE_RR     =  2;
-    public static final int SW_BALL_ADVANCE_IN    =  5;
-    public static final int SW_BALL_ADVANCE_OUT   =  6;
+    public static final int SW_BALL_ADVANCE_1    =  5;
+    public static final int SW_BALL_ADVANCE_2   =  6;
 
 
 

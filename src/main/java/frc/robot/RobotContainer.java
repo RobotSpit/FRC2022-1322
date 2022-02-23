@@ -29,7 +29,7 @@ public class RobotContainer {
   public  final pRFSLIB prfsLIB = new pRFSLIB();
   private final SendableChooser<Command> m_chooser = new SendableChooser<Command>();
   private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
-  private final BallSubsystem ballSubsystem = new BallSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   private XboxController driverStick;
@@ -65,14 +65,16 @@ public class RobotContainer {
     auxStick = new XboxController(Constants.AUX_CNTRLR); 
 
     // Manual Shoot
-    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, ballSubsystem, auxStick));
+    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
 
   }
 
 
   private void setDefaultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
-    CommandScheduler.getInstance().setDefaultCommand(shooterSubsystem, new ManualShoot(shooterSubsystem, ballSubsystem, auxStick));
+    CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
+    CommandScheduler.getInstance().setDefaultCommand(shooterSubsystem, new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
+    CommandScheduler.getInstance().setDefaultCommand(liftSubsystem, new ManualLift(liftSubsystem, auxStick));
   }
 
 

@@ -4,12 +4,22 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.LiftSubsystem;
+
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+
 public class ManualLift extends CommandBase {
+  private LiftSubsystem liftSubsystem;
+  private XboxController auxStick;
+
   /** Creates a new ManualLift. */
-  public ManualLift() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ManualLift(LiftSubsystem liftSubsystem, XboxController auxStick) {
+    //  addRequirements(liftSubsystem, auxStick);
+    this.liftSubsystem = liftSubsystem;
+    this.auxStick = auxStick;
+
   }
 
   // Called when the command is initially scheduled.

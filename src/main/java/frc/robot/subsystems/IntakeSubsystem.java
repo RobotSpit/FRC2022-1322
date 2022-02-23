@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.calibrations.K_BALL;
+import frc.robot.calibrations.K_INTK;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class BallSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
 
 public enum slctArm {
   Left,
@@ -44,8 +44,8 @@ public enum slctArm {
     new DigitalInput(Constants.SW_BALL_INTAKE_FT)
   };
 
-  private DigitalInput BallAdvanceIntake = new DigitalInput(Constants.SW_BALL_ADVANCE_IN);
-  private DigitalInput BallAdvanceOuttake = new DigitalInput(Constants.SW_BALL_ADVANCE_OUT);
+  private DigitalInput BallAdvance1 = new DigitalInput(Constants.SW_BALL_ADVANCE_1);
+  private DigitalInput BallAdvance2 = new DigitalInput(Constants.SW_BALL_ADVANCE_2);
 
 
 
@@ -53,7 +53,7 @@ public enum slctArm {
   /********************************/
   /* BallSubsystem Constructor    */
   /********************************/
-  public BallSubsystem() {
+  public IntakeSubsystem() {
 
 
  /*****************************************************************/
@@ -64,11 +64,11 @@ public enum slctArm {
   BallIntakeMotor.setInverted(false);	
   BallIntakeMotor.setNeutralMode(NeutralMode.Brake);
 
-  BallIntakeMotor.config_kP(0, K_BALL.KeBALL_K_InProp);
-  BallIntakeMotor.config_kI(0, K_BALL.KeBALL_K_InIntgl);
-  BallIntakeMotor.config_kD(0, K_BALL.KeBALL_K_InDeriv);
-  BallIntakeMotor.config_IntegralZone(0, K_BALL.KeBALL_r_InIntglErrMaxEnbl);
-  BallIntakeMotor.config_kF(0, K_BALL.KeBALL_K_InFdFwd);
+  BallIntakeMotor.config_kP(0, K_INTK.KeINTK_K_InProp);
+  BallIntakeMotor.config_kI(0, K_INTK.KeINTK_K_InIntgl);
+  BallIntakeMotor.config_kD(0, K_INTK.KeINTK_K_InDeriv);
+  BallIntakeMotor.config_IntegralZone(0, K_INTK.KeINTK_r_InIntglErrMaxEnbl);
+  BallIntakeMotor.config_kF(0, K_INTK.KeINTK_K_InFdFwd);
 
 
   /*****************************************************************/
@@ -79,11 +79,11 @@ public enum slctArm {
   BallAdvanceMotor.setInverted(false);	
   BallAdvanceMotor.setNeutralMode(NeutralMode.Brake);
 
-  BallAdvanceMotor.config_kP(0, K_BALL.KeBALL_K_AdvProp);
-  BallAdvanceMotor.config_kI(0, K_BALL.KeBALL_K_AdvIntgl);
-  BallAdvanceMotor.config_kD(0, K_BALL.KeBALL_K_AdvDeriv);
-  BallAdvanceMotor.config_IntegralZone(0, K_BALL.KeBALL_r_AdvIntglErrMaxEnbl);
-  BallAdvanceMotor.config_kF(0, K_BALL.KeBALL_K_AdvFdFwd);
+  BallAdvanceMotor.config_kP(0, K_INTK.KeINTK_K_AdvProp);
+  BallAdvanceMotor.config_kI(0, K_INTK.KeINTK_K_AdvIntgl);
+  BallAdvanceMotor.config_kD(0, K_INTK.KeINTK_K_AdvDeriv);
+  BallAdvanceMotor.config_IntegralZone(0, K_INTK.KeINTK_r_AdvIntglErrMaxEnbl);
+  BallAdvanceMotor.config_kF(0, K_INTK.KeINTK_K_AdvFdFwd);
 
 
 
@@ -109,7 +109,7 @@ public enum slctArm {
 
   public void pidIntakeSpd(boolean activate){
     if (activate == true) {
-      getIntakeMtr().set(ControlMode.Velocity,K_BALL.KeBALL_n_TgtIntakeCmd);
+      getIntakeMtr().set(ControlMode.Velocity,K_INTK.KeINTK_n_TgtIntakeCmdShoot);
     } else {
       getIntakeMtr().set(ControlMode.Velocity,0);
     }
@@ -140,7 +140,7 @@ public enum slctArm {
 
   public void pidAdvanceSpd(boolean activate){
     if (activate == true) {
-      getAdvanceMtr().set(TalonFXControlMode.Velocity,K_BALL.KeBALL_n_TgtAdvanceCmd);
+      getAdvanceMtr().set(TalonFXControlMode.Velocity,K_INTK.KeINTK_n_TgtAdvanceCmdShoot);
     } else {
       getAdvanceMtr().set(TalonFXControlMode.Velocity,0);
     }
@@ -180,14 +180,14 @@ public enum slctArm {
 
 
 
-  public boolean detectBallAdvIntake() {
-    return (BallAdvanceIntake.get());
+  public boolean detectBallAdvance1() {
+    return (BallAdvance1.get());
   }
 
 
 
-  public boolean detectBallAdvOuttake() {
-    return (BallAdvanceOuttake.get());
+  public boolean detectBallAdvance2() {
+    return (BallAdvance2.get());
   }
 
 

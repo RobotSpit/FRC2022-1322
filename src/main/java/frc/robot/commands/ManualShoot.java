@@ -5,9 +5,9 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.calibrations.K_BALL;
+import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
-import frc.robot.subsystems.BallSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,16 +16,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualShoot extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
-  private BallSubsystem ballSubsystem;
+  private IntakeSubsystem intakeSubsystem;
   private XboxController auxStick;
   private  Timer shooterShutOffTimer = new Timer();
 
   
   /** Creates a new ManualShoot. */
-  public ManualShoot(ShooterSubsystem shooterSubsystem,  BallSubsystem ballSubsystem, XboxController auxStick) {
-  //  addRequirements(ballSubsystem, shooterSubsystem, auxStick);
+  public ManualShoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, XboxController auxStick) {
+    //  addRequirements(intakeSubsystem, shooterSubsystem, auxStick);
     this.shooterSubsystem = shooterSubsystem;
-    this.ballSubsystem = ballSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
     this.auxStick = auxStick;
   }
 
@@ -42,16 +42,16 @@ public class ManualShoot extends CommandBase {
   public void execute() {
     // When shooter is at speed, feed the balls for shot, otherwise wait.
     if (shooterSubsystem.isShooterAtSpd()) {
-      ballSubsystem.runAdvanceAtSpd(K_BALL.KeBALL_n_TgtAdvanceCmd);
-      ballSubsystem.runIntakeAtSpd(K_BALL.KeBALL_n_TgtIntakeCmd);
+      intakeSubsystem.runAdvanceAtSpd(K_INTK.KeINTK_n_TgtAdvanceCmdShoot);
+      intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdShoot);
       shooterShutOffTimer.start();
     } else {
-      ballSubsystem.runAdvanceAtSpd(0);
-      ballSubsystem.runIntakeAtSpd(0);
+      intakeSubsystem.runAdvanceAtSpd(0);
+      intakeSubsystem.runIntakeAtSpd(0);
     }
     
-    if ((auxStick.getAButton() == true) || (ballSubsystem.detectBallAdvIntake() == true) ||
-        (ballSubsystem.detectBallAdvOuttake() ==true)) {
+    if ((auxStick.getAButton() == true) || (intakeSubsystem.detectBallAdvance1() == true) ||
+        (intakeSubsystem.detectBallAdvance2() ==true)) {
       shooterShutOffTimer.reset();
     }
 
@@ -62,9 +62,10 @@ public class ManualShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ballSubsystem.runAdvanceAtSpd(0);
-    ballSubsystem.runIntakeAtSpd(0);
+    intakeSubsystem.runAdvanceAtSpd(0);
+    intakeSubsystem.runIntakeAtSpd(0);
     shooterSubsystem.pidShooterSpd(false);
+    shooterShutOffTimer.stop();
   }
 
   // Returns true when the command should end.
