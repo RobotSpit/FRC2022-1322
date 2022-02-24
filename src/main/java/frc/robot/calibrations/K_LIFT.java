@@ -27,12 +27,16 @@ public class K_LIFT {
 
   /***************************************************/
   /*  Robot Lift Control General System Calibrations */
- 	/***************************************************/	 	
+ 	/***************************************************/
+   
+ 	  /** KeLIFT_r_CntlrDeadBandThrsh: Lift System: Normalized
+   * Power Dead-Band Threshold that must be met before a X-Box Controller
+   * Joystick Input is recognized.  If the Absolute value of the Input
+   * is below the Threshold it will be ignored (i.e. set to Zero).
+   */
+  public static final double KeLIFT_r_CntlrDeadBandThrsh = 0.1;
 
-
-
-
-
+  
 
   /*****************************************/
   /*  Robot Lift Control PID Coefficients  */

@@ -18,6 +18,7 @@ public class ManualShoot extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private XboxController auxStick;
+  private  Timer shooterClearTimer = new Timer();
   private  Timer shooterShutOffTimer = new Timer();
 
   

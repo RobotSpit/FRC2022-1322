@@ -64,27 +64,23 @@ public class RobotContainer {
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
     auxStick = new XboxController(Constants.AUX_CNTRLR); 
 
-    // Manual Shoot
     new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
+    new JoystickButton(auxStick, Constants.BUMPER_RIGHT).whenPressed(new ManualIntake(intakeSubsystem, auxStick));
+    new JoystickButton(auxStick, Constants.DPAD).whenPressed(new ManualLift(liftSubsystem, auxStick));
+
 
   }
 
 
   private void setDefaultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
-    CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
-    CommandScheduler.getInstance().setDefaultCommand(shooterSubsystem, new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
-    CommandScheduler.getInstance().setDefaultCommand(liftSubsystem, new ManualLift(liftSubsystem, auxStick));
   }
 
 
-
-  public SwerveDriveSubsystem getSwerveDriveSubsystem()
-    {
-    return(swerveSubsystem);
-    }    
-
-
+//  public SwerveDriveSubsystem getSwerveDriveSubsystem()
+//    {
+//    return(swerveSubsystem);
+//    }    
 
 
   /**

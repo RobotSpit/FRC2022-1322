@@ -14,19 +14,28 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-public enum slctArm {
-  Left,
-  Right,
-  Front,
-  Rear;
-}
+  public enum slctArm {
+    Left,
+    Right,
+    Front,
+    Rear
+  }
+
+  public enum controlState {
+    Init,
+    SeekBall1,
+    GrabBall1,
+    HoldBall1,
+    SeekBall2,
+    GrabBall2,
+    HoldBall2
+  }
 
 
 
+  private WPI_TalonFX AdvanceMotor = new WPI_TalonFX(Constants.BALL_MTR_ADVANCE, "rio");
 
-  private WPI_TalonFX BallAdvanceMotor = new WPI_TalonFX(Constants.BALL_MTR_ADVANCE, "rio");
-
-  private TalonSRX BallIntakeMotor = new TalonSRX(Constants.BALL_MTR_INTAKE);
+  private TalonSRX IntakeMotor = new TalonSRX(Constants.BALL_MTR_INTAKE);
 
   private Solenoid[] BallIntakeArm = new Solenoid[] {
     new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_LT),
@@ -47,6 +56,11 @@ public enum slctArm {
   private DigitalInput BallAdvance1 = new DigitalInput(Constants.SW_BALL_ADVANCE_1);
   private DigitalInput BallAdvance2 = new DigitalInput(Constants.SW_BALL_ADVANCE_2);
 
+  private boolean ballCaptureInProgress;
+  private boolean ballCapturedPstn1;
+  private boolean ballCapturedPstn2;
+
+  private controlState ballIntakeCtrlSt;
 
 
 
@@ -59,33 +73,36 @@ public enum slctArm {
  /*****************************************************************/
  /* Ball Intake Motor Controller Configurations                   */
  /*****************************************************************/    
-  BallIntakeMotor.configFactoryDefault();
-  BallIntakeMotor.setSensorPhase(false);
-  BallIntakeMotor.setInverted(false);	
-  BallIntakeMotor.setNeutralMode(NeutralMode.Brake);
+  IntakeMotor.configFactoryDefault();
+  IntakeMotor.setSensorPhase(false);
+  IntakeMotor.setInverted(false);	
+  IntakeMotor.setNeutralMode(NeutralMode.Brake);
 
-  BallIntakeMotor.config_kP(0, K_INTK.KeINTK_K_InProp);
-  BallIntakeMotor.config_kI(0, K_INTK.KeINTK_K_InIntgl);
-  BallIntakeMotor.config_kD(0, K_INTK.KeINTK_K_InDeriv);
-  BallIntakeMotor.config_IntegralZone(0, K_INTK.KeINTK_r_InIntglErrMaxEnbl);
-  BallIntakeMotor.config_kF(0, K_INTK.KeINTK_K_InFdFwd);
+  IntakeMotor.config_kP(0, K_INTK.KeINTK_K_InProp);
+  IntakeMotor.config_kI(0, K_INTK.KeINTK_K_InIntgl);
+  IntakeMotor.config_kD(0, K_INTK.KeINTK_K_InDeriv);
+  IntakeMotor.config_IntegralZone(0, K_INTK.KeINTK_r_InIntglErrMaxEnbl);
+  IntakeMotor.config_kF(0, K_INTK.KeINTK_K_InFdFwd);
 
 
   /*****************************************************************/
   /* Ball Advance Motor Controller Configurations                  */
   /*****************************************************************/  
-  BallAdvanceMotor.configFactoryDefault();
-  BallAdvanceMotor.setSensorPhase(false);
-  BallAdvanceMotor.setInverted(false);	
-  BallAdvanceMotor.setNeutralMode(NeutralMode.Brake);
+  AdvanceMotor.configFactoryDefault();
+  AdvanceMotor.setSensorPhase(false);
+  AdvanceMotor.setInverted(false);	
+  AdvanceMotor.setNeutralMode(NeutralMode.Brake);
 
-  BallAdvanceMotor.config_kP(0, K_INTK.KeINTK_K_AdvProp);
-  BallAdvanceMotor.config_kI(0, K_INTK.KeINTK_K_AdvIntgl);
-  BallAdvanceMotor.config_kD(0, K_INTK.KeINTK_K_AdvDeriv);
-  BallAdvanceMotor.config_IntegralZone(0, K_INTK.KeINTK_r_AdvIntglErrMaxEnbl);
-  BallAdvanceMotor.config_kF(0, K_INTK.KeINTK_K_AdvFdFwd);
+  AdvanceMotor.config_kP(0, K_INTK.KeINTK_K_AdvProp);
+  AdvanceMotor.config_kI(0, K_INTK.KeINTK_K_AdvIntgl);
+  AdvanceMotor.config_kD(0, K_INTK.KeINTK_K_AdvDeriv);
+  AdvanceMotor.config_IntegralZone(0, K_INTK.KeINTK_r_AdvIntglErrMaxEnbl);
+  AdvanceMotor.config_kF(0, K_INTK.KeINTK_K_AdvFdFwd);
 
-
+  ballCaptureInProgress = false;
+  ballCapturedPstn1 = false;
+  ballCapturedPstn2 = false;
+  ballIntakeCtrlSt = controlState.Init;
 
   }
 
@@ -96,7 +113,7 @@ public enum slctArm {
    * @return ShooterMotor[Master]; (WPI_TalonFX: Ball Feed Intake Motor Object)
    */  
   public TalonSRX getIntakeMtr() {
-    return BallIntakeMotor;
+    return IntakeMotor;
   }
 
   public double getIntakeSpd(){
@@ -109,15 +126,11 @@ public enum slctArm {
 
   public void pidIntakeSpd(boolean activate){
     if (activate == true) {
-      getIntakeMtr().set(ControlMode.Velocity,K_INTK.KeINTK_n_TgtIntakeCmdShoot);
+      getIntakeMtr().set(ControlMode.Velocity,K_INTK.KeINTK_n_TgtIntakeCmdFeed);
     } else {
       getIntakeMtr().set(ControlMode.Velocity,0);
     }
   }
-
-
-
-
 
 
 
@@ -127,7 +140,7 @@ public enum slctArm {
    * @return ShooterMotor[Master]; (WPI_TalonFX: Ball Feed Advance Motor Object)
    */  
   public WPI_TalonFX getAdvanceMtr() {
-    return BallAdvanceMotor;
+    return AdvanceMotor;
   }
 
   public double getAdvanceSpd(){
@@ -189,6 +202,48 @@ public enum slctArm {
   public boolean detectBallAdvance2() {
     return (BallAdvance2.get());
   }
+
+
+
+  public void setBallCaptureInProgress(boolean captureInProgress) {
+    ballCaptureInProgress = captureInProgress;
+  }
+
+  public boolean getBallCaptureInProgress() {
+    return (ballCaptureInProgress);
+  }
+
+
+
+  public void setBallCapturedPstn1(boolean ballCaptured) {
+    ballCapturedPstn1 = ballCaptured;
+  }
+
+  public boolean getBallCapturedPstn1() {
+    return (ballCapturedPstn1);
+  }
+
+
+
+  public void setBallCapturedPstn2(boolean ballCaptured) {
+    ballCapturedPstn2 = ballCaptured;
+  }
+
+  public boolean getBallCapturedPstn2() {
+    return (ballCapturedPstn2);
+  }
+
+
+
+
+  public void setBallIntakeCtrlSt(controlState  intakeCtrlSt) {
+    ballIntakeCtrlSt = intakeCtrlSt;
+  }
+
+  public controlState getBallIntakeCtrlSt() {
+    return (ballIntakeCtrlSt);
+  }
+ 
 
 
 

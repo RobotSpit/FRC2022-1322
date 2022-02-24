@@ -29,6 +29,18 @@ public class K_INTK {
   /*  Ball Intake Control General System Calibrations */
  	/****************************************************/	 	
 
+    /** KeINTK_t_IntakeDetectTme: Ball Intake System Ball 
+     * present minimun detection time.
+     */
+    public static final double KeINTK_t_IntakeDetectTme = 0.060;
+
+    /** KeINTK_t_IntakeFullOverrideTmeOut: Ball Intake
+     * System Ball Full Override Time Out.  If the Operator
+     * is Requesting to Run the Intake Motors without Shooting
+     * but Two Balls are detected in the Intake System, time
+     * out the Intake and Advance Motors after this time. 
+     */
+    public static final double KeINTK_t_IntakeFullOverrideTmeOut = 0.500;
 
 
 
@@ -36,25 +48,25 @@ public class K_INTK {
   /*  Ball Feed Motor Speed Calibrations            */
  	/**************************************************/   
 
-   	  /** KeINTK_n_TgtIntakeCmdFeed: Ball Feed System Control 
+   	/** KeINTK_n_TgtIntakeCmdFeed: Ball Intake System Control 
      * Commmanded Intake Motor Speed in RPM during Ball Feed. 
      */
     public static final double KeINTK_n_TgtIntakeCmdFeed = 4000;
 
 
-	  /** KeINTK_n_TgtAdvanceCmdFeed: Ball Feed System Control 
+	  /** KeINTK_n_TgtAdvanceCmdFeed: Ball Intake System Control 
      * Commmanded Advance Motor Speed in RPM during Ball Feed. 
      */
     public static final double KeINTK_n_TgtAdvanceCmdFeed = 3000;
 
 
-	  /** KeINTK_n_TgtIntakeCmdShoot: Ball Feed System Control 
+	  /** KeINTK_n_TgtIntakeCmdShoot: Ball Intake System Control 
      * Commmanded Intake Motor Speed in RPM during Ball Shoot. 
      */
     public static final double KeINTK_n_TgtIntakeCmdShoot = 4000;
 
 
-	  /** KeINTK_n_TgtAdvanceCmdShoot: Ball Feed System Control 
+	  /** KeINTK_n_TgtAdvanceCmdShoot: Ball Intake System Control 
      * Commmanded Advance Motor Speed in RPM during Ball Shoot. 
      */
     public static final double KeINTK_n_TgtAdvanceCmdShoot = 3000;
@@ -72,20 +84,20 @@ public class K_INTK {
     public static final double KeINTK_K_InProp = 0.01;
 
 
-	  /** KeINTK_K_Intgl: Ball Intake Intake System
-     * Integral Control Gain. 
+	  /** KeINTK_K_Intgl: Ball Intake System Integral 
+     * Control Gain. 
      */
     public static final double KeINTK_K_InIntgl = 0.001;
 
 
-	  /** KeINTK_K_Deriv: Ball Intake Intake System
-     * Derivative Control Gain. 
+	  /** KeINTK_K_Deriv: Ball Intake System Derivative
+     * Control Gain. 
      */
     public static final double KeINTK_K_InDeriv = 0.0;
 
 
-	  /** KeINTK_K_FdFwd: Ball Intake Intake System Feed
-     * Fowrward Control Gain. 
+	  /** KeINTK_K_FdFwd: Ball Intake System Feed Fowrward
+     * Control Gain. 
      */
     public static final double KeINTK_K_InFdFwd = 0.001;
 

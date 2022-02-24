@@ -8,14 +8,30 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LiftSubsystem extends SubsystemBase {
 
+public enum controlState {
+  Init,
+  Armed,
+  ExtendFwd,
+  RetractMid,
+  RetractRear  
+}
 
 private WPI_TalonFX LiftMotor = new WPI_TalonFX(Constants.LIFT_MTR, "rio");
 
-private DigitalInput TrackExtendTrig = new DigitalInput(Constants.SW_LIFT_TRACK_TRIG);
+private Solenoid LiftTrackSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_LIFT_TRACK);
+
+private Solenoid CameraSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_SHOOTER_CAMERA);
+
+private DigitalInput TrackMidTrig = new DigitalInput(Constants.SW_LIFT_TRACK_TRIG);
+
+private controlState liftCntrlSt;
+
 
 
   /********************************/
@@ -43,16 +59,36 @@ private DigitalInput TrackExtendTrig = new DigitalInput(Constants.SW_LIFT_TRACK_
    LiftMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
    LiftMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
+   liftCntrlSt = controlState.Init;
+
   }
 
 
   /**
-   * Method: getLiftMtr - Robot Lift System - Gets the Master Robot Lift Motor Object 
-   * @return ShooterMotor[Master]; (WPI_TalonFX: Lift Motor Object)
+   * Method: getLiftMtr - Robot Lift System - Gets the Robot Lift Motor Object 
+   * @return ShooterMotor; (WPI_TalonFX: Lift Motor Object)
    */  
   public WPI_TalonFX getLiftMtr() {
     return LiftMotor;
   }
+
+  /**
+   * Method: getLiftTrackSlnd - Robot Lift System - Gets the Robot Lift Track Solenoid Object 
+   * @return LiftTrackSolenoid; (Solenoid: Lift Track Solenoid Object)
+   */  
+  public Solenoid getLiftTrackSlnd() {
+    return LiftTrackSolenoid;
+  }
+
+  /**
+   * Method: getCameraSlnd - Robot Lift System - Gets the Robot Shooter Camera Solenoid Object 
+   * @return CameraSolenoid; (WPI_TalonFX: Shooter Camera Solenoid Object)
+   */  
+  public Solenoid getCameraSlnd() {
+    return CameraSolenoid;
+  }
+
+
 
   public double getLiftPstn(){
     return getLiftMtr().getSelectedSensorPosition();
@@ -79,8 +115,8 @@ private DigitalInput TrackExtendTrig = new DigitalInput(Constants.SW_LIFT_TRACK_
   }
 
 
-  public boolean detectTrackExtendTrigger() {
-    return TrackExtendTrig.get();
+  public boolean detectTrackMidTrigger() {
+    return TrackMidTrig.get();
   }  
 
 
@@ -99,6 +135,16 @@ private DigitalInput TrackExtendTrig = new DigitalInput(Constants.SW_LIFT_TRACK_
     }
     return limitDetected;
   }   
+
+
+
+  public void setLiftControlState(controlState controlSt) {
+    liftCntrlSt = controlSt;
+  }  
+
+  public controlState getLiftControlState() {
+    return liftCntrlSt;
+  }  
 
 
 

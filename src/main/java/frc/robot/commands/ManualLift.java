@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.RFSLIB;
+import frc.robot.subsystems.LiftSubsystem.controlState;
+import frc.robot.calibrations.K_LIFT;
 import frc.robot.subsystems.LiftSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -13,6 +16,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualLift extends CommandBase {
   private LiftSubsystem liftSubsystem;
   private XboxController auxStick;
+  private final RFSLIB rfsLIB = new RFSLIB();
+
+  private double liftPwr;
+  private int dPadPos;
 
   /** Creates a new ManualLift. */
   public ManualLift(LiftSubsystem liftSubsystem, XboxController auxStick) {
@@ -20,6 +27,7 @@ public class ManualLift extends CommandBase {
     this.liftSubsystem = liftSubsystem;
     this.auxStick = auxStick;
 
+    liftPwr = 0;
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +36,64 @@ public class ManualLift extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    dPadPos = auxStick.getPOV();
+
+    liftPwr = -auxStick.getLeftY();
+    liftPwr = rfsLIB.ApplyDB_Scld(liftPwr, K_LIFT.KeLIFT_r_CntlrDeadBandThrsh, 1.0);
+
+    
+    switch (liftSubsystem.getLiftControlState()) {
+      case Init: {
+        if ((dPadPos > 350 || dPadPos < 10) && dPadPos != -1){ // D-Pad Up
+          liftSubsystem.setLiftControlState(controlState.Armed);
+          liftSubsystem.getLiftTrackSlnd().set(true);
+          liftSubsystem.getCameraSlnd().set(false);
+        }
+
+        break;
+      }
+
+      case Armed: {
+        if (liftSubsystem.detectTrackMidTrigger() == true){ 
+          liftSubsystem.setLiftControlState(controlState.ExtendFwd);
+        }
+
+        break;
+      }
+
+      case ExtendFwd: {
+        if (liftSubsystem.detectTrackLimitFront() == true){ 
+          liftSubsystem.setLiftControlState(controlState.RetractMid);
+        }
+
+        break;
+      }
+
+      case RetractMid: {
+        if (liftSubsystem.detectTrackMidTrigger() == true){ 
+          liftSubsystem.setLiftControlState(controlState.RetractRear);
+          liftSubsystem.getLiftTrackSlnd().set(false);
+        }
+
+        break;
+       }
+
+      case RetractRear: 
+      default: { 
+        if (liftSubsystem.detectTrackLimitRear() == true){ 
+          liftSubsystem.setLiftControlState(controlState.ExtendFwd);
+          liftSubsystem.getLiftTrackSlnd().set(true);
+        }
+
+        break;
+      }
+
+    }
+
+    liftSubsystem.runLiftAtPwr(liftPwr);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
