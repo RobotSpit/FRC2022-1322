@@ -67,8 +67,6 @@ public final class Constants {
     public static final int SWRV_ZERO_RR_LT     = 5;
     public static final int SWRV_ZERO_RR_RT     = 3;
 
-
-
    /* Pneumatic Actuators */
     public static final int BALL_INTAKE_BLOCK   = 0;
     public static final int BALL_INTAKE_OPEN    = 1;
