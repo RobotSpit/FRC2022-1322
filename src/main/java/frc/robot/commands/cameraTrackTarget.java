@@ -35,6 +35,12 @@ public class cameraTrackTarget extends CommandBase {
       m_camera.setNeutral();
     }
 
+    try {
+      wait(40);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
 
   }
 

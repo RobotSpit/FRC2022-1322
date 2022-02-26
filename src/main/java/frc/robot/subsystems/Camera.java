@@ -15,8 +15,16 @@ public class Camera extends SubsystemBase {
 
   final static double CAMERA_ANGLE_TOLERANCE = 2.5;
 
-  final static double ANGLE_TILT_ZERO = 0;
+  final static double ANGLE_TILT_ZERO = 0.3;
   final static double ANGLE_PAN_ZERO = 0;
+
+  final static double kP_x = 0.001;
+  final static double kP_y = 0.001;
+
+  private final double kD_x = -0.001;
+  private final double kD_y = -0.001;
+
+  private final static double MAX_SPEED = 0.002;
 
   public enum Targets{GOAL, BLUE_BALL, RED_BALL};
 
@@ -43,6 +51,10 @@ public class Camera extends SubsystemBase {
     Pan.set(position);
   }
 
+  public double getPan(){
+    return Pan.getPosition();
+  }
+
   public boolean isTargetValid(){
     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1;
   }
@@ -62,13 +74,31 @@ public class Camera extends SubsystemBase {
   }
 
   public void setNeutral() {
+    setPan(ANGLE_PAN_ZERO);
+    setTilt(ANGLE_TILT_ZERO);
   }
 
   public boolean isTargetCenter() {
     return Math.sqrt(Math.pow(getCameraTargetXAngle(), 2) + Math.pow(getCameraTargetXAngle(), 2)) < CAMERA_ANGLE_TOLERANCE;
   }
 
+  double[] p_error = {0,0};
+  
   public void moveCameraToCenter() {
-    
+    double[] error = errorToTarget();
+
+    setPan(clipSpeed(error[0]*kP_y +  kD_x * (error[0] - p_error[0]), -MAX_SPEED, MAX_SPEED) + getPan());
+    setTilt(clipSpeed(error[1]*kP_y +  kD_y * (error[1] - p_error[1]), -MAX_SPEED, MAX_SPEED) + getTilt());
+
+    p_error = error;
+  }
+
+  private double[] errorToTarget(){
+    double[] output = {getCameraTargetXAngle(), getCameraTargetYAngle()};
+    return output;
+  }
+
+  private double clipSpeed(double value, double min, double max){
+    return (value - max > 0 ? max : (min - value > 0 ? min : value));
   }
 }
