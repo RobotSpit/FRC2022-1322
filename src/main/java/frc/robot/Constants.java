@@ -32,24 +32,22 @@ public final class Constants {
     public static final int SWRV_MTR_FT_RT        =  4;  //  Front Right
     public static final int SWRV_MTR_RR_RT        =  5;  //  Rear Right
 
+
+    // Ball Intake Motor (CAN TALON SRX)
+    public static final int BALL_MTR_INTAKE       =  9;
+    // Ball Advance Motor (FALCON 500)
+    public static final int BALL_MTR_ADVANCE      = 10;
     
     // Shooter Motors (FALCON 500)
-    public static final int SHOOTER_MTR_LT        =  9;
-    public static final int SHOOTER_MTR_RT        = 10;
-
-    // Shooter Motors (Servo)
-    public static final int SHOOTER_SERVO_DIST    = 11;
-
-    // Ball Advance Motor (FALCON 500)
-    public static final int BALL_MTR_ADVANCE      = 12;
-    // Ball Intake Motor (CAN TALON SRX)
-    public static final int BALL_MTR_INTAKE       = 13;
+    public static final int SHOOTER_MTR_RT        = 11;
+    public static final int SHOOTER_MTR_LT        = 12;
 
     // Robot Lift Motor (FALCON 500)
-    public static final int LIFT_MTR              = 14;
+    public static final int LIFT_MTR              = 13;
 
 
 
+    
     /* PWM OUTPUT ADDRESS ASSIGNMENTS */
     public static final int PWM_SHOOTER_ANGLE     = 0;
     public static final int PWM_CAMERA_TILT       = 1;
@@ -82,8 +80,8 @@ public final class Constants {
     public static final int SW_BALL_INTAKE_RT     =  3;
     public static final int SW_BALL_INTAKE_FT     =  4;
     public static final int SW_BALL_INTAKE_RR     =  2;
-    public static final int SW_BALL_ADVANCE_1    =  5;
-    public static final int SW_BALL_ADVANCE_2   =  6;
+    public static final int SW_BALL_ADVANCE_1     =  5;
+    public static final int SW_BALL_ADVANCE_2     =  6;
 
 
 

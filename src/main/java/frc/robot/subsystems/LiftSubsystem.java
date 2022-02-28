@@ -16,7 +16,6 @@ public class LiftSubsystem extends SubsystemBase {
 
 public enum controlState {
   Init,
-  Armed,
   ExtendFwd,
   RetractMid,
   RetractRear  

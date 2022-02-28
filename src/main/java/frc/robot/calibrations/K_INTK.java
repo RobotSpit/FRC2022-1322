@@ -29,6 +29,21 @@ public class K_INTK {
   /*  Ball Intake Control General System Calibrations */
  	/****************************************************/	 	
 
+    /** KeINTK_r_IntakeMtrTriggerLvlEnbl: Ball Intake System 
+     * Aux Controller Right Trigger Postion (0 to 1) at or
+     * above that the Ball Intake System will be enabled. 
+     */
+    public static final double KeINTK_r_IntakeMtrTriggerLvlEnbl = 0.5;
+
+    
+    /** KeINTK_r_IntakeMtrTriggerLvlDsbl: Ball Intake System 
+     * Aux Controller Right Trigger Postion (0 to 1) below
+     * above that the Ball Intake System will be disabled if
+     * it is presently active. 
+     */
+    public static final double KeINTK_r_IntakeMtrTriggerLvlDsbl = 0.3;
+
+
     /** KeINTK_t_IntakeDetectTme: Ball Intake System Ball 
      * present minimun detection time.
      */
@@ -81,25 +96,25 @@ public class K_INTK {
 	  /** KeINTK_K_Prop: Ball Intake System Proporational 
      * Control Gain. 
      */
-    public static final double KeINTK_K_InProp = 0.01;
+    public static final double KeINTK_K_InProp = 10.0;
 
 
 	  /** KeINTK_K_Intgl: Ball Intake System Integral 
      * Control Gain. 
      */
-    public static final double KeINTK_K_InIntgl = 0.001;
+    public static final double KeINTK_K_InIntgl = 0;
 
 
 	  /** KeINTK_K_Deriv: Ball Intake System Derivative
      * Control Gain. 
      */
-    public static final double KeINTK_K_InDeriv = 0.0;
+    public static final double KeINTK_K_InDeriv = 0;
 
 
 	  /** KeINTK_K_FdFwd: Ball Intake System Feed Fowrward
      * Control Gain. 
      */
-    public static final double KeINTK_K_InFdFwd = 0.001;
+    public static final double KeINTK_K_InFdFwd = 10.0;
 
 
 	  /** KeINTK_r_IntglErrMaxEnbl: Ball Intake System Control
@@ -119,25 +134,25 @@ public class K_INTK {
 	  /** KeINTK_K_Prop: Ball Advance System Proporational 
      * Control Gain. 
      */
-    public static final double KeINTK_K_AdvProp = 2.0;
+    public static final double KeINTK_K_AdvProp = 0;
 
 
 	  /** KeINTK_K_Intgl: Ball Advance Intake System
      * Integral Control Gain. 
      */
-    public static final double KeINTK_K_AdvIntgl = 0.001;
+    public static final double KeINTK_K_AdvIntgl = 0;
 
 
 	  /** KeINTK_K_Deriv: Ball Advance Intake System
      * Derivative Control Gain. 
      */
-    public static final double KeINTK_K_AdvDeriv = 0.0;
+    public static final double KeINTK_K_AdvDeriv = 0;
 
 
 	  /** KeINTK_K_FdFwd: Ball Advance Intake System Feed
      * Fowrward Control Gain. 
      */
-    public static final double KeINTK_K_AdvFdFwd = 0.0;
+    public static final double KeINTK_K_AdvFdFwd = 0.1;
 
 
 	  /** KeINTK_r_IntglErrMaxEnbl: Ball Advance System Control
@@ -146,8 +161,6 @@ public class K_INTK {
      * be within band (+/- postive value). (revs)
      */
     public static final double KeINTK_r_AdvIntglErrMaxEnbl = 0.1;
-
-
 
 
 

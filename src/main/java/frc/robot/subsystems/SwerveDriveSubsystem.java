@@ -50,7 +50,10 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	private boolean VeSDRV_b_RZL_FailIntrsv;
 	private Timer   VeSDRV_t_RZL_TmeOutTmrIntrsv = new Timer();
 
-    double[] VaSDRV_V_RotEncdrActRaw     = new double[SwrvMap.NumOfCaddies];
+    double[] VaSDRV_V_RotAbsEncdrVolt    = new double[SwrvMap.NumOfCaddies];
+	double[] VaSDRV_r_RotAbsEncdrNorm    = new double[SwrvMap.NumOfCaddies];
+	double[] VaSDRV_Deg_RotAbsEncdrAng   = new double[SwrvMap.NumOfCaddies];
+
 	double[] VaSDRV_r_RotEncdrActRaw     = new double[SwrvMap.NumOfCaddies];
 	double[] VaSDRV_r_RotEncdrActCorr    = new double[SwrvMap.NumOfCaddies];	
 	double[] VaSDRV_Deg_RotAngActRaw     = new double[SwrvMap.NumOfCaddies];
@@ -114,7 +117,9 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	
 
 		for (int i = 0; i < SwrvMap.NumOfCaddies; i++)  {
-		  VaSDRV_V_RotEncdrActRaw[i]    = 0;
+		  VaSDRV_V_RotAbsEncdrVolt[i]   = 0;
+		  VaSDRV_r_RotAbsEncdrNorm[i]   = 0;
+		  VaSDRV_Deg_RotAbsEncdrAng[i]   = 0;
 		  VaSDRV_r_RotEncdrActRaw[i]    = 0;
 		  VaSDRV_r_RotEncdrActCorr[i]   = 0;
 		  VaSDRV_Deg_RotAngActRaw[i]    = 0;
@@ -210,15 +215,20 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	  // This method will be called once per scheduler run
 	  /* Update SmartDashboard with Data */
 
+	  System.out.println("Start SwerveSubsystem.");  
 	  VeTEST_Cnt_TestBrnchCntr = 1;
-	  mngSDRV_RZL_PeriodicIntrsvTask();
-	  mngSDRV_RZL_PeriodicPassiveTask();
+	  resetRotEncdrs();
+	  if (K_SWRV.KeSWRV_b_RZL_Enbl == true) {
+	    mngSDRV_RZL_PeriodicIntrsvTask();
+	    mngSDRV_RZL_PeriodicPassiveTask();
+	  }
 
       updateInstrDisplayUpd();
 	  if (K_SWRV.KeSWRV_b_DebugEnbl == true)  {
 	    updateSmartDash();	
 	  }
 	
+	  System.out.println("End SwerveSubsystem.");
 	}
 
 
@@ -375,7 +385,15 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		  /* Update Latched Rotation Angle value if Input Power is High enough */
 		  if (Le_b_RotAngUpdPwrCond) {
 			VaSDRV_Deg_RotAngCalcLtch[i] = VaSDRV_Deg_RotAngCalcCnvrtd[i];
-		  }		  
+		  }
+
+		  /* Get Rotation Absolute Encoder Voltage Raw */
+		  VaSDRV_V_RotAbsEncdrVolt[i] = SwrvDrvMod[i].getRotAbsEncdrVolt(); 
+		  /* Get Rotation Absolute Encoder Normalized Rotations */
+		  VaSDRV_r_RotAbsEncdrNorm[i] = SwrvDrvMod[i].normRotVolt(VaSDRV_V_RotAbsEncdrVolt[i]);
+		  /* Get Rotation Absolute Encoder Degrees */
+		  VaSDRV_Deg_RotAbsEncdrAng[i] = SwrvDrvMod[i].calcRotAngFromRevs(VaSDRV_r_RotAbsEncdrNorm[i]);
+		  
 		  /* Get Rotation Encoder Position Raw */
 		  VaSDRV_r_RotEncdrActRaw[i] = SwrvDrvMod[i].getRotEncdrActPstn();
 		  /* Apply Rotation Encoder Position Zero Offset Correction to Raw Position */
@@ -1130,7 +1148,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
       }
   
       VeSDRV_Cnt_DebugInstrDisplayUpdCounter++;
-      if (VeSDRV_Cnt_DebugInstrDisplayUpdCounter >= (int)11) {
+      if (VeSDRV_Cnt_DebugInstrDisplayUpdCounter >= (int)10) {
   		VeSDRV_Cnt_DebugInstrDisplayUpdCounter = (int)0;
       }
     }	
@@ -1146,6 +1164,11 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		SmartDashboard.putNumber("Cntrlr Pwr Lat " ,  VeSDRV_r_PwrLat);
 		SmartDashboard.putNumber("Cntrlr Pwr Rot " ,  VeSDRV_r_PwrRot);
 
+		SmartDashboard.putBoolean("RZL Rqst " , VeSDRV_b_RZL_Rqst);
+		SmartDashboard.putBoolean("RZL Actv " , VeSDRV_b_RZL_Actv);
+		SmartDashboard.putBoolean("RZL Cmplt " , VeSDRV_b_RZL_Cmplt);
+		SmartDashboard.putBoolean("RZL Fail Intrsv " , VeSDRV_b_RZL_FailIntrsv);
+
 		SmartDashboard.putNumber("Test Branch " , VeTEST_Cnt_TestBrnchCntr);
 		SmartDashboard.putBoolean("Test Init ", VeTEST_b_TestInitTrig);
 
@@ -1159,7 +1182,11 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		   SmartDashboard.putNumber("Tgt Ang Mod " + i ,       VaSDRV_Deg_RotAngTgtMod[i]);		   	   
 		   SmartDashboard.putNumber("Tgt Encdr Raw " + i ,     VaSDRV_r_RotEncdrTgt[i]);
 		   SmartDashboard.putNumber("Tgt Encdr Corr " + i ,    VaSDRV_r_RotEncdrTgtCorr[i]);
-	
+
+		   SmartDashboard.putNumber("Abs Encdr Volt " + i ,    VaSDRV_V_RotAbsEncdrVolt[i]);
+		   SmartDashboard.putNumber("Abs Encdr Norm " + i ,    VaSDRV_r_RotAbsEncdrNorm[i]); 
+		   SmartDashboard.putNumber("Abs Encdr Deg " + i ,     VaSDRV_Deg_RotAbsEncdrAng[i]);
+
 		   SmartDashboard.putNumber("Act Encdr Raw " + i ,     VaSDRV_r_RotEncdrActRaw[i]);
 		   SmartDashboard.putNumber("Act Encdr Corr " + i ,    VaSDRV_r_RotEncdrActCorr[i]); 
 		   SmartDashboard.putNumber("Act Ang Raw " + i ,       VaSDRV_Deg_RotAngActRaw[i]);
@@ -1168,7 +1195,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	
 		   SmartDashboard.putNumber("Rot Zero Ofst " + i ,     SwrvDrvMod[i].getRotEncdrZeroOfst());
 		   SmartDashboard.putNumber("Rot Mtr Cur " + i ,       SwrvDrvMod[i].getRotMtrCurr());
-		   SmartDashboard.putNumber("Rot Zero Learn" + i ,     SwrvDrvMod[i].getRotEncdrZeroLearnCntr());
+		   SmartDashboard.putNumber("RZL Count" + i ,          SwrvDrvMod[i].getRotEncdrZeroLearnCntr());
 		   
 		   SmartDashboard.putNumber("Tgt Spd Raw " + i ,       VaSDRV_v_DrvSpdCalcRaw[i]);
 		   SmartDashboard.putNumber("Tgt Spd Cnvrtd " + i ,    VaSDRV_v_DrvSpdCalcCnvrtd[i]);

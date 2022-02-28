@@ -7,7 +7,6 @@
 
 package frc.robot.calibrations;
 
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Add your docs here.
@@ -45,11 +44,42 @@ public class K_SHOT {
     public static final double KeSHOT_n_TgtLaunchCmd = 5000;
 
 
-	  /** KeSHOT_n_ShooterSpd: Deadband Speed around the
+	  /** KeSHOT_n_AtTgtDB: Deadband Speed around the
      * Commanded Target that it will be assumed that
      * the Shooter Motor is at the Commanded Target.. 
      */
     public static final double KeSHOT_n_AtTgtDB = 300;
+
+	  /** KtSHOT_Pct_LaunchServoCmdHi: Shooter System Servo Percent
+     * Command to deflect the shooter deflector shield to
+     * aim the shooter as a function of distance to the goal
+     * for the high goal. 
+     */
+    public static final float[] KtSHOT_Pct_LaunchServoCmdHi =  
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+
+	  /** KnSHOT_l_LaunchServoAxisHi: Shooter System Servo Percent
+     * Command Target Distance Axis for High Goal. 
+     */
+    public static final float KnSHOT_l_LaunchServoAxisHi[] =
+    { 5, 8, 10, 15, 20, 25, 30, 35, 40, 50};
+
+
+	  /** KtSHOT_Pct_LaunchServoCmdLo: Shooter System Servo Percent
+     * Command to deflect the shooter deflector shield to
+     * aim the shooter as a function of distance to the goal
+     * for the high goal. 
+     */
+    public static final float KtSHOT_Pct_LaunchServoCmdLo[] =
+    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+
+	  /** KnSHOT_l_LaunchServoAxisLo: Shooter System Servo Percent
+     * Command Target Distance Axis for High Goal. 
+     */
+    public static final float KnSHOT_l_LaunchServoAxisLo[] =
+    { 2, 5, 8, 10, 12, 15, 18, 20, 22, 25 };
 
 
     /** KeSHOT_t_PostLaunchRunTime: The amount of time

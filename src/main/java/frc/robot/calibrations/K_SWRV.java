@@ -21,7 +21,13 @@ public class K_SWRV {
 	  /** KeSWRV_b_DebugEnbl: Swerve Drive System Enable
      *  Calibration to send data to dashbord to debug.
      */
-    public static final boolean KeSWRV_b_DebugEnbl = false;
+    public static final boolean KeSWRV_b_DebugEnbl = true;
+
+
+   /** KeSWRV_b_RZL_Enbl: Swerve Drive System - Rotation
+    * Zero Offset Learn Algorthm Enable.
+     */
+    public static final boolean KeSWRV_b_RZL_Enbl = true;
 
     
 	  /** KeSWRV_b_DrvMtrRotDirctnInvertEnbl: Swerve Drive System Enable
@@ -46,14 +52,14 @@ public class K_SWRV {
      * Joystick Input is recognized.  If the Absolute value of the Input
      * is below the Threshold it will be ignored (i.e. set to Zero).
      */
-    public static final double KeSWRV_r_CntlrDeadBandThrsh = 0.2;
+    public static final double KeSWRV_r_CntlrDeadBandThrsh = 0.3;
 
 
 	  /** KeSWRV_r_DrvRqstOvrrdFwd: Swerve Drive System: Normalized
      * Power Threshold used to so select between Long/Lat Control
      * vs Rotation Control.
      */
-    public static final double KeSWRV_r_DrvRqstOvrrdFwd = 0.05;
+    public static final double KeSWRV_r_DrvRqstOvrrdFwd = 0.1;
 
 	  /** KeSWRV_r_DrvRqstOvrrdRot: Swerve Drive System: Normalized
      * Power Threshold used to so select between Long/Lat Control
@@ -70,12 +76,12 @@ public class K_SWRV {
 	  /** KeSWRV_l_ChassisWhlBase: Swerve Drive System Drive Chassis
      * Effective WheelBase.
      */
-    public static final double KeSWRV_l_ChassisWhlBase = 26.34;
+    public static final double KeSWRV_l_ChassisWhlBase = 23.5;
 
 	  /** KeSWRV_l_ChassisTrkWdth: Swerve Drive System Drive Chassis
      * Effective TrackWidtch.
      */
-    public static final double KeSWRV_l_ChassisTrkWdth = 17.25;
+    public static final double KeSWRV_l_ChassisTrkWdth = 23.5;
 
 
 
@@ -87,14 +93,14 @@ public class K_SWRV {
      * Factor of the Number of Encoder Counts Per One Rotation of the
      * Rotation Control Motor.
      */
-    public static final double KeSWRV_Cf_RotMtrEncdrCntsPerRev = 42;
+    public static final double KeSWRV_Cf_RotMtrEncdrCntsPerRev = 2048;
 
 
 	  /** KeSWRV_r_RotMtrEncdrToCaddyRat: Swerve Drive System: Number of
      * Rotation Control Motor Encoder Rotations to Swerve Module Rotations
      * Ratio.
      */
-    public static final double KeSWRV_r_RotMtrEncdrToCaddyRat = 19.5;
+    public static final double KeSWRV_r_RotMtrEncdrToCaddyRat = 19;
 
 
 
@@ -102,24 +108,10 @@ public class K_SWRV {
   /*  Swerve Drive-System Design Mechanical Parameters   */
  	/*******************************************************/	 	
 	
-	  /** KeSWRV_Cf_DrvEncdrCntsPerInchHi: Swerve Drive System - Conversion
-     * Factor of the Number of Drive Motor Encoder Counts of Rotation
-     * per 1 Linear inch of Drive Wheel travel in Low Gear Ratio.
-     */
-    public static final double KeSWRV_Cf_DrvEncdrCntsPerInchHi = 35.6;
-
-
-	  /** KeSWRV_Cf_DrvEncdrCntsPerInchLo: Swerve Drive System - Conversion
-     * Factor of the Number of Drive Motor Encoder Counts of Rotation
-     * per 1 Linear inch of Drive Wheel travel in Low Gear Ratio.
-     */
-    public static final double KeSWRV_Cf_DrvEncdrCntsPerInchLo = 35.6;
-
-
 	  /** KeSWRV_Cnt_DrvEncdrCntsPerRev: Swerve Drive System: Number
      * of Encoder Counts Per One Revolution of the Drive Motors
      */
-    public static final double KeSWRV_Cnt_DrvEncdrCntsPerRev = 360;
+    public static final double KeSWRV_Cnt_DrvEncdrCntsPerRev = 2048;
 
 
 	  /** KeSWRV_l_DrvWhlDistPerRev: Swerve Drive System: Number of lineal
@@ -132,7 +124,7 @@ public class K_SWRV {
      * Drive Control Motor Encoder Rotations to Swerve Wheel Rotations
      * Ratio.
      */
-    public static final double KeSWRV_r_DrvMtrEncdrToWhlRat = 11.87016;
+    public static final double KeSWRV_r_DrvMtrEncdrToWhlRat = 10;
 
 
 
@@ -145,13 +137,13 @@ public class K_SWRV {
 	  /** KeSWRV_K_RotProp: Swerve Drive System Rotation Control
      * Proporational Control Gain. 
      */
-    public static final double KeSWRV_K_RotProp = 2.0;
+    public static final double KeSWRV_K_RotProp = 0.01;
 
 
 	  /** KeSWRV_K_RotIntgl: Swerve Drive System Rotation Control
      * Integral Control Gain. 
      */
-    public static final double KeSWRV_K_RotIntgl = 0.001;
+    public static final double KeSWRV_K_RotIntgl = 0.0;
 
 
 	  /** KeSWRV_K_RotDeriv: Swerve Drive System Rotation Control
@@ -163,7 +155,7 @@ public class K_SWRV {
 	  /** KeSWRV_K_RotFdFwd: Swerve Drive System Rotation Control
      * Feed Fowrward Control Gain. 
      */
-    public static final double KeSWRV_K_RotFdFwd = 0.0;
+    public static final double KeSWRV_K_RotFdFwd = 0.1;
 
 
 	  /** KeSWRV_r_RotIntglErrMaxEnbl: Swerve Drive System Rotation Control
@@ -308,7 +300,7 @@ public class K_SWRV {
      * Encoder Zero Learn Deadband Around 0 Degrees which Zero Position Detection
      * will be assumed. 
      */
-    public static final double KeSWRV_Deg_RZL_AbsEncdrZeroPstnDB = 0.5;
+    public static final double KeSWRV_Deg_RZL_AbsEncdrZeroPstnDB = 3.0;
 
    /** KeSWRV_Deg_RZL_AngSwpCourse: Swerve Drive System - Rotation Control
      * Encoder Zero Learn Relative Sweep Angle for Coarse Zero Search. 

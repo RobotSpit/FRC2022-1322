@@ -161,8 +161,8 @@ public class SwerveDriveModule extends SubsystemBase {
     /* Drive Control PID Controller Configurations */
     /*****************************************************************/
     Ms_h_DrvMtr.configFactoryDefault();
-    Ms_h_DrvMtr.setInverted(false);
     Ms_h_DrvMtr.setSensorPhase(false);
+    Ms_h_DrvMtr.setInverted(false);
 
     // Set Sensor Type
     Ms_h_DrvMtr.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,(int)0,(int)0);
@@ -191,8 +191,8 @@ public class SwerveDriveModule extends SubsystemBase {
     /* Rotation Control PID Controller Configuration */
     /*****************************************************************/
     Ms_h_RotMtr.configFactoryDefault();
-    Ms_h_RotMtr.setInverted(false);
-    Ms_h_DrvMtr.setSensorPhase(false);
+    Ms_h_DrvMtr.setSensorPhase(true);
+    Ms_h_RotMtr.setInverted(true);
 
     // Set Sensor Type
     Ms_h_RotMtr.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,(int)0,(int)0);
@@ -642,7 +642,7 @@ public class SwerveDriveModule extends SubsystemBase {
    */
   public double normRotVolt(double Le_V_RotAng) {
     double Le_r_RotAngNorm;
-    Le_r_RotAngNorm = Le_V_RotAng % 5;
+    Le_r_RotAngNorm = Le_V_RotAng / 5;
     return Le_r_RotAngNorm;
   }
 
@@ -655,7 +655,7 @@ public class SwerveDriveModule extends SubsystemBase {
    */
   public double normRotAng(double Le_Deg_RotAng) {
     double Le_r_RotAngNorm;
-    Le_r_RotAngNorm = Le_Deg_RotAng % 360;
+    Le_r_RotAngNorm = Le_Deg_RotAng / 360;
     return Le_r_RotAngNorm;
   }
 

@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants;
+
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,14 +27,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public  final pRFSLIB prfsLIB = new pRFSLIB();
+  public  final RFSLIB prfsLIB = new RFSLIB();
   private final SendableChooser<Command> m_chooser = new SendableChooser<Command>();
   private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
-  private XboxController driverStick;
-  private XboxController auxStick;
+  private XboxController driverStick = new XboxController(Constants.DRVR_CNTRLR);
+  private XboxController auxStick = new XboxController(Constants.AUX_CNTRLR);
   
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -59,14 +60,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* BEGIN DRIVER STICK BUTTON ASSIGNMENTS */
-    driverStick = new XboxController(Constants.DRVR_CNTRLR);
 
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
-    auxStick = new XboxController(Constants.AUX_CNTRLR); 
 
-    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
-    new JoystickButton(auxStick, Constants.BUMPER_RIGHT).whenPressed(new ManualIntake(intakeSubsystem, auxStick));
-    new JoystickButton(auxStick, Constants.DPAD).whenPressed(new ManualLift(liftSubsystem, auxStick));
+    final JoystickButton auxButton_A = new JoystickButton(auxStick, Constants.BUTTON_A);
+    final JoystickButton auxDPAD = new JoystickButton(auxStick, Constants.DPAD);
+
+    auxButton_A.whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
+    auxDPAD.whenPressed(new ManualLift(liftSubsystem, auxStick));
+//    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
+//    new JoystickButton(auxStick, Constants.DPAD).whenPressed(new ManualLift(liftSubsystem, auxStick));
 
 
   }
@@ -74,6 +77,8 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
+    CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
+
   }
 
 

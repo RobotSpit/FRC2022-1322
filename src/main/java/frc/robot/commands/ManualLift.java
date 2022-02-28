@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualLift extends CommandBase {
   private LiftSubsystem liftSubsystem;
   private XboxController auxStick;
-  private final RFSLIB rfsLIB = new RFSLIB();
 
   private double liftPwr;
   private int dPadPos;
@@ -40,23 +39,15 @@ public class ManualLift extends CommandBase {
     dPadPos = auxStick.getPOV();
 
     liftPwr = -auxStick.getLeftY();
-    liftPwr = rfsLIB.ApplyDB_Scld(liftPwr, K_LIFT.KeLIFT_r_CntlrDeadBandThrsh, 1.0);
+    liftPwr = RFSLIB.ApplyDB_Scld(liftPwr, K_LIFT.KeLIFT_r_CntlrDeadBandThrsh, 1.0);
 
     
     switch (liftSubsystem.getLiftControlState()) {
       case Init: {
         if ((dPadPos > 350 || dPadPos < 10) && dPadPos != -1){ // D-Pad Up
-          liftSubsystem.setLiftControlState(controlState.Armed);
+          liftSubsystem.setLiftControlState(controlState.ExtendFwd);
           liftSubsystem.getLiftTrackSlnd().set(true);
           liftSubsystem.getCameraSlnd().set(false);
-        }
-
-        break;
-      }
-
-      case Armed: {
-        if (liftSubsystem.detectTrackMidTrigger() == true){ 
-          liftSubsystem.setLiftControlState(controlState.ExtendFwd);
         }
 
         break;
@@ -79,8 +70,7 @@ public class ManualLift extends CommandBase {
         break;
        }
 
-      case RetractRear: 
-      default: { 
+      case RetractRear: {
         if (liftSubsystem.detectTrackLimitRear() == true){ 
           liftSubsystem.setLiftControlState(controlState.ExtendFwd);
           liftSubsystem.getLiftTrackSlnd().set(true);
@@ -88,6 +78,8 @@ public class ManualLift extends CommandBase {
 
         break;
       }
+
+      default: break;
 
     }
 

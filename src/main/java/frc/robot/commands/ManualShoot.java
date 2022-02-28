@@ -13,21 +13,22 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class ManualShoot extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
-  private XboxController auxStick;
+  private JoystickButton auxButton_A;
   private  Timer shooterClearTimer = new Timer();
   private  Timer shooterShutOffTimer = new Timer();
 
   
   /** Creates a new ManualShoot. */
-  public ManualShoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, XboxController auxStick) {
+  public ManualShoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, JoystickButton auxButton_A) {
     //  addRequirements(intakeSubsystem, shooterSubsystem, auxStick);
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
-    this.auxStick = auxStick;
+    this.auxButton_A = auxButton_A;
   }
 
   // Called when the command is initially scheduled.
@@ -51,8 +52,8 @@ public class ManualShoot extends CommandBase {
       intakeSubsystem.runIntakeAtSpd(0);
     }
     
-    if ((auxStick.getAButton() == true) || (intakeSubsystem.detectBallAdvance1() == true) ||
-        (intakeSubsystem.detectBallAdvance2() ==true)) {
+    if ((auxButton_A.getAsBoolean() == true) || (intakeSubsystem.getBallAdvPstn1() == true) ||
+        (intakeSubsystem.getBallAdvPstn2() == true)) {
       shooterShutOffTimer.reset();
     }
 
@@ -72,7 +73,7 @@ public class ManualShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean condMet = (auxStick.getAButtonReleased() || (shooterShutOffTimer.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime));
+    boolean condMet = ((auxButton_A.getAsBoolean() == false) || (shooterShutOffTimer.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime));
     return condMet;
   }
 }

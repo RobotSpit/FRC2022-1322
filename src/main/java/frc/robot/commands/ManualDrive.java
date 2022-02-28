@@ -22,7 +22,6 @@ public class ManualDrive extends CommandBase {
    */
   private final SwerveDriveSubsystem swerveSubsystem;
   private final XboxController driverStick;
-  private final RFSLIB rfsLIB = new RFSLIB();
   private double Xe_r_LongPwr, Xe_r_LatPwr, Xe_r_RotPwr;
 
 
@@ -48,12 +47,11 @@ public class ManualDrive extends CommandBase {
     Xe_r_LatPwr  =  driverStick.getLeftX();
     Xe_r_RotPwr  =  driverStick.getRightX();
 
-    Xe_r_LongPwr = rfsLIB.ApplyDB_Scld(Xe_r_LongPwr, K_SWRV.KeSWRV_r_CntlrDeadBandThrsh, 1.0);
-    Xe_r_LatPwr  = rfsLIB.ApplyDB_Scld(Xe_r_LatPwr, K_SWRV.KeSWRV_r_CntlrDeadBandThrsh, 1.0);
-    Xe_r_RotPwr  = rfsLIB.ApplyDB_Scld(Xe_r_RotPwr, K_SWRV.KeSWRV_r_CntlrDeadBandThrsh, 1.0);
+    Xe_r_LongPwr = RFSLIB.ApplyDB_Scld(Xe_r_LongPwr, K_SWRV.KeSWRV_r_CntlrDeadBandThrsh, 1.0);
+    Xe_r_LatPwr  = RFSLIB.ApplyDB_Scld(Xe_r_LatPwr, K_SWRV.KeSWRV_r_CntlrDeadBandThrsh, 1.0);
+    Xe_r_RotPwr  = RFSLIB.ApplyDB_Scld(Xe_r_RotPwr, K_SWRV.KeSWRV_r_CntlrDeadBandThrsh, 1.0);
   
     swerveSubsystem.HolonomicDrv(Xe_r_LongPwr, Xe_r_LatPwr, Xe_r_RotPwr, false);
-
   }
 
   // Called once the command ends or is interrupted.

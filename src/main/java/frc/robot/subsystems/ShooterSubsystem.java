@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.calibrations.K_SHOT;
+import frc.robot.subsystems.RFSLIB;
 
 
 import com.ctre.phoenix.motorcontrol.*;
@@ -52,9 +53,9 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
       ShooterMotor[i].config_kF(0, K_SHOT.KeSHOT_K_FdFwd);      
     }
 	
-    ShooterMotor[Constants.SHOOTER_MTR_LT].setInverted(false);			
-    ShooterMotor[Constants.SHOOTER_MTR_RT].setInverted(true);			
-    ShooterMotor[Constants.SHOOTER_MTR_RT].follow(ShooterMotor[Constants.SHOOTER_MTR_LT]);
+    ShooterMotor[0].setInverted(false);			  //Constants.SHOOTER_MTR_LT
+    ShooterMotor[1].setInverted(true);			  //Constants.SHOOTER_MTR_RT
+    ShooterMotor[1].follow(ShooterMotor[0]);  //Constants.SHOOTER_MTR_RT Slave to Constants.SHOOTER_MTR_LT
 
     ShooterServoAim.set(0);
 
@@ -90,6 +91,23 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
       getShooterMtr().set(TalonFXControlMode.Velocity,0);
     }
   }
+
+  
+  
+  public double dtrmnShooterServoCmd(double distToTgt, boolean highTgt) {
+    float percentServoCmd;
+    float axisLookUp;
+      if (highTgt) {
+        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisHi, (int)10);   
+        percentServoCmd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_Pct_LaunchServoCmdHi, axisLookUp, (int)10);
+      } else {
+        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisLo, (int)10);   
+        percentServoCmd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_Pct_LaunchServoCmdLo, axisLookUp, (int)10);
+      }          
+    return (double)percentServoCmd;
+  }
+
+
 
   /**
    * Method: aimShooter - Shooter Drive System - Used to Aim the Shooter by sending
