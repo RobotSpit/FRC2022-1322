@@ -76,7 +76,7 @@ public class RobotContainer {
     auxButton_A.whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
     auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
     auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
-    auxButton_BumpLT.whenPressed(new SwerveZeroPointLearn(swerveSubsystem));
+    // auxButton_BumpLT.whenPressed(new SwerveZeroPointLearn(swerveSubsystem));
     auxDPAD.whenPressed(new ManualLift(liftSubsystem, auxStick));
 
 
