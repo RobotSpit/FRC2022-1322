@@ -58,6 +58,13 @@ public class K_INTK {
     public static final double KeINTK_t_IntakeFullOverrideTmeOut = 0.500;
 
 
+    /** KeINTK_t_IntakeArmRaiseLowerDly: Ball Intake System Delay
+     * Time To Keep Command Active before terminating when requesting
+     * to Raise or Lower the Intake Arms.
+     */
+    public static final double KeINTK_t_IntakeArmRaiseLowerDly = 0.025;
+
+
 
   /**************************************************/
   /*  Ball Feed Motor Speed Calibrations            */

@@ -19,7 +19,6 @@ public class ManualIntake extends CommandBase {
 
   private IntakeSubsystem intakeSubsystem;
   private XboxController auxStick;
-  private double rightTrigger;
   private Timer safetyTmr = new Timer();
   private int instrUpdCnt;
 
@@ -36,6 +35,7 @@ public class ManualIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
     safetyTmr.reset();
     safetyTmr.stop();
     intakeSubsystem.setBallIntakeCtrlSt(controlState.Init);
@@ -45,16 +45,6 @@ public class ManualIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    rightTrigger = auxStick.getRightTriggerAxis();
-
-    if (rightTrigger >= K_INTK.KeINTK_r_IntakeMtrTriggerLvlEnbl) {
-      intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
-    } else if (rightTrigger < K_INTK.KeINTK_r_IntakeMtrTriggerLvlDsbl) {
-      intakeSubsystem.runIntakeAtSpd(0);
-    }
-
-
   
     /*****************************/  
     /* Ball Intake State Machine */
@@ -76,7 +66,7 @@ public class ManualIntake extends CommandBase {
         }
         else {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall1);
-          intakeSubsystem.releaseIntakeArms();
+          intakeSubsystem.raiseIntakeArms();
         }
   
         break;
@@ -85,7 +75,7 @@ public class ManualIntake extends CommandBase {
       case SeekBall1: {
         if (intakeSubsystem.getBallArmArrayFilt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.GrabBall1);
-          intakeSubsystem.closeIntakeArms();
+          intakeSubsystem.lowerIntakeArms();
           intakeSubsystem.setBallCaptureInProgress(true);
         }
   
@@ -94,13 +84,11 @@ public class ManualIntake extends CommandBase {
   
       case GrabBall1: {
         if (intakeSubsystem.getBallAdvPstn1() == true) {
-          intakeSubsystem.releaseIntakeArms();
-          intakeSubsystem.setBallCaptureInProgress(false);
-        }
-  
-        if (intakeSubsystem.getBallAdvPstn1Filt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall1);
-        }
+          intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
+          intakeSubsystem.raiseIntakeArms();
+          intakeSubsystem.setBallCaptureInProgress(false);
+        }  
   
         break;
       }
@@ -108,16 +96,17 @@ public class ManualIntake extends CommandBase {
       case HoldBall1: {
         if (intakeSubsystem.getBallAdvPstn2Filt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.SeekBall2);
-          intakeSubsystem.setBallCapturedPstn2(true);        
+          intakeSubsystem.runAdvanceAtSpd(0);
+          intakeSubsystem.setBallCapturedPstn2(true);
         }
   
         break;
       }
   
       case SeekBall2: {
-        if (intakeSubsystem.getBallAdvPstn2Filt() == true) {
+        if (intakeSubsystem.getBallArmArrayFilt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.GrabBall2);
-          intakeSubsystem.closeIntakeArms();
+          intakeSubsystem.lowerIntakeArms();
           intakeSubsystem.setBallCaptureInProgress(true);
         }
   
@@ -125,6 +114,11 @@ public class ManualIntake extends CommandBase {
       }
   
       case GrabBall2: {
+        if (intakeSubsystem.getBallAdvPstn1() == true) {
+          intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
+          intakeSubsystem.setBallCaptureInProgress(false);
+        }  
+
         if ((intakeSubsystem.getBallAdvPstn1Filt() == true) &&
             (intakeSubsystem.getBallAdvPstn2Filt() == true)) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall2);
@@ -166,7 +160,8 @@ public class ManualIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-//    boolean condMet2 = (safetyTmr.get() >= K_INTK.KeINTK_t_IntakeFullOverrideTmeOut);
-    return false;
+    boolean condMet1 = auxStick.getRightTriggerAxis() < K_INTK.KeINTK_r_IntakeMtrTriggerLvlDsbl;
+    boolean condMet2 = (safetyTmr.get() >= K_INTK.KeINTK_t_IntakeFullOverrideTmeOut);
+    return condMet1 | condMet2;
   }
 }

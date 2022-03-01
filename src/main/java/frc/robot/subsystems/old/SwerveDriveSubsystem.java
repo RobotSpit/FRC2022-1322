@@ -44,6 +44,11 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
     private double VeSDRV_r_PwrOutputMaxRot  =  1;
 
 	private boolean VeSDRV_b_SwrvRotRqstActv;
+
+  /** SwrvRotZeroNotRun: While True indicates that the Swerve Rotation Angle Zero
+    * Learn has not completed this session.
+    */
+	private boolean VeSDRV_b_RZL_NotRun;
 	private boolean VeSDRV_b_RZL_Rqst;
 	private boolean VeSDRV_b_RZL_Actv;
 	private boolean VeSDRV_b_RZL_Cmplt;
@@ -80,11 +85,6 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	private double VeSDRV_r_PwrLong;
 	private double VeSDRV_r_PwrLat;
 	private double VeSDRV_r_PwrRot;
-
-  /** SwrvRotZeroNotRun: While True indicates that the Swerve Rotation Angle Zero
-    * Learn has not completed.
-    */
-	private boolean VeSDRV_b_RotZeroLearnNotRun;
 
 
 	private int VeSDRV_Cnt_DebugInstrDisplayUpdCounter;
@@ -135,6 +135,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		}
 
 	    VeSDRV_b_SwrvRotRqstActv = false;
+		VeSDRV_b_RZL_NotRun      = true;
 		VeSDRV_b_RZL_Rqst        = false;
 		VeSDRV_b_RZL_Actv        = false;
 		VeSDRV_b_RZL_Cmplt       = false;
@@ -147,8 +148,6 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		VeSDRV_r_PwrLong = 0.0;
 		VeSDRV_r_PwrLat  = 0.0;
 		VeSDRV_r_PwrRot  = 0.0;
-
-		VeSDRV_b_RotZeroLearnNotRun = false;
 
 		VeSDRV_Cnt_DebugInstrDisplayUpdCounter  = (int)0;
 		VeSDRV_b_DebugInstrDisplayUpdNow = true;
@@ -215,9 +214,9 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	  // This method will be called once per scheduler run
 	  /* Update SmartDashboard with Data */
 
-	  System.out.println("Start SwerveSubsystem.");  
+	 // System.out.println("Start SwerveSubsystem.");  
 	  VeTEST_Cnt_TestBrnchCntr = 1;
-	  resetRotEncdrs();
+
 	  if (K_SWRV.KeSWRV_b_RZL_Enbl == true) {
 	    mngSDRV_RZL_PeriodicIntrsvTask();
 	    mngSDRV_RZL_PeriodicPassiveTask();
@@ -228,7 +227,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	    updateSmartDash();	
 	  }
 	
-	  System.out.println("End SwerveSubsystem.");
+	//  System.out.println("End SwerveSubsystem.");
 	}
 
 
@@ -237,15 +236,15 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		boolean Le_b_RZL_InitTrig = false;
 		Te_RZL_St Le_e_St_RtFt, Le_e_St_LtFt, Le_e_St_LtRr, Le_e_St_RtRr;
 	   
-		  if (VeSDRV_b_RZL_Rqst == true) {
-			if (VeSDRV_b_RZL_Actv == false) {
+		if (VeSDRV_b_RZL_Rqst == true) {
+		  if (VeSDRV_b_RZL_Actv == false) {
 			  VeSDRV_t_RZL_TmeOutTmrIntrsv.reset();
 			  VeSDRV_t_RZL_TmeOutTmrIntrsv.start();
 			  VeTEST_Cnt_TestBrnchCntr = 1;
 			  VeTEST_b_TestInitTrig = true;	
 			  Le_b_RZL_InitTrig = true;
 			  VeSDRV_b_RZL_Actv = true;
-			}
+		    }
   
 		  setDrvMtrSpdsZero();
 		  VeTEST_Cnt_TestBrnchCntr = 2;	
@@ -258,11 +257,14 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		  if ((Le_e_St_RtFt == Te_RZL_St.Cmplt) && (Le_e_St_LtFt == Te_RZL_St.Cmplt) &&
 			  (Le_e_St_LtRr == Te_RZL_St.Cmplt) && (Le_e_St_RtRr == Te_RZL_St.Cmplt)) {
 			VeSDRV_b_RZL_Cmplt = true;
+			VeSDRV_b_RZL_Rqst = false;
+			VeSDRV_b_RZL_NotRun = false;
 			VeTEST_Cnt_TestBrnchCntr = 3;
 		  }
   
 		  if (VeSDRV_t_RZL_TmeOutTmrIntrsv.get() >= K_SWRV.KeSWRV_t_RZL_TimeOutThrshIntrsv) {
 			VeSDRV_b_RZL_Cmplt = true;
+			VeSDRV_b_RZL_Rqst = false;
 			VeSDRV_b_RZL_FailIntrsv = true;
 			VeTEST_Cnt_TestBrnchCntr = 4;
 		  }
@@ -278,7 +280,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		  SwrvDrvMod[SwrvMap.RrLt].setRotEncdrZeroLearnSt(Te_RZL_St.Inactv);
 		  SwrvDrvMod[SwrvMap.RrRt].setRotEncdrZeroLearnSt(Te_RZL_St.Inactv);
 		}
-  	  }
+  	}
 
 
 	public void mngSDRV_RZL_PeriodicPassiveTask() {
@@ -899,6 +901,11 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 		for (int i = 0; i < SwrvMap.NumOfBanks; i++ ) {
 			SwrvDrvMod[i].resetDrvEncdrPstn();
 		}
+	}
+
+
+    public void enableRotZPLRqst() {
+		VeSDRV_b_RZL_Rqst = true;
 	}
 
 

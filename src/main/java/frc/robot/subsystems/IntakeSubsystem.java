@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -38,6 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private WPI_TalonFX AdvanceMotor = new WPI_TalonFX(Constants.BALL_MTR_ADVANCE, "rio");
 
   private TalonSRX IntakeMotor = new TalonSRX(Constants.BALL_MTR_INTAKE);
+
+  private PneumaticHub hub = new PneumaticHub(1);
 
   private Solenoid[] BallIntakeArm = new Solenoid[] {
     new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_LT),
@@ -113,6 +116,8 @@ public class IntakeSubsystem extends SubsystemBase {
     detectAdv2Tmr.reset();
 
     instrUpdCnt = (int)0;
+
+    hub.clearStickyFaults();
 
 
  /*****************************************************************/
@@ -208,18 +213,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
 
-  public void closeIntakeArms() {
+  public void lowerIntakeArms() {
     int i;
     for (i = 0; i < 4; i++) {
-      BallIntakeArm[i].set(true);
+      BallIntakeArm[i].set(false);
     }
   }
 
 
-  public void releaseIntakeArms() {
+  public void raiseIntakeArms() {
     int i;
     for (i = 0; i < 4; i++) {
-      BallIntakeArm[i].set(false);
+      BallIntakeArm[i].set(true);
     }
   }
 
@@ -337,7 +342,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println("Start IntakeSubsystem.");
+   // System.out.println("Start IntakeSubsystem.");
 
     switchStateArmLeft  = detectBallArmLeft();
     switchStateArmRight = detectBallArmRight();
@@ -439,7 +444,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     
 
-    System.out.println("End IntakeSubsystem.");
+  //  System.out.println("End IntakeSubsystem.");
   }
 
   @Override
