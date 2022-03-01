@@ -208,18 +208,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
 
-  public void closeIntakeArms() {
+  public void lowerIntakeArms() {
     int i;
     for (i = 0; i < 4; i++) {
-      BallIntakeArm[i].set(true);
+      BallIntakeArm[i].set(false);
     }
   }
 
 
-  public void releaseIntakeArms() {
+  public void raiseIntakeArms() {
     int i;
     for (i = 0; i < 4; i++) {
-      BallIntakeArm[i].set(false);
+      BallIntakeArm[i].set(true);
     }
   }
 
@@ -337,7 +337,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println("Start IntakeSubsystem.");
+   // System.out.println("Start IntakeSubsystem.");
 
     switchStateArmLeft  = detectBallArmLeft();
     switchStateArmRight = detectBallArmRight();
@@ -439,7 +439,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     
 
-    System.out.println("End IntakeSubsystem.");
+  //  System.out.println("End IntakeSubsystem.");
   }
 
   @Override

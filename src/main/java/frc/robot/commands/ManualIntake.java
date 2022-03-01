@@ -76,7 +76,7 @@ public class ManualIntake extends CommandBase {
         }
         else {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall1);
-          intakeSubsystem.releaseIntakeArms();
+          intakeSubsystem.raiseIntakeArms();
         }
   
         break;
@@ -85,7 +85,7 @@ public class ManualIntake extends CommandBase {
       case SeekBall1: {
         if (intakeSubsystem.getBallArmArrayFilt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.GrabBall1);
-          intakeSubsystem.closeIntakeArms();
+          intakeSubsystem.raiseIntakeArms();
           intakeSubsystem.setBallCaptureInProgress(true);
         }
   
@@ -94,7 +94,7 @@ public class ManualIntake extends CommandBase {
   
       case GrabBall1: {
         if (intakeSubsystem.getBallAdvPstn1() == true) {
-          intakeSubsystem.releaseIntakeArms();
+          intakeSubsystem.lowerIntakeArms();
           intakeSubsystem.setBallCaptureInProgress(false);
         }
   
@@ -117,7 +117,7 @@ public class ManualIntake extends CommandBase {
       case SeekBall2: {
         if (intakeSubsystem.getBallAdvPstn2Filt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.GrabBall2);
-          intakeSubsystem.closeIntakeArms();
+          intakeSubsystem.raiseIntakeArms();
           intakeSubsystem.setBallCaptureInProgress(true);
         }
   

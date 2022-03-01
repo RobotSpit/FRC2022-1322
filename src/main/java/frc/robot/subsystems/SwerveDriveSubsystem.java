@@ -215,7 +215,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	  // This method will be called once per scheduler run
 	  /* Update SmartDashboard with Data */
 
-	  System.out.println("Start SwerveSubsystem.");  
+	 // System.out.println("Start SwerveSubsystem.");  
 	  VeTEST_Cnt_TestBrnchCntr = 1;
 	  resetRotEncdrs();
 	  if (K_SWRV.KeSWRV_b_RZL_Enbl == true) {
@@ -228,7 +228,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrainSubsystem {
 	    updateSmartDash();	
 	  }
 	
-	  System.out.println("End SwerveSubsystem.");
+	//  System.out.println("End SwerveSubsystem.");
 	}
 
 

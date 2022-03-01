@@ -64,9 +64,13 @@ public class RobotContainer {
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
 
     final JoystickButton auxButton_A = new JoystickButton(auxStick, Constants.BUTTON_A);
+    final JoystickButton auxButton_X = new JoystickButton(auxStick, Constants.BUTTON_X);
+    final JoystickButton auxButton_Y = new JoystickButton(auxStick, Constants.BUTTON_Y);
     final JoystickButton auxDPAD = new JoystickButton(auxStick, Constants.DPAD);
 
     auxButton_A.whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
+    auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
+    auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
     auxDPAD.whenPressed(new ManualLift(liftSubsystem, auxStick));
 //    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
 //    new JoystickButton(auxStick, Constants.DPAD).whenPressed(new ManualLift(liftSubsystem, auxStick));
