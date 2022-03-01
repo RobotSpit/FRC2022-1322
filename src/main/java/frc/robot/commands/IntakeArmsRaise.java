@@ -19,11 +19,13 @@ public class IntakeArmsRaise extends CommandBase {
   public IntakeArmsRaise(IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("HERE");
     intakeSubsystem.raiseIntakeArms();
     exitTmr.reset();
     exitTmr.start();

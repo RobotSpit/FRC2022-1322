@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.calibrations.K_INTK;
 
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -63,33 +64,30 @@ public class RobotContainer {
 
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
 
+    final Button rightTriggerButton = new Button(() -> auxStick.getRightTriggerAxis() >= K_INTK.KeINTK_r_IntakeMtrTriggerLvlEnbl);
     final JoystickButton auxButton_A = new JoystickButton(auxStick, Constants.BUTTON_A);
     final JoystickButton auxButton_X = new JoystickButton(auxStick, Constants.BUTTON_X);
     final JoystickButton auxButton_Y = new JoystickButton(auxStick, Constants.BUTTON_Y);
+    final JoystickButton auxButton_BumpLT = new JoystickButton(auxStick, Constants.BUMPER_LEFT);
     final JoystickButton auxDPAD = new JoystickButton(auxStick, Constants.DPAD);
 
+    rightTriggerButton.whenPressed(new ManualIntake(intakeSubsystem, auxStick));
     auxButton_A.whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
     auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
     auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
+    auxButton_BumpLT.whenPressed(new SwerveZeroPointLearn(swerveSubsystem));
     auxDPAD.whenPressed(new ManualLift(liftSubsystem, auxStick));
-//    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
-//    new JoystickButton(auxStick, Constants.DPAD).whenPressed(new ManualLift(liftSubsystem, auxStick));
 
 
   }
 
 
   private void setDefaultCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
-    CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
+ //   CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
 
   }
 
-
-//  public SwerveDriveSubsystem getSwerveDriveSubsystem()
-//    {
-//    return(swerveSubsystem);
-//    }    
+ 
 
 
   /**

@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -38,6 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private WPI_TalonFX AdvanceMotor = new WPI_TalonFX(Constants.BALL_MTR_ADVANCE, "rio");
 
   private TalonSRX IntakeMotor = new TalonSRX(Constants.BALL_MTR_INTAKE);
+
+  private PneumaticHub hub = new PneumaticHub(1);
 
   private Solenoid[] BallIntakeArm = new Solenoid[] {
     new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_LT),
@@ -113,6 +116,8 @@ public class IntakeSubsystem extends SubsystemBase {
     detectAdv2Tmr.reset();
 
     instrUpdCnt = (int)0;
+
+    hub.clearStickyFaults();
 
 
  /*****************************************************************/
