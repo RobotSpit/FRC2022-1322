@@ -5,33 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.old;
 
+import frc.robot.subsystems.old.SwerveDriveSubsystem;
 
-import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class SWRV_HaltDrvs extends CommandBase {
+public class SWRV_DrvRstEncdr extends CommandBase {
   /**
-   * Command: SDRV_DrvFwd Command to Drive the Swerve Drive
-   * Forward or Backwards at a specific Power Request. 
+   * Command: SDRV_RotRstZero  
    */
-  private SwerveDriveSubsystem swerveSystem;
+  private SwerveDriveSubsystem swerveSubsystem;
+    int Le_Cnt_Dly;
 
-  public SWRV_HaltDrvs(SwerveDriveSubsystem swerveSystem) {
-    this.swerveSystem = swerveSystem;
-    addRequirements(this.swerveSystem);
+  public SWRV_DrvRstEncdr(SwerveDriveSubsystem swerveSubsystem) {
+    this.swerveSubsystem = swerveSubsystem;
+    Le_Cnt_Dly = 0;
+    addRequirements(this.swerveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    swerveSystem.stopDrvMtrs();
+    swerveSubsystem.resetDrvEncdrs();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+  Le_Cnt_Dly += 1; 
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +44,6 @@ public class SWRV_HaltDrvs extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+  return (Le_Cnt_Dly >= 2);
   }
 }

@@ -30,7 +30,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public  final RFSLIB prfsLIB = new RFSLIB();
   private final SendableChooser<Command> m_chooser = new SendableChooser<Command>();
-  private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
+  // private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
+  private final SwerveDrivetrain swerveSubsystem = new SwerveDrivetrain();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
@@ -75,7 +76,7 @@ public class RobotContainer {
     auxButton_A.whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
     auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
     auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
-    auxButton_BumpLT.whenPressed(new SwerveZeroPointLearn(swerveSubsystem));
+    // auxButton_BumpLT.whenPressed(new SwerveZeroPointLearn(swerveSubsystem));
     auxDPAD.whenPressed(new ManualLift(liftSubsystem, auxStick));
 
 
@@ -83,11 +84,13 @@ public class RobotContainer {
 
 
   private void setDefaultCommands() {
- //   CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
+    // CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
+
+                                                   // Subsystem, Control Joystick, fieldCentric, openLoop
+    swerveSubsystem.setDefaultCommand(new SwerveTeleop(swerveSubsystem, driverStick, false, true));
+    // CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
 
   }
-
- 
 
 
   /**
