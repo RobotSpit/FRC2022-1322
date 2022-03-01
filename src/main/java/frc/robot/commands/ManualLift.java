@@ -10,6 +10,7 @@ import frc.robot.calibrations.K_LIFT;
 import frc.robot.subsystems.LiftSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -22,16 +23,19 @@ public class ManualLift extends CommandBase {
 
   /** Creates a new ManualLift. */
   public ManualLift(LiftSubsystem liftSubsystem, XboxController auxStick) {
-    //  addRequirements(liftSubsystem, auxStick);
     this.liftSubsystem = liftSubsystem;
     this.auxStick = auxStick;
+    addRequirements(liftSubsystem);
 
     liftPwr = 0;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("Shoot Lift!");
+    liftSubsystem.setLiftControlState(controlState.Init);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -47,7 +51,7 @@ public class ManualLift extends CommandBase {
         if ((dPadPos > 350 || dPadPos < 10) && dPadPos != -1){ // D-Pad Up
           liftSubsystem.setLiftControlState(controlState.ExtendFwd);
           liftSubsystem.getLiftTrackSlnd().set(true);
-          liftSubsystem.getCameraSlnd().set(false);
+          liftSubsystem.getCameraSlnd().set(true);
         }
 
         break;
@@ -85,6 +89,10 @@ public class ManualLift extends CommandBase {
 
     liftSubsystem.runLiftAtPwr(liftPwr);
 
+    SmartDashboard.putBoolean("LiftSwFront: ",  liftSubsystem.detectTrackLimitFront());
+    SmartDashboard.putBoolean("LiftSwMid: ",    liftSubsystem.detectTrackMidTrigger());
+    SmartDashboard.putBoolean("LiftSwBack: ",   liftSubsystem.detectTrackLimitRear());
+    SmartDashboard.putString("LiftCtrlSt: ",    liftSubsystem.getLiftControlState().toString());
   }
 
   // Called once the command ends or is interrupted.

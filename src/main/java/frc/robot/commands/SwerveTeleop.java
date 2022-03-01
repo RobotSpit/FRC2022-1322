@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SwerveTeleop extends CommandBase {
 
-    private static final double DEADBAND = 0.1;
+    private static final double DEADBAND = 0.18;
 
     private double rotation;
     private Translation2d translation;

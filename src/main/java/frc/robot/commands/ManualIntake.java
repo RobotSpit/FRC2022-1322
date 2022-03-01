@@ -8,6 +8,8 @@ import frc.robot.calibrations.K_INTK;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.controlState;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -45,17 +47,16 @@ public class ManualIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    // if(intakeSubsystem.getBallAdvPstn2Filt() == true) {
+    //   intakeSubsystem.getAdvanceMtr().set(ControlMode.PercentOutput, .5);
+    // }
   
     /*****************************/  
     /* Ball Intake State Machine */
     /*****************************/
     switch (intakeSubsystem.getBallIntakeCtrlSt()) {
       case Init: {
-        if (intakeSubsystem.getBallAdvPstn1() == false)
-          intakeSubsystem.setBallCapturedPstn1(false);
-        if (intakeSubsystem.getBallAdvPstn2() == false)
-          intakeSubsystem.setBallCapturedPstn2(false); 
-
 
         if((intakeSubsystem.getBallCapturedPstn1() == false) && (intakeSubsystem.getBallCapturedPstn2() == false)) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.SeekBall1);
@@ -83,9 +84,9 @@ public class ManualIntake extends CommandBase {
       }
   
       case GrabBall1: {
-        if (intakeSubsystem.getBallAdvPstn1() == true) {
+        if (intakeSubsystem.getBallAdvPstn1Filt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall1);
-          intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
+          intakeSubsystem.runAdvanceAtSpd(K_INTK.KeINTK_n_TgtAdvanceCmdFeed);
           intakeSubsystem.raiseIntakeArms();
           intakeSubsystem.setBallCaptureInProgress(false);
         }  
@@ -97,7 +98,6 @@ public class ManualIntake extends CommandBase {
         if (intakeSubsystem.getBallAdvPstn2Filt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.SeekBall2);
           intakeSubsystem.runAdvanceAtSpd(0);
-          intakeSubsystem.setBallCapturedPstn2(true);
         }
   
         break;
@@ -121,8 +121,7 @@ public class ManualIntake extends CommandBase {
 
         if ((intakeSubsystem.getBallAdvPstn1Filt() == true) &&
             (intakeSubsystem.getBallAdvPstn2Filt() == true)) {
-          intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall2);
-          intakeSubsystem.setBallCapturedPstn1(true);  
+          intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall2); 
           safetyTmr.start();      
         }
   

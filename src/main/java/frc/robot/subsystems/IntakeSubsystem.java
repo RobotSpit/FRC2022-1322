@@ -199,6 +199,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void runAdvanceAtSpd(double speed) {
     getAdvanceMtr().set(TalonFXControlMode.Velocity,speed);
+    if(speed == 0) getAdvanceMtr().disable();
   }
 
   public void pidAdvanceSpd(boolean activate){
@@ -336,9 +337,14 @@ public class IntakeSubsystem extends SubsystemBase {
   public controlState getBallIntakeCtrlSt() {
     return (ballIntakeCtrlSt);
   }
- 
+
+  
 
 
+
+  public void init_periodic() {
+    setBallIntakeCtrlSt(controlState.Init);
+  }
 
   @Override
   public void periodic() {
@@ -365,7 +371,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     if (switchStateArmComb != switchStateArmFilt) {
       if (switchStateArmComb == true) {
-        if (detectArmTmr.get() >= K_INTK.KeINTK_t_IntakeDetectTme) {
+        if (detectArmTmr.get() >= K_INTK.KeINTK_t_IntakeArmDtctTme) {
           switchStateArmFilt = true;
         }
       } else {
@@ -381,11 +387,12 @@ public class IntakeSubsystem extends SubsystemBase {
     }  else {
       detectAdv1Tmr.stop();
       detectAdv1Tmr.reset();
+      ballCapturedPstn1 = false;
     }  
 
     if (switchStateAdvPstn1 != switchStateAdvPstn1Filt) {
       if (switchStateAdvPstn1 == true) {
-        if (detectAdv1Tmr.get() >= K_INTK.KeINTK_t_IntakeDetectTme) {
+        if (detectAdv1Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv1DtctTme) {
           switchStateAdvPstn1Filt = true;
         }
       } else {
@@ -393,6 +400,9 @@ public class IntakeSubsystem extends SubsystemBase {
       }      
     }
 
+    if (detectAdv1Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2CaptTme) {
+      ballCapturedPstn1 = true;
+    }
 
 
     switchStateAdvPstn2 = detectBallAdvance2();
@@ -402,17 +412,23 @@ public class IntakeSubsystem extends SubsystemBase {
     }  else {
       detectAdv2Tmr.stop();
       detectAdv2Tmr.reset();
+      ballCapturedPstn2 = false;
     }
 
     if (switchStateAdvPstn2 != switchStateAdvPstn2Filt) {
       if (switchStateAdvPstn2 == true) {
-        if (detectAdv2Tmr.get() >= K_INTK.KeINTK_t_IntakeDetectTme) {
+        if (detectAdv2Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2DtctTme) {
           switchStateAdvPstn2Filt = true;
         }
       } else {
         switchStateAdvPstn2Filt = false;
       }      
     }
+
+    if (detectAdv2Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2CaptTme) {
+      ballCapturedPstn2 = true;
+    }
+
 
 
     if (instrUpdCnt == (int)0) {

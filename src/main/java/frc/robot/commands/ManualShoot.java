@@ -25,15 +25,17 @@ public class ManualShoot extends CommandBase {
   
   /** Creates a new ManualShoot. */
   public ManualShoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, JoystickButton auxButton_A) {
-    //  addRequirements(intakeSubsystem, shooterSubsystem, auxStick);
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.auxButton_A = auxButton_A;
+    addRequirements(intakeSubsystem, shooterSubsystem);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+  //  shooterSubsystem.runShooterAtPwr(0.3);
     shooterSubsystem.pidShooterSpd(true);
     shooterShutOffTimer.reset();
     shooterShutOffTimer.stop();
@@ -64,16 +66,18 @@ public class ManualShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.runAdvanceAtSpd(0);
-    intakeSubsystem.runIntakeAtSpd(0);
-    shooterSubsystem.pidShooterSpd(false);
-    shooterShutOffTimer.stop();
+    System.out.print("Shooter dead");
+     intakeSubsystem.runAdvanceAtSpd(0);
+     intakeSubsystem.runIntakeAtSpd(0);
+     shooterSubsystem.pidShooterSpd(false);
+     shooterSubsystem.stopMotor();
+     shooterShutOffTimer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean condMet = ((auxButton_A.getAsBoolean() == false) || (shooterShutOffTimer.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime));
-    return condMet;
+    boolean condMet = ((auxButton_A.getAsBoolean() == false)); //  || (shooterShutOffTimer.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime));
+    return false;
   }
 }

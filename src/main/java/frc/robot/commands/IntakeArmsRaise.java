@@ -24,8 +24,7 @@ public class IntakeArmsRaise extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    System.out.println("HERE");
+  public void initialize() {  
     intakeSubsystem.raiseIntakeArms();
     exitTmr.reset();
     exitTmr.start();
