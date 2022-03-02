@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -38,14 +37,18 @@ public class ManualShootHi extends CommandBase {
     shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal);
 
     if (shooterSubsystem.isShooterAtSpd()) {
-      intakeSubsystem.runAdvanceAtSpd(K_INTK.KeINTK_n_TgtAdvanceCmdShoot);
-      intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdShoot);
+      intakeSubsystem.runAdvanceAtPwr(0.9);
+      intakeSubsystem.runIntakeAtPwr(0.9);
     } else {
       intakeSubsystem.stopAdvanceMtr();
       intakeSubsystem.stopIntakeMtr();
     }
-
-    SmartDashboard.putNumber("Shooter Speed: ", shooterSubsystem.getSpd());
+    
+    if (K_SHOT.KeSHOT_b_DebugEnbl == true) {
+      SmartDashboard.putNumber("Shooter Speed: ",     (shooterSubsystem.getSpd()));
+      SmartDashboard.putNumber("Shooter Target: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal));
+      SmartDashboard.putBoolean("Shooter At Speed: ", (shooterSubsystem.isShooterAtSpd()));
+    }
 
   }
 

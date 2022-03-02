@@ -108,12 +108,15 @@ public class RobotContainer {
     final JoystickButton auxButton_X = new JoystickButton(auxStick, Constants.BUTTON_X);
     final JoystickButton auxButton_Y = new JoystickButton(auxStick, Constants.BUTTON_Y);
     final JoystickButton auxButton_BumpLT = new JoystickButton(auxStick, Constants.BUMPER_LEFT);
+    final JoystickButton auxButton_BumpRT = new JoystickButton(auxStick, Constants.BUMPER_RIGHT);
 
     rightTriggerButton.whenPressed(new ManualIntake(intakeSubsystem, auxStick));
     auxButton_A.whileHeld(new ManualShootLo(shooterSubsystem, intakeSubsystem));
     auxButton_B.whileHeld(new ManualShootHi(shooterSubsystem, intakeSubsystem));
     auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
     auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
+    auxButton_BumpLT.whenPressed(new ShooterServoPercent(shooterSubsystem,0));
+    auxButton_BumpRT.whenPressed(new ShooterServoPercent(shooterSubsystem,100));
 
   }
 

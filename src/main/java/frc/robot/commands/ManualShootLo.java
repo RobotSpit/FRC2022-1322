@@ -5,18 +5,15 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.IntakeSubsystem;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualShootLo extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
-  private  Timer shooterShutOffTimer = new Timer();
 
   
   /** Creates a new ManualShootLo - Low Goal. */
@@ -24,7 +21,6 @@ public class ManualShootLo extends CommandBase {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     addRequirements(intakeSubsystem, shooterSubsystem);
-
   }
 
   // Called when the command is initially scheduled.
@@ -32,8 +28,6 @@ public class ManualShootLo extends CommandBase {
   public void initialize() {
     System.out.println("Robot, Shoot! Low Goal.");
     shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
-    shooterShutOffTimer.reset();
-    shooterShutOffTimer.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,24 +38,18 @@ public class ManualShootLo extends CommandBase {
 
     if (shooterSubsystem.isShooterAtSpd()) {
       System.out.println("Command Intakes!");
-//      intakeSubsystem.runAdvanceAtSpd(K_INTK.KeINTK_n_TgtAdvanceCmdShoot);
-//      intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdShoot);
-      intakeSubsystem.runAdvanceAtPwr(0.3);
-      intakeSubsystem.runIntakeAtPwr(0.3);
-      shooterShutOffTimer.start();
+      intakeSubsystem.runAdvanceAtPwr(0.9);
+      intakeSubsystem.runIntakeAtPwr(0.9);
     } else {
       intakeSubsystem.stopAdvanceMtr();
       intakeSubsystem.stopIntakeMtr();
-    }
-    
-    if ((intakeSubsystem.getBallAdvPstn1() == true) ||(intakeSubsystem.getBallAdvPstn2() == true)) {
-      shooterShutOffTimer.reset();
-    }
+    }    
 
-    SmartDashboard.putNumber("Shooter Speed: ",     (shooterSubsystem.getSpd()));
-    SmartDashboard.putNumber("Shooter Target: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal));
-    SmartDashboard.putBoolean("Shooter At Speed: ", (shooterSubsystem.isShooterAtSpd()));
-
+    if (K_SHOT.KeSHOT_b_DebugEnbl == true) {
+      SmartDashboard.putNumber("Shooter Speed: ",     (shooterSubsystem.getSpd()));
+      SmartDashboard.putNumber("Shooter Target: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal));
+      SmartDashboard.putBoolean("Shooter At Speed: ", (shooterSubsystem.isShooterAtSpd()));
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -71,13 +59,11 @@ public class ManualShootLo extends CommandBase {
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
-     shooterShutOffTimer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // boolean condMet = (shooterShutOffTimer.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime);
     return false;
   }
 }

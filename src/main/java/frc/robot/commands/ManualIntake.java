@@ -38,7 +38,7 @@ public class ManualIntake extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("Robot, Grab Balls!");
-    intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
+    intakeSubsystem.runIntakeAtPwr(K_INTK.KeINTK_r_TgtIntakePwrFeed);
     safetyTmr.reset();
     safetyTmr.stop();
     intakeSubsystem.setBallIntakeCtrlSt(controlState.Init);
@@ -87,7 +87,7 @@ public class ManualIntake extends CommandBase {
       case GrabBall1: {
         if (intakeSubsystem.getBallAdvPstn1Filt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall1);
-          intakeSubsystem.runAdvanceAtSpd(K_INTK.KeINTK_n_TgtAdvanceCmdFeed);
+          intakeSubsystem.runAdvanceAtPwr(K_INTK.KeINTK_r_TgtAdvancePwrFeed);
           intakeSubsystem.raiseIntakeArms();
           intakeSubsystem.setBallCaptureInProgress(false);
         }  
@@ -116,22 +116,22 @@ public class ManualIntake extends CommandBase {
   
       case GrabBall2: {
         if (intakeSubsystem.getBallAdvPstn1() == true) {
-          intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
+          intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall2); 
+          intakeSubsystem.runAdvanceAtPwr(K_INTK.KeINTK_r_TgtAdvancePwrFeed);
           intakeSubsystem.setBallCaptureInProgress(false);
         }  
-
-        if ((intakeSubsystem.getBallAdvPstn1Filt() == true) &&
-            (intakeSubsystem.getBallAdvPstn2Filt() == true)) {
-          intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall2); 
-          safetyTmr.start();      
-        }
   
         break;
       }
       
       case HoldBall2: {        
-        /* Do nothing - Hold Balls until Shooter Fires */
-  
+        if ((intakeSubsystem.getBallAdvPstn1Filt() == true) &&
+            (intakeSubsystem.getBallAdvPstn2Filt() == true)) {
+          intakeSubsystem.stopAdvanceMtr();
+          safetyTmr.start();
+        }      
+        /* Stop Advance Motor - Hold Balls with Arms Down until Shooter Fires */
+
         break;
       }
         
