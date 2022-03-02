@@ -9,6 +9,7 @@
       "/LiveWindow/ShooterSubsystem": "Subsystem",
       "/LiveWindow/SwerveDriveModule": "Subsystem",
       "/LiveWindow/SwerveDriveSubsystem": "Subsystem",
+      "/LiveWindow/SwerveDrivetrain": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
@@ -36,7 +37,9 @@
       "/LiveWindow/Ungrouped/Talon FX [8]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [9]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
-      "/LiveWindow/pRFSLIB": "Subsystem"
+      "/LiveWindow/pRFSLIB": "Subsystem",
+      "/Shuffleboard/Drivetrain/SwerveDrivetrain": "Subsystem",
+      "/SmartDashboard/Field": "Field2d"
     }
   }
 }

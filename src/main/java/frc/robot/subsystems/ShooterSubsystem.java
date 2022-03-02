@@ -19,9 +19,6 @@ public enum slctMtr {
     Right;
 }
 
-
-
-
 private WPI_TalonFX[] ShooterMotor = new WPI_TalonFX[] {
   new WPI_TalonFX(Constants.SHOOTER_MTR_LT, "rio"),
   new WPI_TalonFX(Constants.SHOOTER_MTR_RT, "rio")  
@@ -53,8 +50,8 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
       ShooterMotor[i].config_kF(0, K_SHOT.KeSHOT_K_FdFwd);      
     }
 	
-    ShooterMotor[0].setInverted(false);			  //Constants.SHOOTER_MTR_LT
-    ShooterMotor[1].setInverted(true);			  //Constants.SHOOTER_MTR_RT
+    ShooterMotor[0].setInverted(true);			  //Constants.SHOOTER_MTR_LT
+    ShooterMotor[1].setInverted(false);			  //Constants.SHOOTER_MTR_RT
     ShooterMotor[1].follow(ShooterMotor[0]);  //Constants.SHOOTER_MTR_RT Slave to Constants.SHOOTER_MTR_LT
 
     ShooterServoAim.set(0);
@@ -69,7 +66,7 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
    * @return ShooterMotor[Master]; (WPI_TalonFX: Shooter Motor Object)
    */  
   public WPI_TalonFX getShooterMtr() {
-    return ShooterMotor[Constants.SHOOTER_MTR_LT];
+    return ShooterMotor[0];
   }
 
   public double getSpd(){
@@ -83,6 +80,18 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
   public void runShooterAtSpd(double speed) {
     getShooterMtr().set(TalonFXControlMode.Velocity,speed);
   }
+
+
+  public void runShooterAtPwr(double power) {
+    // getShooterMtr().set(TalonFXControlMode.PercentOutput,power);
+    ShooterMotor[0].set(TalonFXControlMode.PercentOutput,power);
+    ShooterMotor[1].set(TalonFXControlMode.PercentOutput,power);
+  }
+
+  public void stopMotor() {
+    getShooterMtr().disable();
+  }
+
 
   public void pidShooterSpd(boolean activate){
     if (activate == true) {
@@ -120,6 +129,7 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
 
 
 
+  public void init_periodic() {} 
 
   @Override
   public void periodic() {

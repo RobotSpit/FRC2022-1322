@@ -115,7 +115,7 @@ private controlState liftCntrlSt;
 
 
   public boolean detectTrackMidTrigger() {
-    return TrackMidTrig.get();
+    return (TrackMidTrig.get() == false);
   }  
 
 
@@ -146,6 +146,10 @@ private controlState liftCntrlSt;
   }  
 
 
+
+  public void init_periodic() {
+    setLiftControlState(controlState.Init);
+  }
 
   @Override
   public void periodic() {

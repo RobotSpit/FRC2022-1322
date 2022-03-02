@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.calibrations.K_INTK;
 
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,7 +30,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public  final RFSLIB prfsLIB = new RFSLIB();
   private final SendableChooser<Command> m_chooser = new SendableChooser<Command>();
-  private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
+  // private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
+  private final SwerveDrivetrain swerveSubsystem = new SwerveDrivetrain();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
@@ -52,6 +54,16 @@ public class RobotContainer {
 
   }
 
+
+
+  public void teleopInit() {
+    liftSubsystem.init_periodic();
+    intakeSubsystem.init_periodic();
+    shooterSubsystem.init_periodic();
+  }
+
+
+
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -63,29 +75,34 @@ public class RobotContainer {
 
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
 
+    final Button rightTriggerButton = new Button(() -> (auxStick.getRightTriggerAxis() >= K_INTK.KeINTK_r_IntakeMtrTriggerLvlEnbl));
+    final Button liftTrigger = new Button(() -> (auxStick.getStartButtonPressed() && auxStick.getBackButtonPressed()));
+    final JoystickButton driverButton_Start = new JoystickButton (auxStick, Constants.BUTTON_START);
     final JoystickButton auxButton_A = new JoystickButton(auxStick, Constants.BUTTON_A);
-    final JoystickButton auxDPAD = new JoystickButton(auxStick, Constants.DPAD);
+    final JoystickButton auxButton_X = new JoystickButton(auxStick, Constants.BUTTON_X);
+    final JoystickButton auxButton_Y = new JoystickButton(auxStick, Constants.BUTTON_Y);
+    final JoystickButton auxButton_BumpLT = new JoystickButton(auxStick, Constants.BUMPER_LEFT);
+    // final JoystickButton auxDPAD = new JoystickButton(auxStick, Constants.DPAD);
 
-    auxButton_A.whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
-    auxDPAD.whenPressed(new ManualLift(liftSubsystem, auxStick));
-//    new JoystickButton(auxStick, Constants.BUTTON_A).whenPressed(new ManualShoot(shooterSubsystem, intakeSubsystem, auxStick));
-//    new JoystickButton(auxStick, Constants.DPAD).whenPressed(new ManualLift(liftSubsystem, auxStick));
-
+    rightTriggerButton.whenPressed(new ManualIntake(intakeSubsystem, auxStick));
+    auxButton_A.whileHeld(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
+    auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
+    auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
+    // auxButton_BumpLT.whenPressed(new SwerveZeroPointLearn(swerveSubsystem));
+    driverButton_Start.whenPressed(new ManualLift(liftSubsystem, auxStick));
+    //liftTrigger.whenPressed(new ManualLift(liftSubsystem, auxStick));
 
   }
 
 
   private void setDefaultCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
-    CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
+    // CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
+
+                                                   // Subsystem, Control Joystick, fieldCentric, openLoop
+    swerveSubsystem.setDefaultCommand(new SwerveTeleop(swerveSubsystem, driverStick, false, true));
+    // CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
 
   }
-
-
-//  public SwerveDriveSubsystem getSwerveDriveSubsystem()
-//    {
-//    return(swerveSubsystem);
-//    }    
 
 
   /**

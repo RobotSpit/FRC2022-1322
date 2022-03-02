@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -38,6 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private WPI_TalonFX AdvanceMotor = new WPI_TalonFX(Constants.BALL_MTR_ADVANCE, "rio");
 
   private TalonSRX IntakeMotor = new TalonSRX(Constants.BALL_MTR_INTAKE);
+
+  private PneumaticHub hub = new PneumaticHub(1);
 
   private Solenoid[] BallIntakeArm = new Solenoid[] {
     new Solenoid(PneumaticsModuleType.REVPH, Constants.PNEU_BALL_INTAKE_LT),
@@ -113,6 +116,8 @@ public class IntakeSubsystem extends SubsystemBase {
     detectAdv2Tmr.reset();
 
     instrUpdCnt = (int)0;
+
+    hub.clearStickyFaults();
 
 
  /*****************************************************************/
@@ -194,6 +199,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void runAdvanceAtSpd(double speed) {
     getAdvanceMtr().set(TalonFXControlMode.Velocity,speed);
+    if(speed == 0) getAdvanceMtr().disable();
   }
 
   public void pidAdvanceSpd(boolean activate){
@@ -208,18 +214,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
 
-  public void closeIntakeArms() {
+  public void lowerIntakeArms() {
     int i;
     for (i = 0; i < 4; i++) {
-      BallIntakeArm[i].set(true);
+      BallIntakeArm[i].set(false);
     }
   }
 
 
-  public void releaseIntakeArms() {
+  public void raiseIntakeArms() {
     int i;
     for (i = 0; i < 4; i++) {
-      BallIntakeArm[i].set(false);
+      BallIntakeArm[i].set(true);
     }
   }
 
@@ -331,13 +337,18 @@ public class IntakeSubsystem extends SubsystemBase {
   public controlState getBallIntakeCtrlSt() {
     return (ballIntakeCtrlSt);
   }
- 
+
+  
 
 
+
+  public void init_periodic() {
+    setBallIntakeCtrlSt(controlState.Init);
+  }
 
   @Override
   public void periodic() {
-    System.out.println("Start IntakeSubsystem.");
+   // System.out.println("Start IntakeSubsystem.");
 
     switchStateArmLeft  = detectBallArmLeft();
     switchStateArmRight = detectBallArmRight();
@@ -360,7 +371,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     if (switchStateArmComb != switchStateArmFilt) {
       if (switchStateArmComb == true) {
-        if (detectArmTmr.get() >= K_INTK.KeINTK_t_IntakeDetectTme) {
+        if (detectArmTmr.get() >= K_INTK.KeINTK_t_IntakeArmDtctTme) {
           switchStateArmFilt = true;
         }
       } else {
@@ -376,11 +387,12 @@ public class IntakeSubsystem extends SubsystemBase {
     }  else {
       detectAdv1Tmr.stop();
       detectAdv1Tmr.reset();
+      ballCapturedPstn1 = false;
     }  
 
     if (switchStateAdvPstn1 != switchStateAdvPstn1Filt) {
       if (switchStateAdvPstn1 == true) {
-        if (detectAdv1Tmr.get() >= K_INTK.KeINTK_t_IntakeDetectTme) {
+        if (detectAdv1Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv1DtctTme) {
           switchStateAdvPstn1Filt = true;
         }
       } else {
@@ -388,6 +400,9 @@ public class IntakeSubsystem extends SubsystemBase {
       }      
     }
 
+    if (detectAdv1Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2CaptTme) {
+      ballCapturedPstn1 = true;
+    }
 
 
     switchStateAdvPstn2 = detectBallAdvance2();
@@ -397,17 +412,23 @@ public class IntakeSubsystem extends SubsystemBase {
     }  else {
       detectAdv2Tmr.stop();
       detectAdv2Tmr.reset();
+      ballCapturedPstn2 = false;
     }
 
     if (switchStateAdvPstn2 != switchStateAdvPstn2Filt) {
       if (switchStateAdvPstn2 == true) {
-        if (detectAdv2Tmr.get() >= K_INTK.KeINTK_t_IntakeDetectTme) {
+        if (detectAdv2Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2DtctTme) {
           switchStateAdvPstn2Filt = true;
         }
       } else {
         switchStateAdvPstn2Filt = false;
       }      
     }
+
+    if (detectAdv2Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2CaptTme) {
+      ballCapturedPstn2 = true;
+    }
+
 
 
     if (instrUpdCnt == (int)0) {
@@ -439,7 +460,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     
 
-    System.out.println("End IntakeSubsystem.");
+  //  System.out.println("End IntakeSubsystem.");
   }
 
   @Override
