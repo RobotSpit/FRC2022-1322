@@ -41,7 +41,12 @@ public class K_SHOT {
 	  /** KeSHOT_n_ShooterSpd: Shooter System Control 
      * Commmanded Shooter Speed. 
      */
-    public static final double KeSHOT_n_TgtLaunchCmd = 3000;
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 4500;
+
+	  /** KeSHOT_n_ShooterSpd: Shooter System Control 
+     * Commmanded Shooter Speed. 
+     */
+    public static final double KeSHOT_n_TgtLaunchCmdHiGoal = 5000;
 
 
 	  /** KeSHOT_n_AtTgtDB: Deadband Speed around the
@@ -99,7 +104,7 @@ public class K_SHOT {
 	  /** KeSHOT_K_Prop: Shooter System Control Proporational
      * Control Gain. 
      */
-    public static final double KeSHOT_K_Prop = 1.0;
+    public static final double KeSHOT_K_Prop = 0.062;
 
 
 	  /** KeSHOT_K_Intgl: Shooter System Control Integral 
@@ -117,8 +122,7 @@ public class K_SHOT {
 	  /** KeSHOT_K_FdFwd: Shooter System Control Feed
      * Fowrward Control Gain. 
      */
-    public static final double KeSHOT_K_FdFwd = 10.0;
-
+    public static final double KeSHOT_K_FdFwd = 0.0475;
 
 	  /** KeSHOT_r_IntglErrMaxEnbl: Shooter System Control
      * Maximum Error Signal Threshold (absolute value) that

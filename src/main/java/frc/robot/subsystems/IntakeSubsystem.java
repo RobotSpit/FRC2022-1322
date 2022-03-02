@@ -166,8 +166,16 @@ public class IntakeSubsystem extends SubsystemBase {
     return IntakeMotor;
   }
 
+  public void stopIntakeMtr(){
+    getIntakeMtr().set(ControlMode.Disabled, 0);
+  }
+
   public double getIntakeSpd(){
     return getIntakeMtr().getSelectedSensorVelocity();
+  }
+
+  public void runIntakeAtPwr(double power) {
+    getIntakeMtr().set(ControlMode.PercentOutput,power);
   }
 
   public void runIntakeAtSpd(double speed) {
@@ -193,8 +201,16 @@ public class IntakeSubsystem extends SubsystemBase {
     return AdvanceMotor;
   }
 
+  public void stopAdvanceMtr(){
+    getAdvanceMtr().set(TalonFXControlMode.Disabled, 0);
+  }
+
   public double getAdvanceSpd(){
     return getAdvanceMtr().getSelectedSensorVelocity();
+  }
+
+  public void runAdvanceAtPwr(double power) {
+    getAdvanceMtr().set(TalonFXControlMode.PercentOutput,power);
   }
 
   public void runAdvanceAtSpd(double speed) {
@@ -256,7 +272,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   private boolean detectBallArmRear() {
-    return (BallArmDetectRT.get());
+    return (BallArmDetectRR.get());
   }
 
   private boolean detectBallAdvance1() {
@@ -343,6 +359,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
   public void init_periodic() {
+    // This method will be called once per robot periodic/autonmous session at initiation
     setBallIntakeCtrlSt(controlState.Init);
   }
 

@@ -10,24 +10,19 @@ import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-public class ManualShoot extends CommandBase {
+public class ManualShootLo extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
-  private JoystickButton auxButton_A;
-  private  Timer shooterClearTimer = new Timer();
   private  Timer shooterShutOffTimer = new Timer();
 
   
-  /** Creates a new ManualShoot. */
-  public ManualShoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, JoystickButton auxButton_A) {
+  /** Creates a new ManualShootLo - Low Goal. */
+  public ManualShootLo(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
-    this.auxButton_A = auxButton_A;
     addRequirements(intakeSubsystem, shooterSubsystem);
 
   }
@@ -35,8 +30,8 @@ public class ManualShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  //  shooterSubsystem.runShooterAtPwr(0.3);
-    shooterSubsystem.pidShooterSpd(true);
+    System.out.println("Robot, Shoot! Low Goal.");
+    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
     shooterShutOffTimer.reset();
     shooterShutOffTimer.stop();
   }
@@ -45,21 +40,27 @@ public class ManualShoot extends CommandBase {
   @Override
   public void execute() {
     // When shooter is at speed, feed the balls for shot, otherwise wait.
+    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
+
     if (shooterSubsystem.isShooterAtSpd()) {
-      intakeSubsystem.runAdvanceAtSpd(K_INTK.KeINTK_n_TgtAdvanceCmdShoot);
-      intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdShoot);
+      System.out.println("Command Intakes!");
+//      intakeSubsystem.runAdvanceAtSpd(K_INTK.KeINTK_n_TgtAdvanceCmdShoot);
+//      intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdShoot);
+      intakeSubsystem.runAdvanceAtPwr(0.3);
+      intakeSubsystem.runIntakeAtPwr(0.3);
       shooterShutOffTimer.start();
     } else {
-      intakeSubsystem.runAdvanceAtSpd(0);
-      intakeSubsystem.runIntakeAtSpd(0);
+      intakeSubsystem.stopAdvanceMtr();
+      intakeSubsystem.stopIntakeMtr();
     }
     
-    if ((auxButton_A.getAsBoolean() == true) || (intakeSubsystem.getBallAdvPstn1() == true) ||
-        (intakeSubsystem.getBallAdvPstn2() == true)) {
+    if ((intakeSubsystem.getBallAdvPstn1() == true) ||(intakeSubsystem.getBallAdvPstn2() == true)) {
       shooterShutOffTimer.reset();
     }
 
-    SmartDashboard.putNumber("Shooter Speed: ", shooterSubsystem.getSpd());
+    SmartDashboard.putNumber("Shooter Speed: ",     (shooterSubsystem.getSpd()));
+    SmartDashboard.putNumber("Shooter Target: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal));
+    SmartDashboard.putBoolean("Shooter At Speed: ", (shooterSubsystem.isShooterAtSpd()));
 
   }
 
@@ -67,17 +68,16 @@ public class ManualShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.print("Shooter dead");
-     intakeSubsystem.runAdvanceAtSpd(0);
-     intakeSubsystem.runIntakeAtSpd(0);
-     shooterSubsystem.pidShooterSpd(false);
-     shooterSubsystem.stopMotor();
+     intakeSubsystem.stopAdvanceMtr();
+     intakeSubsystem.stopIntakeMtr();
+     shooterSubsystem.stopShooterMtr();
      shooterShutOffTimer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean condMet = ((auxButton_A.getAsBoolean() == false)); //  || (shooterShutOffTimer.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime));
+    // boolean condMet = (shooterShutOffTimer.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime);
     return false;
   }
 }

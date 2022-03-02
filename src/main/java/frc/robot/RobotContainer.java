@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
@@ -38,6 +37,9 @@ public class RobotContainer {
   private XboxController driverStick = new XboxController(Constants.DRVR_CNTRLR);
   private XboxController auxStick = new XboxController(Constants.AUX_CNTRLR);
   
+  private Command m_autoCommandSelected;
+  
+
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -46,6 +48,13 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+  // Configure Autonomous Selections Available
+     m_chooser.setDefaultOption("Default Auto", new IntakeArmsRaise(intakeSubsystem));
+  // m_chooser.addOption("Do Nothing", new CG_InitRobot(driveSubsystem));
+  // m_chooser.addOption("Just Shoot", new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
+  // m_chooser.addOption("Drive Back 3 Ft", new CG_AutoDrvBack3(driveSubsystem));
+  // m_chooser.addOption("Shoot and Drive Back 3 Ft", new CG_AutoShootDrvBack3(driveSubsystem, ballSubsystem, turretSubsystem, auxStick));
+     SmartDashboard.putData("Auto choices: ", m_chooser);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -55,7 +64,21 @@ public class RobotContainer {
   }
 
 
+  /**
+   * Use this method to schedule any subsystem initialization tasks required to be run
+   * at the initialization of the Autonomous Period.
+   */
+  public void autonomousInit() {
+    liftSubsystem.init_periodic();
+    intakeSubsystem.init_periodic();
+    shooterSubsystem.init_periodic();
+  }
 
+
+  /**
+   * Use this method to schedule any subsystem initialization tasks required to be run
+   * at the initialization of the Tele-Op Period.
+   */
   public void teleopInit() {
     liftSubsystem.init_periodic();
     intakeSubsystem.init_periodic();
@@ -72,25 +95,25 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* BEGIN DRIVER STICK BUTTON ASSIGNMENTS */
+    final JoystickButton driverButton_Start = new JoystickButton (driverStick, Constants.BUTTON_START);
+
+    driverButton_Start.whenPressed(new ManualLift(liftSubsystem, auxStick));
+
 
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
 
     final Button rightTriggerButton = new Button(() -> (auxStick.getRightTriggerAxis() >= K_INTK.KeINTK_r_IntakeMtrTriggerLvlEnbl));
-    final Button liftTrigger = new Button(() -> (auxStick.getStartButtonPressed() && auxStick.getBackButtonPressed()));
-    final JoystickButton driverButton_Start = new JoystickButton (auxStick, Constants.BUTTON_START);
     final JoystickButton auxButton_A = new JoystickButton(auxStick, Constants.BUTTON_A);
+    final JoystickButton auxButton_B = new JoystickButton(auxStick, Constants.BUTTON_B);
     final JoystickButton auxButton_X = new JoystickButton(auxStick, Constants.BUTTON_X);
     final JoystickButton auxButton_Y = new JoystickButton(auxStick, Constants.BUTTON_Y);
     final JoystickButton auxButton_BumpLT = new JoystickButton(auxStick, Constants.BUMPER_LEFT);
-    // final JoystickButton auxDPAD = new JoystickButton(auxStick, Constants.DPAD);
 
     rightTriggerButton.whenPressed(new ManualIntake(intakeSubsystem, auxStick));
-    auxButton_A.whileHeld(new ManualShoot(shooterSubsystem, intakeSubsystem, auxButton_A));
+    auxButton_A.whileHeld(new ManualShootLo(shooterSubsystem, intakeSubsystem));
+    auxButton_B.whileHeld(new ManualShootHi(shooterSubsystem, intakeSubsystem));
     auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
     auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
-    // auxButton_BumpLT.whenPressed(new SwerveZeroPointLearn(swerveSubsystem));
-    driverButton_Start.whenPressed(new ManualLift(liftSubsystem, auxStick));
-    //liftTrigger.whenPressed(new ManualLift(liftSubsystem, auxStick));
 
   }
 
@@ -111,8 +134,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    m_autoCommandSelected = m_chooser.getSelected(); 
+    System.out.println("Auto selected: " + m_autoCommandSelected);
+    return(m_autoCommandSelected);
   }
 
 

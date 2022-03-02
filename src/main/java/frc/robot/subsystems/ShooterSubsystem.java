@@ -26,6 +26,8 @@ private WPI_TalonFX[] ShooterMotor = new WPI_TalonFX[] {
 
 Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
 
+private boolean shooterAtSpeed;
+
 
 
   /********************************/
@@ -33,7 +35,7 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
   /********************************/
   public ShooterSubsystem() {
 
-
+    shooterAtSpeed = false;
 
 
     /*****************************************************************/
@@ -69,13 +71,32 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
     return ShooterMotor[0];
   }
 
+
+  public void stopShooterMtr(){
+    getShooterMtr().set(TalonFXControlMode.Disabled, 0);
+  }
+
+
   public double getSpd(){
     return getShooterMtr().getSelectedSensorVelocity();
   }
 
-  public boolean isShooterAtSpd(){
-    return Math.abs(K_SHOT.KeSHOT_n_TgtLaunchCmd - getSpd()) < K_SHOT.KeSHOT_n_AtTgtDB;
+
+  public void dtrmnShooterAtSpd(double targetSpd) {
+    double targetSpdError = Math.abs(targetSpd - getSpd());
+    if (shooterAtSpeed == false) {
+      if (targetSpdError < K_SHOT.KeSHOT_n_AtTgtDB)
+        shooterAtSpeed = true;
+    } else {
+      if (targetSpdError >= K_SHOT.KeSHOT_n_AtTgtDB + 50)
+        shooterAtSpeed = false;
+    }
   }
+
+  public boolean isShooterAtSpd(){
+    return shooterAtSpeed;
+  }
+
 
   public void runShooterAtSpd(double speed) {
     getShooterMtr().set(TalonFXControlMode.Velocity,speed);
@@ -88,14 +109,10 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
     ShooterMotor[1].set(TalonFXControlMode.PercentOutput,power);
   }
 
-  public void stopMotor() {
-    getShooterMtr().disable();
-  }
-
 
   public void pidShooterSpd(boolean activate){
     if (activate == true) {
-      getShooterMtr().set(TalonFXControlMode.Velocity,K_SHOT.KeSHOT_n_TgtLaunchCmd);
+      getShooterMtr().set(TalonFXControlMode.Velocity,K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
     } else {
       getShooterMtr().set(TalonFXControlMode.Velocity,0);
     }
@@ -129,11 +146,16 @@ Spark ShooterServoAim = new Spark(Constants.PWM_SHOOTER_ANGLE);
 
 
 
-  public void init_periodic() {} 
+  public void init_periodic() {
+    // This method will be called once per robot periodic/autonmous session at initiation
+    shooterAtSpeed = false;
+  } 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+
   }
 
   @Override

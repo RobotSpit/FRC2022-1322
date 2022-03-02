@@ -37,6 +37,7 @@ public class ManualIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Robot, Grab Balls!");
     intakeSubsystem.runIntakeAtSpd(K_INTK.KeINTK_n_TgtIntakeCmdFeed);
     safetyTmr.reset();
     safetyTmr.stop();
@@ -97,7 +98,7 @@ public class ManualIntake extends CommandBase {
       case HoldBall1: {
         if (intakeSubsystem.getBallAdvPstn2Filt() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.SeekBall2);
-          intakeSubsystem.runAdvanceAtSpd(0);
+          intakeSubsystem.stopAdvanceMtr();
         }
   
         break;
@@ -151,8 +152,8 @@ public class ManualIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.runIntakeAtSpd(0);
-    intakeSubsystem.runAdvanceAtSpd(0);
+    intakeSubsystem.stopIntakeMtr();
+    intakeSubsystem.stopAdvanceMtr();
     safetyTmr.stop();
   }
 

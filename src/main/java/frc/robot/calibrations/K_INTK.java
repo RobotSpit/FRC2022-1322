@@ -105,13 +105,13 @@ public class K_INTK {
 	  /** KeINTK_n_TgtAdvanceCmdFeed: Ball Intake System Control 
      * Commmanded Advance Motor Speed in RPM during Ball Feed. 
      */
-    public static final double KeINTK_n_TgtAdvanceCmdFeed = 2000;
+    public static final double KeINTK_n_TgtAdvanceCmdFeed = 1500;
 
 
 	  /** KeINTK_n_TgtIntakeCmdShoot: Ball Intake System Control 
      * Commmanded Intake Motor Speed in RPM during Ball Shoot. 
      */
-    public static final double KeINTK_n_TgtIntakeCmdShoot = 4000;
+    public static final double KeINTK_n_TgtIntakeCmdShoot = 5000;
 
 
 	  /** KeINTK_n_TgtAdvanceCmdShoot: Ball Intake System Control 
@@ -129,7 +129,7 @@ public class K_INTK {
 	  /** KeINTK_K_Prop: Ball Intake System Proporational 
      * Control Gain. 
      */
-    public static final double KeINTK_K_InProp = 10.0;
+    public static final double KeINTK_K_InProp = 0.1;
 
 
 	  /** KeINTK_K_Intgl: Ball Intake System Integral 
@@ -147,7 +147,7 @@ public class K_INTK {
 	  /** KeINTK_K_FdFwd: Ball Intake System Feed Fowrward
      * Control Gain. 
      */
-    public static final double KeINTK_K_InFdFwd = 10.0;
+    public static final double KeINTK_K_InFdFwd = 0.1;
 
 
 	  /** KeINTK_r_IntglErrMaxEnbl: Ball Intake System Control
@@ -167,7 +167,7 @@ public class K_INTK {
 	  /** KeINTK_K_Prop: Ball Advance System Proporational 
      * Control Gain. 
      */
-    public static final double KeINTK_K_AdvProp = 10.0;
+    public static final double KeINTK_K_AdvProp = 0.1;
 
 
 	  /** KeINTK_K_Intgl: Ball Advance Intake System
@@ -185,7 +185,7 @@ public class K_INTK {
 	  /** KeINTK_K_FdFwd: Ball Advance Intake System Feed
      * Fowrward Control Gain. 
      */
-    public static final double KeINTK_K_AdvFdFwd = 10.0;
+    public static final double KeINTK_K_AdvFdFwd = 0.1;
 
 
 	  /** KeINTK_r_IntglErrMaxEnbl: Ball Advance System Control

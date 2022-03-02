@@ -148,6 +148,7 @@ private controlState liftCntrlSt;
 
 
   public void init_periodic() {
+    // This method will be called once per robot periodic/autonmous session at initiation  
     setLiftControlState(controlState.Init);
   }
 

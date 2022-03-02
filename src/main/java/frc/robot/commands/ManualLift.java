@@ -33,7 +33,7 @@ public class ManualLift extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Shoot Lift!");
+    System.out.println("Robot Lift is Armed!");
     liftSubsystem.setLiftControlState(controlState.Init);
   }
 
