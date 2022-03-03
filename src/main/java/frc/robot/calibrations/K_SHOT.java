@@ -14,7 +14,6 @@ package frc.robot.calibrations;
 public class K_SHOT {
 
 
-
   /**************************************************/
   /*  Shooter System Configuration Calibrations     */
  	/**************************************************/	 	
@@ -22,7 +21,7 @@ public class K_SHOT {
 	  /** KeSHOT_b_DebugEnbl: Shooter System Enable
      *  Calibration to send data to dashbord to debug.
      */
-    public static final boolean KeSHOT_b_DebugEnbl = false;
+    public static final boolean KeSHOT_b_DebugEnbl = true;
 
 
 
@@ -61,14 +60,13 @@ public class K_SHOT {
      * for the high goal. 
      */
     public static final float[] KtSHOT_Pct_LaunchServoCmdHi =  
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
+    {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0};
 
 	  /** KnSHOT_l_LaunchServoAxisHi: Shooter System Servo Percent
      * Command Target Distance Axis for High Goal. 
      */
     public static final float KnSHOT_l_LaunchServoAxisHi[] =
-    { 5, 8, 10, 15, 20, 25, 30, 35, 40, 50};
+    {   5,   8,  10,  15,  20,  25,  30,  35,  40,  50};
 
 
 	  /** KtSHOT_Pct_LaunchServoCmdLo: Shooter System Servo Percent
@@ -77,14 +75,13 @@ public class K_SHOT {
      * for the high goal. 
      */
     public static final float KtSHOT_Pct_LaunchServoCmdLo[] =
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
+    { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
 
 	  /** KnSHOT_l_LaunchServoAxisLo: Shooter System Servo Percent
      * Command Target Distance Axis for High Goal. 
      */
     public static final float KnSHOT_l_LaunchServoAxisLo[] =
-    { 2, 5, 8, 10, 12, 15, 18, 20, 22, 25 };
+    {   2,   5,   8,  10,  12,  15,  18,  20,  22,  25};
 
 
     /** KeSHOT_t_PostLaunchRunTime: The amount of time

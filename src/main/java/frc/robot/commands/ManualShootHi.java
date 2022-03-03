@@ -5,16 +5,20 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualShootHi extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
-
+  private Timer raiseArmTmr = new Timer();
+  private double targetDistance;
+  private double servoPercentCmd;
   
   /** Creates a new ManualShootHi - High Goal. */
   public ManualShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem) {
@@ -28,26 +32,46 @@ public class ManualShootHi extends CommandBase {
   public void initialize() {
     System.out.println("Robot, Shoot! High Goal.");
     shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal);
+    raiseArmTmr.reset();
+    raiseArmTmr.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // When shooter is at speed, feed the balls for shot, otherwise wait.
+    // Determine servo percent command as a function of target distance
+    targetDistance = 20;  // PlaceHolder for now until Camera Interface can be hooked up.
+    servoPercentCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, false);
+    
+    // When shooter is at speed, feed the balls for shot, otherwise wait and command servo position.
     shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal);
 
     if (shooterSubsystem.isShooterAtSpd()) {
       intakeSubsystem.runAdvanceAtPwr(0.9);
       intakeSubsystem.runIntakeAtPwr(0.9);
     } else {
+      shooterSubsystem.aimShooter(servoPercentCmd);     
       intakeSubsystem.stopAdvanceMtr();
       intakeSubsystem.stopIntakeMtr();
     }
     
+    if ((intakeSubsystem.getBallAdvPstn1() == false) && (intakeSubsystem.getBallAdvPstn1() == false)) {
+      raiseArmTmr.start();      
+    } else {
+      raiseArmTmr.reset();
+      raiseArmTmr.stop();        
+    }
+    if (raiseArmTmr.get() >= K_INTK.KeINTK_t_IntakeArmRaiseDlyShoot) {
+      intakeSubsystem.raiseIntakeArms();
+    }
+
     if (K_SHOT.KeSHOT_b_DebugEnbl == true) {
-      SmartDashboard.putNumber("Shooter Speed: ",     (shooterSubsystem.getSpd()));
-      SmartDashboard.putNumber("Shooter Target: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal));
-      SmartDashboard.putBoolean("Shooter At Speed: ", (shooterSubsystem.isShooterAtSpd()));
+      SmartDashboard.putNumber("Shooter Act Spd: ",    (shooterSubsystem.getSpd()));
+      SmartDashboard.putNumber("Shooter Tgt Spd: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal));
+      SmartDashboard.putBoolean("Shooter At Spd: ",    (shooterSubsystem.isShooterAtSpd()));
+      SmartDashboard.putNumber("Shooter Tgt Dist: ",   (targetDistance));
+      SmartDashboard.putNumber("Shooter Servo Pct: ",  (servoPercentCmd));
+
     }
 
   }
@@ -59,6 +83,7 @@ public class ManualShootHi extends CommandBase {
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
+     raiseArmTmr.stop();        
   }
 
   // Returns true when the command should end.

@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeArmsLower extends CommandBase {
 
-  private Timer exitTmr = new Timer();
   private IntakeSubsystem intakeSubsystem;  
+  private Timer exitTmr = new Timer();
 
   /** Creates a new RaiseIntakeArm. */
   public IntakeArmsLower(IntakeSubsystem intakeSubsystem) {
@@ -42,6 +42,6 @@ public class IntakeArmsLower extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (exitTmr.get() > K_INTK.KeINTK_t_IntakeArmRaiseLowerDly);
+    return (exitTmr.get() > K_INTK.KeINTK_t_IntakeArmRaiseLowerDlyCmd);
   }
 }

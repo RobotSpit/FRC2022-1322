@@ -43,6 +43,6 @@ public class IntakeArmsRaise extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (exitTmr.get() > K_INTK.KeINTK_t_IntakeArmRaiseLowerDly);
+    return (exitTmr.get() > K_INTK.KeINTK_t_IntakeArmRaiseLowerDlyCmd);
   }
 }
