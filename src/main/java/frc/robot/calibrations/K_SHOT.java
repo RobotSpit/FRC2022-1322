@@ -45,7 +45,7 @@ public class K_SHOT {
 	  /** KeSHOT_n_ShooterSpd: Shooter System Control 
      * Commmanded Shooter Speed. 
      */
-    public static final double KeSHOT_n_TgtLaunchCmdHiGoal = 5000;
+    public static final double KeSHOT_n_TgtLaunchCmdHiGoal = 15000;
 
 
 	  /** KeSHOT_n_AtTgtDB: Deadband Speed around the
@@ -60,7 +60,7 @@ public class K_SHOT {
      * for the high goal. 
      */
     public static final float[] KtSHOT_Pct_LaunchServoCmdHi =  
-    {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0};
+    {   1,   1,   1,   1,   1,   1,   1,   1,   1,   1};
 
 	  /** KnSHOT_l_LaunchServoAxisHi: Shooter System Servo Percent
      * Command Target Distance Axis for High Goal. 
@@ -75,7 +75,7 @@ public class K_SHOT {
      * for the high goal. 
      */
     public static final float KtSHOT_Pct_LaunchServoCmdLo[] =
-    { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
+    {   1,   1,   1,   1,   1,   1,   1,   1,   1,   1};
 
 	  /** KnSHOT_l_LaunchServoAxisLo: Shooter System Servo Percent
      * Command Target Distance Axis for High Goal. 

@@ -46,6 +46,14 @@ public class SwerveDrivetrain extends SubsystemBase {
         dashboard();
     }
 
+
+
+    public SwerveModule getSwerveModule(int i) {
+        return swerveModules[i];
+    }
+
+
+
     public void print() {
         
         this.swerveModules[0].getCanCoder();
@@ -183,6 +191,35 @@ public class SwerveDrivetrain extends SubsystemBase {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
     }
+
+  
+    public double getDrvInchesPerEncdrCnts(double drvEncdrCnts) {
+        double drvWhlDistInches;
+        drvWhlDistInches = ((drvEncdrCnts / Constants.SwerveDrivetrain.DRIVE_CNTS_PER_REV) / 
+        Constants.SwerveDrivetrain.DRIVE_GEAR_RATIO) * Constants.SwerveDrivetrain.WHEEL_CIRCUMFERENCE;
+        return (drvWhlDistInches);
+    }  
+    
+    public double getDrvEncdrCntsPerInches(double drvWhlDistInches) {
+        double drvEncdrCnts;  
+        drvEncdrCnts = (drvWhlDistInches / Constants.SwerveDrivetrain.WHEEL_CIRCUMFERENCE) * 
+        Constants.SwerveDrivetrain.DRIVE_GEAR_RATIO * Constants.SwerveDrivetrain.DRIVE_CNTS_PER_REV;
+        return (Math.round(drvEncdrCnts));
+      }
+        
+    public double getDrvDistTravelled(int Le_e_MtrIdx, double zeroPstnRefCnts) { 
+        double drvEncdrCntDelt;  
+        drvEncdrCntDelt = Math.round(getSwerveModule(Le_e_MtrIdx).getDrvEncdrCurrentPostion() - zeroPstnRefCnts);
+        return (getDrvInchesPerEncdrCnts(drvEncdrCntDelt));
+      }
+    
+    public double getDrvCaddyEncdrPstn(int Le_e_MtrIdx) {  
+        double drvEncdrCnt = Math.round(getSwerveModule(Le_e_MtrIdx).getDrvEncdrCurrentPostion());
+        return drvEncdrCnt;
+      }
+
+
+
 
     public void dashboard() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");

@@ -107,7 +107,7 @@ public class K_INTK {
      * Commmanded Intake Motor Normalized Power Command (0 to 1)
      * during Ball Feed. 
      */
-    public static final double KeINTK_r_TgtIntakePwrFeed = 0.7;
+    public static final double KeINTK_r_TgtIntakePwrFeed = 0.9;
 
 
 	  /** KeINTK_r_TgtAdvancePwrFeed: Ball Intake System Control 
@@ -121,14 +121,14 @@ public class K_INTK {
      * Commmanded Intake Motor Normalized Power Command (0 to 1)
      * during Ball Shoot.
      */
-    public static final double KeINTK_r_TgtIntakePwrShoot = 0.9;
+    public static final double KeINTK_r_TgtIntakePwrShoot = 0.8;
 
 
 	  /** KeINTK_r_TgtAdvancePwrShoot: Ball Intake System Control 
      * Commmanded Intake Motor Normalized Power Command (0 to 1)
      * during Ball Shoot.
      */
-    public static final double KeINTK_r_TgtAdvancePwrShoot = 0.9;
+    public static final double KeINTK_r_TgtAdvancePwrShoot = 0.8;
 
 
 

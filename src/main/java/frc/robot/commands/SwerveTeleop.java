@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.RFSLIB;
 import frc.robot.subsystems.SwerveDrivetrain;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,9 +40,12 @@ public class SwerveTeleop extends CommandBase {
         double rAxis = -controller.getRawAxis(4);
         
         /* Deadbands */
-        yAxis = (Math.abs(yAxis) < DEADBAND) ? 0 : yAxis;
-        xAxis = (Math.abs(xAxis) < DEADBAND) ? 0 : xAxis;
-        rAxis = (Math.abs(rAxis) < DEADBAND) ? 0 : rAxis;
+//        yAxis = (Math.abs(yAxis) < DEADBAND) ? 0 : yAxis;
+//        xAxis = (Math.abs(xAxis) < DEADBAND) ? 0 : xAxis;
+//        rAxis = (Math.abs(rAxis) < DEADBAND) ? 0 : rAxis;
+        yAxis = RFSLIB.ApplyDB_Scld(yAxis, DEADBAND, 1.0);
+        xAxis = RFSLIB.ApplyDB_Scld(xAxis, DEADBAND, 1.0);
+        rAxis = RFSLIB.ApplyDB_Scld(rAxis, DEADBAND, 1.0);
 
         translation = new Translation2d(yAxis, xAxis).times(Constants.SwerveDrivetrain.MAX_SPEED);
         rotation = rAxis * Constants.SwerveDrivetrain.MAX_ANGULAR_VELOCITY;

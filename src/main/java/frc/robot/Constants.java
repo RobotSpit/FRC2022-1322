@@ -137,7 +137,8 @@ public final class Constants {
         public static final double CLOSED_LOOP_RAMP = 0.0;
 
         public static final double DRIVE_GEAR_RATIO = (10 / 1.0);  // 10:1
-        public static final double ANGLE_GEAR_RATIO = (19 / 1.0); // 19:1
+        public static final double ANGLE_GEAR_RATIO = (19 / 1.0);  // 19:1
+        public static final double DRIVE_CNTS_PER_REV  = 2048;     // FALCON 500;
 
         public static final SwerveDriveKinematics SWERVE_KINEMATICS = new SwerveDriveKinematics(
             new Translation2d(  WHEEL_BASE / 2.0,   TRACK_WIDTH / 2.0),
@@ -180,7 +181,7 @@ public final class Constants {
 
         /* Neutral Modes */
         public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
-        public static final NeutralMode DRIVE_NEUTRAL_MODE = NeutralMode.Brake;
+        public static final NeutralMode DRIVE_NEUTRAL_MODE = NeutralMode.Coast;  // was NeutralMode.Brake 
 
         /* Motor Inverts */
         public static final boolean DRIVE_MOTOR_INVERTED = false;

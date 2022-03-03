@@ -88,7 +88,7 @@ private boolean shooterAtSpeed;
       if (targetSpdError < K_SHOT.KeSHOT_n_AtTgtDB)
         shooterAtSpeed = true;
     } else {
-      if (targetSpdError >= K_SHOT.KeSHOT_n_AtTgtDB + 50)
+      if (targetSpdError > K_SHOT.KeSHOT_n_AtTgtDB + 200)
         shooterAtSpeed = false;
     }
   }
@@ -137,11 +137,12 @@ private boolean shooterAtSpeed;
 
   /**
    * Method: aimShooter - Shooter Drive System - Used to Aim the Shooter by sending
-   * a Percent to the Servo to Deflect the Shooter Mechanism Value (0 to 100%) 
+   * a Normalized Scalar PWM command (-1 to 1) to the Servo to Deflect the Shooter
+   * Mechanism.
    * @return ShooterMotor[Master]; (WPI_TalonFX: Shooter Motor Object)
    */  
-  public void aimShooter(double percent) {
-    ShooterServoAim.set(percent/100);
+  public void aimShooter(double servoCmd) {
+    ShooterServoAim.set(servoCmd);
   }
 
 

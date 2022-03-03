@@ -1,8 +1,5 @@
 package frc.robot.subsystems.old;
 
-import frc.robot.calibrations.K_SWRV;
-
-
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -11,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.calibrations.old.K_SWRV;
 
 
 public class SwerveDriveModule extends SubsystemBase {

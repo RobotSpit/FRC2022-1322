@@ -150,8 +150,8 @@ public class IntakeSubsystem extends SubsystemBase {
     AdvanceMotor.config_kF(0, K_INTK.KeINTK_K_AdvFdFwd);
 
     ballCaptureInProgress = false;
-    ballCapturedPstn1 = false;
-    ballCapturedPstn2 = false;
+    setBallCapturedPstn1(false);
+    setBallCapturedPstn2(false);
     ballIntakeCtrlSt = controlState.Init;
 
   }
@@ -404,7 +404,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }  else {
       detectAdv1Tmr.stop();
       detectAdv1Tmr.reset();
-      ballCapturedPstn1 = false;
+      setBallCapturedPstn1(false);
     }  
 
     if (switchStateAdvPstn1 != switchStateAdvPstn1Filt) {
@@ -418,7 +418,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     if (detectAdv1Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2CaptTme) {
-      ballCapturedPstn1 = true;
+      setBallCapturedPstn1(true);
     }
 
 
@@ -429,7 +429,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }  else {
       detectAdv2Tmr.stop();
       detectAdv2Tmr.reset();
-      ballCapturedPstn2 = false;
+      setBallCapturedPstn2(false);
     }
 
     if (switchStateAdvPstn2 != switchStateAdvPstn2Filt) {
@@ -443,15 +443,15 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     if (detectAdv2Tmr.get() >= K_INTK.KeINTK_t_IntakeAdv2CaptTme) {
-      ballCapturedPstn2 = true;
+      setBallCapturedPstn2(true);
     }
 
 
 
     if (instrUpdCnt == (int)0) {
       SmartDashboard.putBoolean("IntakeCaptInProg: ", ballCaptureInProgress);
-      SmartDashboard.putBoolean("IntakeBallCapt1: ",  ballCapturedPstn1);
-      SmartDashboard.putBoolean("IntakeBallCapt2: ",  ballCapturedPstn1);
+      SmartDashboard.putBoolean("IntakeBallCapt1: ",  getBallCapturedPstn1());
+      SmartDashboard.putBoolean("IntakeBallCapt2: ",  getBallCapturedPstn2());
       SmartDashboard.putBoolean("IntakeArmLTDtctd: ", switchStateArmLeft);
       SmartDashboard.putBoolean("IntakeArmRTDtctd: ", switchStateArmRight);
       SmartDashboard.putBoolean("IntakeArmFTDtctd: ", switchStateArmFront);

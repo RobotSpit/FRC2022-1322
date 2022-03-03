@@ -34,6 +34,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
+  private final Camera cameraSubsystem = new Camera();
   private XboxController driverStick = new XboxController(Constants.DRVR_CNTRLR);
   private XboxController auxStick = new XboxController(Constants.AUX_CNTRLR);
   
@@ -111,23 +112,23 @@ public class RobotContainer {
     final JoystickButton auxButton_BumpRT = new JoystickButton(auxStick, Constants.BUMPER_RIGHT);
 
     rightTriggerButton.whenPressed(new ManualIntake(intakeSubsystem, auxStick));
-    auxButton_A.whileHeld(new ManualShootLo(shooterSubsystem, intakeSubsystem));
-    auxButton_B.whileHeld(new ManualShootHi(shooterSubsystem, intakeSubsystem));
+    auxButton_A.whileHeld(new ManualShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem));
+    auxButton_B.whileHeld(new ManualShootHi(shooterSubsystem, intakeSubsystem, cameraSubsystem));
     auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
     auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
-    auxButton_BumpLT.whenPressed(new ShooterServoPercent(shooterSubsystem,0));
-    auxButton_BumpRT.whenPressed(new ShooterServoPercent(shooterSubsystem,100));
+    auxButton_BumpLT.whenPressed(new ShooterServoPercent(shooterSubsystem,-1));
+    auxButton_BumpRT.whenPressed(new ShooterServoPercent(shooterSubsystem,1));
+
 
   }
 
 
   private void setDefaultCommands() {
     // CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
-
+    
                                                    // Subsystem, Control Joystick, fieldCentric, openLoop
     swerveSubsystem.setDefaultCommand(new SwerveTeleop(swerveSubsystem, driverStick, false, true));
-    // CommandScheduler.getInstance().setDefaultCommand(intakeSubsystem, new ManualIntake(intakeSubsystem, auxStick));
-
+    cameraSubsystem.setDefaultCommand(new cameraTrackTarget(cameraSubsystem));
   }
 
 

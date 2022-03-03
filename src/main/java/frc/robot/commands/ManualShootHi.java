@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,14 +17,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualShootHi extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
+  private Camera cameraSubsystem;
   private Timer raiseArmTmr = new Timer();
   private double targetDistance;
-  private double servoPercentCmd;
+  private double servoCmd;
   
   /** Creates a new ManualShootHi - High Goal. */
-  public ManualShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem) {
+  public ManualShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
+    this.cameraSubsystem = cameraSubsystem;
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
 
@@ -40,8 +43,8 @@ public class ManualShootHi extends CommandBase {
   @Override
   public void execute() {
     // Determine servo percent command as a function of target distance
-    targetDistance = 20;  // PlaceHolder for now until Camera Interface can be hooked up.
-    servoPercentCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, false);
+    targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
+    servoCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, false);
     
     // When shooter is at speed, feed the balls for shot, otherwise wait and command servo position.
     shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal);
@@ -50,7 +53,7 @@ public class ManualShootHi extends CommandBase {
       intakeSubsystem.runAdvanceAtPwr(0.9);
       intakeSubsystem.runIntakeAtPwr(0.9);
     } else {
-      shooterSubsystem.aimShooter(servoPercentCmd);     
+      shooterSubsystem.aimShooter(servoCmd);     
       intakeSubsystem.stopAdvanceMtr();
       intakeSubsystem.stopIntakeMtr();
     }
@@ -70,7 +73,7 @@ public class ManualShootHi extends CommandBase {
       SmartDashboard.putNumber("Shooter Tgt Spd: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal));
       SmartDashboard.putBoolean("Shooter At Spd: ",    (shooterSubsystem.isShooterAtSpd()));
       SmartDashboard.putNumber("Shooter Tgt Dist: ",   (targetDistance));
-      SmartDashboard.putNumber("Shooter Servo Pct: ",  (servoPercentCmd));
+      SmartDashboard.putNumber("Shooter Servo Cmd: ",  (servoCmd));
 
     }
 
