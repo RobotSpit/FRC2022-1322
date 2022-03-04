@@ -13,6 +13,7 @@ import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 
@@ -111,11 +112,21 @@ public class SwerveModule {
     }
 
 
+
+    public void stopDriveMotor() {
+      this.driveMotor.set(TalonFXControlMode.Disabled, 0);
+    }
+    
     public double getDrvEncdrCurrentPostion() {
       double encdrCnts = this.driveMotor.getSelectedSensorPosition();
       return encdrCnts;
     }
 
+
+    public void stopAngleMotor() {
+        this.angleMotor.set(TalonFXControlMode.Disabled, 0);
+      }
+  
 
     
     
