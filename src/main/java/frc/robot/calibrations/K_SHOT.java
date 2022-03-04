@@ -21,7 +21,7 @@ public class K_SHOT {
 	  /** KeSHOT_b_DebugEnbl: Shooter System Enable
      *  Calibration to send data to dashbord to debug.
      */
-    public static final boolean KeSHOT_b_DebugEnbl = true;
+    public static final boolean KeSHOT_b_DebugEnbl = false;
 
 
 
@@ -43,22 +43,41 @@ public class K_SHOT {
   /*  Shooter System Launch Calibrations            */
  	/**************************************************/
 
-	  /** KeSHOT_n_ShooterSpd: Shooter System Control 
-     * Commmanded Shooter Speed. 
+	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
+     * Commmanded Shooter Speed during Tele-Op. 
      */
-    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 5000;
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 5500;
 
-	  /** KeSHOT_n_ShooterSpd: Shooter System Control 
-     * Commmanded Shooter Speed. 
+	  /** KeSHOT_n_TgtLaunchCmdLoGoalAuto: Shooter System Control 
+     * Commmanded Shooter Speed during Auto Command. 
      */
-    public static final double KeSHOT_n_TgtLaunchCmdHiGoal = 15000;
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 7000;
 
+
+	  /** KeSHOT_n_TgtLaunchCmdHiGoal: Shooter System Control 
+     * Commmanded Shooter Speed during Tele-Op. 
+     */
+    public static final double KeSHOT_n_TgtLaunchCmdHiGoal = 9000;
+
+ 	  /** KeSHOT_n_TgtLaunchCmdHiGoalAuto: Shooter System Control 
+     * Commmanded Shooter Speed during Auto Command. 
+     */
+    public static final double KeSHOT_n_TgtLaunchCmdHiGoalAuto = 9000;
+   
 
 	  /** KeSHOT_n_AtTgtDB: Deadband Speed around the
      * Commanded Target that it will be assumed that
      * the Shooter Motor is at the Commanded Target.. 
      */
     public static final double KeSHOT_n_AtTgtDB = 300;
+
+	  /** KeSHOT_n_AtTgtDB_Hystersis: Deadband Speed 
+     * Hystersis to determine when to exit the Deadband
+     * once entered to that Intake Motor jitter does not
+     * occur.
+     */
+    public static final double KeSHOT_n_AtTgtDB_Hystersis = 300;
+
 
 	  /** KtSHOT_Pct_LaunchServoCmdHi: Shooter System Servo Percent
      * Command to deflect the shooter deflector shield to

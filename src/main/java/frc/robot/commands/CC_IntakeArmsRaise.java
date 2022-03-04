@@ -10,15 +10,15 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeArmsRaise extends CommandBase {
+public class CC_IntakeArmsRaise extends CommandBase {
 
-  private Timer exitTmr = new Timer();
+  private Timer exitTmr;
   private IntakeSubsystem intakeSubsystem;  
 
-  /** Creates a new RaiseIntakeArm. */
-  public IntakeArmsRaise(IntakeSubsystem intakeSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  /** Creates a new CC_IntakeArmsRaise. */
+  public CC_IntakeArmsRaise(IntakeSubsystem intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
+    exitTmr = new Timer();
     addRequirements(intakeSubsystem);
   }
 

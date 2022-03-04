@@ -10,12 +10,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShooterServoPercent extends InstantCommand {
+public class CC_ShooterServoCmd extends InstantCommand {
   private ShooterSubsystem shooterSubsystem;
-  private double servoCommand;  // Percent Command Servo Motor (0 to 100 - in Percent)
+  private double servoCommand;  // Command Servo Motor (-1 to 1 - Scalar Command)
 
-  public ShooterServoPercent(ShooterSubsystem shooterSubsystem, double servoCommand) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public CC_ShooterServoCmd(ShooterSubsystem shooterSubsystem, double servoCommand) {
     this.shooterSubsystem = shooterSubsystem;
     this.servoCommand = servoCommand;
     addRequirements(shooterSubsystem);

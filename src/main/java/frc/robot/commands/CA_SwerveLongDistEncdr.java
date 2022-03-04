@@ -12,11 +12,11 @@ import frc.robot.Constants;
 import frc.robot.calibrations.old.K_SWRV;
 import frc.robot.subsystems.SwerveDrivetrain;
 
-public class SwerveLatDistEncdr extends CommandBase {
+public class CA_SwerveLongDistEncdr extends CommandBase {
   private SwerveDrivetrain swerveDrivetrain;
-  private Timer delayTmr = new Timer();
+  private Timer delayTmr;
   private double tgtDistInches;
-  private boolean isDirctnRt;
+  private boolean isDirctnFwd;
   private int caddyIndexA;
   private int caddyIndexB;
   private double zeroEncdrCntA;
@@ -30,11 +30,12 @@ public class SwerveLatDistEncdr extends CommandBase {
 
 
 
-  /** Creates a new DriveLongDistTicks. */
-  public SwerveLatDistEncdr(SwerveDrivetrain swerveDrivetrain,double tgtDistInches, boolean isDirctnRt) {
+  /** Creates a new CA_SwerveLongDistEncdr. */
+  public CA_SwerveLongDistEncdr(SwerveDrivetrain swerveDrivetrain,double tgtDistInches, boolean isDirctnFwd) {
     this.swerveDrivetrain = swerveDrivetrain;
     this.tgtDistInches = tgtDistInches;
-    this.isDirctnRt = isDirctnRt; 
+    this.isDirctnFwd = isDirctnFwd;
+    delayTmr = new Timer();
     addRequirements(swerveDrivetrain);
   }
 
@@ -56,12 +57,12 @@ public class SwerveLatDistEncdr extends CommandBase {
     distTravelledB = swerveDrivetrain.getDrvDistTravelled(caddyIndexB, zeroEncdrCntB);
 
     if (delayTmr.get() >= 0.100) {
-      double yAxis = 0.0;
-      double xAxis = 0.4;
+      double yAxis = 0.4;
+      double xAxis = 0.0;
       double rAxis = 0.0;
 
-      if (isDirctnRt) {
-        xAxis = -xAxis;
+      if (!isDirctnFwd) {
+        yAxis = -yAxis;
       }
 
       translation = new Translation2d(yAxis, xAxis).times(Constants.SwerveDrivetrain.MAX_SPEED);

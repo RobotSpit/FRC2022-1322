@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class SwerveTeleop extends CommandBase {
+public class CT_SwerveDrive extends CommandBase {
 
     private static final double DEADBAND = 0.25;
 
@@ -20,7 +20,7 @@ public class SwerveTeleop extends CommandBase {
     private SwerveDrivetrain s_Swerve;
     private XboxController controller;
 
-    public SwerveTeleop (SwerveDrivetrain s_Swerve, XboxController controller, boolean fieldRelative, boolean openLoop) {
+    public CT_SwerveDrive (SwerveDrivetrain s_Swerve, XboxController controller, boolean fieldRelative, boolean openLoop) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 

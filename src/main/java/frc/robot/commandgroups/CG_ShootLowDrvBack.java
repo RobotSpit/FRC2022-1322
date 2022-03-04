@@ -4,10 +4,11 @@
 
 package frc.robot.commandgroups;
 
-import frc.robot.commands.TimeDly;
-import frc.robot.commands.AutoShootLo;
-import frc.robot.commands.IntakeArmsRaise;
-import frc.robot.commands.SwerveLatDistEncdr;
+import frc.robot.commands.CC_TimeDly;
+import frc.robot.commands.CA_ShootLo;
+import frc.robot.commands.CC_IntakeArmsRaise;
+import frc.robot.commands.CA_SwerveLatDistEncdr;
+import frc.robot.commands.CA_SwerveLongDistEncdr;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -26,11 +27,13 @@ public class CG_ShootLowDrvBack extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      (new AutoShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem)),
-      (new TimeDly(0.5)),
-      (new SwerveLatDistEncdr(swerveDrivetrain, 90, false)),
-      (new TimeDly(0.5)),
-      (new IntakeArmsRaise(intakeSubsystem))
+      (new CA_ShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem)),
+      (new CC_TimeDly(0.5)),
+      (new CA_SwerveLatDistEncdr(swerveDrivetrain, 48, false)),
+      (new CC_TimeDly(1.0)),
+      (new CA_SwerveLongDistEncdr(swerveDrivetrain, 6, true)),
+      (new CC_TimeDly(0.25)),
+      (new CC_IntakeArmsRaise(intakeSubsystem))
     );
     System.out.println("CG_ShootLowAndBackUp Autonomous Invoked.");
   }

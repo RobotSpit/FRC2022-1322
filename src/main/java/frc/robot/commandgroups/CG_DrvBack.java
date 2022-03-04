@@ -4,9 +4,10 @@
 
 package frc.robot.commandgroups;
 
-import frc.robot.commands.TimeDly;
-import frc.robot.commands.IntakeArmsRaise;
-import frc.robot.commands.SwerveLongDistEncdr;
+import frc.robot.commands.CC_TimeDly;
+import frc.robot.commands.CC_IntakeArmsRaise;
+import frc.robot.commands.CA_SwerveLatDistEncdr;
+import frc.robot.commands.CA_SwerveLongDistEncdr;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveDrivetrain;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -21,9 +22,11 @@ public class CG_DrvBack extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      (new SwerveLongDistEncdr(swerveDrivetrain, 90, false)),
-      (new TimeDly(0.5)),
-      (new IntakeArmsRaise(intakeSubsystem))
+      (new CA_SwerveLatDistEncdr(swerveDrivetrain, 48, false)),
+      (new CC_TimeDly(1.0)),
+      (new CA_SwerveLongDistEncdr(swerveDrivetrain, 6, true)),
+      (new CC_TimeDly(0.5)),
+      (new CC_IntakeArmsRaise(intakeSubsystem))
     );
     System.out.println("CG_DrvBack3 Autonomous Invoked.");
   }

@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Camera;
 
-public class cameraTrackTarget extends CommandBase {
-  /** Creates a new cameraTrackTarget. */
+public class CC_CameraTrackTarget extends CommandBase {
+  /** Creates a new CC_CameraTrackTarget. */
   Camera m_camera;
 
-  public cameraTrackTarget(Camera camera) {
+  public CC_CameraTrackTarget(Camera camera) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(camera);
     this.m_camera = camera;

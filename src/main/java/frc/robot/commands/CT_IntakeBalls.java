@@ -16,22 +16,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class ManualIntake extends CommandBase {
+public class CT_IntakeBalls extends CommandBase {
 
 
   private IntakeSubsystem intakeSubsystem;
   private XboxController auxStick;
-  private Timer safetyTmr = new Timer();
+  private Timer safetyTmr;
   private int instrUpdCnt;
 
 
 
-  /** Creates a new ManualIntake. */
-  public ManualIntake(IntakeSubsystem intakeSubsystem, XboxController auxStick) {
+  /** Creates a new CT_IntakeBalls. */
+  public CT_IntakeBalls(IntakeSubsystem intakeSubsystem, XboxController auxStick) {
     this.intakeSubsystem = intakeSubsystem;
     this.auxStick = auxStick;
+    safetyTmr = new Timer();
     addRequirements(this.intakeSubsystem);
-
   }
 
   // Called when the command is initially scheduled.
@@ -162,6 +162,7 @@ public class ManualIntake extends CommandBase {
   public boolean isFinished() {
     boolean condMet1 = auxStick.getRightTriggerAxis() < K_INTK.KeINTK_r_IntakeMtrTriggerLvlDsbl;
     boolean condMet2 = (safetyTmr.get() >= K_INTK.KeINTK_t_IntakeFullOverrideTmeOut);
-    return condMet1 | condMet2;
+    boolean condMet3 = auxStick.getYButtonPressed();
+    return condMet1 | condMet2 | condMet3;
   }
 }

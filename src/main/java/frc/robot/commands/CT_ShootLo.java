@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -14,29 +13,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoShootHi extends CommandBase {
+public class CT_ShootLo extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private Camera cameraSubsystem;
-  private Timer timeSinceBallsLeftAdvPstn = new Timer();
+  private Timer raiseArmTmr;
   private double targetDistance;
   private double servoCmd;
   
-  /** Creates a new ManualShootLo - Low Goal. */
-  public AutoShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
+  /** Creates a new CT_ShootLo - Low Goal. */
+  public CT_ShootLo(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.cameraSubsystem = cameraSubsystem;
+    raiseArmTmr = new Timer();
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Robot, Shoot! High Goal.");
-    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal);
-    timeSinceBallsLeftAdvPstn.reset();
-    timeSinceBallsLeftAdvPstn.stop();
+    System.out.println("Robot, Shoot! Low Goal.");
+    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
+    raiseArmTmr.reset();
+    raiseArmTmr.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,10 +44,10 @@ public class AutoShootHi extends CommandBase {
   public void execute() {
     // Determine servo percent command as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    servoCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, true);
+    servoCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, false);
 
     // When shooter is at speed, feed the balls for shot, otherwise wait and command servo position.
-    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal);
+    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
 
     if (shooterSubsystem.isShooterAtSpd()) {
       System.out.println("Command Intakes!");
@@ -60,19 +60,19 @@ public class AutoShootHi extends CommandBase {
     }
     
     if ((intakeSubsystem.getBallAdvPstn1() == false) && (intakeSubsystem.getBallAdvPstn1() == false)) {
-      timeSinceBallsLeftAdvPstn.start();      
+      raiseArmTmr.start();      
     } else {
-      timeSinceBallsLeftAdvPstn.reset();
-      timeSinceBallsLeftAdvPstn.stop();        
+      raiseArmTmr.reset();
+      raiseArmTmr.stop();        
     }
-    if (timeSinceBallsLeftAdvPstn.get() >= K_SHOT.KeSHOT_t_IntakeArmRaiseDlyShoot) {
+    if (raiseArmTmr.get() >= K_SHOT.KeSHOT_t_IntakeArmRaiseDlyShoot) {
       intakeSubsystem.raiseIntakeArms();
     }
 
     if (K_SHOT.KeSHOT_b_DebugEnbl == true) {
-      SmartDashboard.putNumber("Shooter Speed: ",      (shooterSubsystem.getSpd()));
-      SmartDashboard.putNumber("Shooter Target: ",     (K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoal));
-      SmartDashboard.putBoolean("Shooter At Speed: ",  (shooterSubsystem.isShooterAtSpd()));
+      SmartDashboard.putNumber("Shooter Speed: ",     (shooterSubsystem.getSpd()));
+      SmartDashboard.putNumber("Shooter Target: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal));
+      SmartDashboard.putBoolean("Shooter At Speed: ", (shooterSubsystem.isShooterAtSpd()));
       SmartDashboard.putNumber("Shooter Tgt Dist: ",   (targetDistance));
       SmartDashboard.putNumber("Shooter Servo Cmd: ",  (servoCmd));
     }
@@ -85,12 +85,12 @@ public class AutoShootHi extends CommandBase {
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
-     timeSinceBallsLeftAdvPstn.stop(); 
+     raiseArmTmr.stop(); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timeSinceBallsLeftAdvPstn.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime);
+    return false;
   }
 }

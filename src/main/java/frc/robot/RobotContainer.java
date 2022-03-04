@@ -50,12 +50,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
   // Configure Autonomous Selections Available
-     m_chooser.setDefaultOption("Default Auto", new IntakeArmsRaise(intakeSubsystem));
+     m_chooser.setDefaultOption("Default Auto", new CC_IntakeArmsRaise(intakeSubsystem));
 //     m_chooser.addOption("Test Drive", new Auto_Drive_Deadrecken(swerveSubsystem, 0, 0.5, 0, 1));
-     m_chooser.addOption("Test Drive Encoder Reverse", new SwerveLongDistEncdr(swerveSubsystem, 36, false));  
-     m_chooser.addOption("Test Drive Encoder Right", new SwerveLatDistEncdr(swerveSubsystem, 36, true));
-     m_chooser.addOption("Do Nothing", new IntakeArmsRaise(intakeSubsystem));
-     m_chooser.addOption("Just Shoot", new AutoShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem));
+//     m_chooser.addOption("Test Drive Encoder Reverse", new SwerveLongDistEncdr(swerveSubsystem, 36, false));  
+//     m_chooser.addOption("Test Drive Encoder Right", new SwerveLatDistEncdr(swerveSubsystem, 36, true));
+     m_chooser.addOption("Do Nothing", new CC_IntakeArmsRaise(intakeSubsystem));
+     m_chooser.addOption("Just Shoot", new CA_ShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem));
      m_chooser.addOption("Drive Back", new CG_DrvBack(swerveSubsystem, intakeSubsystem));
      m_chooser.addOption("Shoot and Drive Back", new CG_ShootLowDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
      SmartDashboard.putData("Auto choices: ", m_chooser);
@@ -102,7 +102,7 @@ public class RobotContainer {
     /* BEGIN DRIVER STICK BUTTON ASSIGNMENTS */
     final JoystickButton driverButton_Start = new JoystickButton (driverStick, Constants.BUTTON_START);
 
-    driverButton_Start.whenPressed(new ManualLift(liftSubsystem, auxStick));
+    driverButton_Start.whenPressed(new CT_LiftRobot(liftSubsystem, auxStick));
 
 
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
@@ -115,13 +115,13 @@ public class RobotContainer {
     final JoystickButton auxButton_BumpLT = new JoystickButton(auxStick, Constants.BUMPER_LEFT);
     final JoystickButton auxButton_BumpRT = new JoystickButton(auxStick, Constants.BUMPER_RIGHT);
 
-    rightTriggerButton.whenPressed(new ManualIntake(intakeSubsystem, auxStick));
-    auxButton_A.whileHeld(new ManualShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem));
-    auxButton_B.whileHeld(new ManualShootHi(shooterSubsystem, intakeSubsystem, cameraSubsystem));
-    auxButton_X.whenPressed(new IntakeArmsLower(intakeSubsystem));
-    auxButton_Y.whenPressed(new IntakeArmsRaise(intakeSubsystem));
-    auxButton_BumpLT.whenPressed(new ShooterServoPercent(shooterSubsystem,-1));
-    auxButton_BumpRT.whenPressed(new ShooterServoPercent(shooterSubsystem,1));
+    rightTriggerButton.whenPressed(new CT_IntakeBalls(intakeSubsystem, auxStick));
+    auxButton_A.whileHeld(new CT_ShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem));
+    auxButton_B.whileHeld(new CT_ShootHi(shooterSubsystem, intakeSubsystem, cameraSubsystem));
+    auxButton_X.whenPressed(new CC_IntakeArmsLower(intakeSubsystem));
+    auxButton_Y.whenPressed(new CC_IntakeArmsRaise(intakeSubsystem));
+    auxButton_BumpLT.whenPressed(new CC_ShooterServoCmd(shooterSubsystem,-1));
+    auxButton_BumpRT.whenPressed(new CC_ShooterServoCmd(shooterSubsystem,1));
 
 
   }
@@ -131,8 +131,8 @@ public class RobotContainer {
     // CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
 
                                                    // Subsystem, Control Joystick, fieldCentric, openLoop
-    swerveSubsystem.setDefaultCommand(new SwerveTeleop(swerveSubsystem, driverStick, false, true));
-    cameraSubsystem.setDefaultCommand(new cameraTrackTarget(cameraSubsystem));
+    swerveSubsystem.setDefaultCommand(new CT_SwerveDrive(swerveSubsystem, driverStick, false, true));
+    cameraSubsystem.setDefaultCommand(new CC_CameraTrackTarget(cameraSubsystem));
   }
 
 

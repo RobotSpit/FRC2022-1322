@@ -13,19 +13,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ManualShootHi extends CommandBase {
+public class CT_ShootHi extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private Camera cameraSubsystem;
-  private Timer raiseArmTmr = new Timer();
+  private Timer raiseArmTmr;
   private double targetDistance;
   private double servoCmd;
   
-  /** Creates a new ManualShootHi - High Goal. */
-  public ManualShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
+  /** Creates a new CT_ShootHi - High Goal. */
+  public CT_ShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.cameraSubsystem = cameraSubsystem;
+    raiseArmTmr = new Timer();
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
 

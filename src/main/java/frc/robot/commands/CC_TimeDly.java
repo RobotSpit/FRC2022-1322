@@ -10,15 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TimeDly extends CommandBase {
+public class CC_TimeDly extends CommandBase {
   /**
-   * Command: TimeDly - Delays for a the amount
+   * Command: CC_TimeDly - Delays for a the amount
    * of time specified in the argument.
    */
   Timer  Xe_t_DlyTmr;
   double Xe_t_DlyPeriod;  
 
-  public TimeDly(double Le_t_DlyPeriod) {
+  public CC_TimeDly(double Le_t_DlyPeriod) {
     Xe_t_DlyPeriod = Le_t_DlyPeriod;
     Xe_t_DlyTmr = new Timer();
     addRequirements();

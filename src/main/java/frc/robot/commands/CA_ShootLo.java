@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -13,19 +14,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ManualShootLo extends CommandBase {
+public class CA_ShootLo extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private Camera cameraSubsystem;
-  private Timer raiseArmTmr = new Timer();
+  private Timer timeSinceBallsLeftAdvPstn;
   private double targetDistance;
   private double servoCmd;
   
-  /** Creates a new ManualShootLo - Low Goal. */
-  public ManualShootLo(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
+  /** Creates a new CA_ShootLo - Low Goal. */
+  public CA_ShootLo(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.cameraSubsystem = cameraSubsystem;
+    timeSinceBallsLeftAdvPstn = new Timer();
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
 
@@ -33,9 +35,9 @@ public class ManualShootLo extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("Robot, Shoot! Low Goal.");
-    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
-    raiseArmTmr.reset();
-    raiseArmTmr.stop();
+    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoalAuto);
+    timeSinceBallsLeftAdvPstn.reset();
+    timeSinceBallsLeftAdvPstn.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,7 +48,7 @@ public class ManualShootLo extends CommandBase {
     servoCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, false);
 
     // When shooter is at speed, feed the balls for shot, otherwise wait and command servo position.
-    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
+    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoalAuto);
 
     if (shooterSubsystem.isShooterAtSpd()) {
       System.out.println("Command Intakes!");
@@ -59,19 +61,19 @@ public class ManualShootLo extends CommandBase {
     }
     
     if ((intakeSubsystem.getBallAdvPstn1() == false) && (intakeSubsystem.getBallAdvPstn1() == false)) {
-      raiseArmTmr.start();      
+      timeSinceBallsLeftAdvPstn.start();      
     } else {
-      raiseArmTmr.reset();
-      raiseArmTmr.stop();        
+      timeSinceBallsLeftAdvPstn.reset();
+      timeSinceBallsLeftAdvPstn.stop();        
     }
-    if (raiseArmTmr.get() >= K_SHOT.KeSHOT_t_IntakeArmRaiseDlyShoot) {
+    if (timeSinceBallsLeftAdvPstn.get() >= K_SHOT.KeSHOT_t_IntakeArmRaiseDlyShoot) {
       intakeSubsystem.raiseIntakeArms();
     }
 
     if (K_SHOT.KeSHOT_b_DebugEnbl == true) {
-      SmartDashboard.putNumber("Shooter Speed: ",     (shooterSubsystem.getSpd()));
-      SmartDashboard.putNumber("Shooter Target: ",    (K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal));
-      SmartDashboard.putBoolean("Shooter At Speed: ", (shooterSubsystem.isShooterAtSpd()));
+      SmartDashboard.putNumber("Shooter Speed: ",      (shooterSubsystem.getSpd()));
+      SmartDashboard.putNumber("Shooter Target: ",     (K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoalAuto));
+      SmartDashboard.putBoolean("Shooter At Speed: ",  (shooterSubsystem.isShooterAtSpd()));
       SmartDashboard.putNumber("Shooter Tgt Dist: ",   (targetDistance));
       SmartDashboard.putNumber("Shooter Servo Cmd: ",  (servoCmd));
     }
@@ -84,12 +86,12 @@ public class ManualShootLo extends CommandBase {
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
-     raiseArmTmr.stop(); 
+     timeSinceBallsLeftAdvPstn.stop(); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (timeSinceBallsLeftAdvPstn.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime);
   }
 }

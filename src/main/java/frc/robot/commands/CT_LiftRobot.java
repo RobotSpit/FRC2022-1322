@@ -14,20 +14,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-public class ManualLift extends CommandBase {
+public class CT_LiftRobot extends CommandBase {
   private LiftSubsystem liftSubsystem;
   private XboxController auxStick;
 
   private double liftPwr;
   private int dPadPos;
 
-  /** Creates a new ManualLift. */
-  public ManualLift(LiftSubsystem liftSubsystem, XboxController auxStick) {
+  /** Creates a new CT_LiftRobot. */
+  public CT_LiftRobot(LiftSubsystem liftSubsystem, XboxController auxStick) {
     this.liftSubsystem = liftSubsystem;
     this.auxStick = auxStick;
-    addRequirements(liftSubsystem);
-
     liftPwr = 0;
+    addRequirements(liftSubsystem);
   }
 
   // Called when the command is initially scheduled.

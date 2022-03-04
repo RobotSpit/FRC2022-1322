@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrivetrain;
 
-public class Auto_Drive_Deadrecken extends CommandBase {
+public class CA_DriveDeadrecken extends CommandBase {
   private SwerveDrivetrain drive;
   Translation2d setSpeed;
   private double rSpeed;
@@ -24,8 +24,8 @@ public class Auto_Drive_Deadrecken extends CommandBase {
   private double time;
 
 
-  /** Creates a new Auto_Drive_Deadrecken. */
-  public Auto_Drive_Deadrecken(SwerveDrivetrain drive, double xSpeed, double ySpeed, double rSpeed, double time) {
+  /** Creates a new CA_DriveDeadrecken. */
+  public CA_DriveDeadrecken(SwerveDrivetrain drive, double xSpeed, double ySpeed, double rSpeed, double time) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.rSpeed = rSpeed * Constants.SwerveDrivetrain.MAX_ANGULAR_VELOCITY;
@@ -34,7 +34,7 @@ public class Auto_Drive_Deadrecken extends CommandBase {
     this.time = time;
   }
 
-  public Auto_Drive_Deadrecken(SwerveDrivetrain drive, Translation2d Translate, double rSpeed, Pose2d Pose) {
+  public CA_DriveDeadrecken(SwerveDrivetrain drive, Translation2d Translate, double rSpeed, Pose2d Pose) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.rSpeed = rSpeed * Constants.SwerveDrivetrain.MAX_ANGULAR_VELOCITY;

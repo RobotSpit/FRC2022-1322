@@ -14,27 +14,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoShootLo extends CommandBase {
+public class CA_ShootHi extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private Camera cameraSubsystem;
-  private Timer timeSinceBallsLeftAdvPstn = new Timer();
+  private Timer timeSinceBallsLeftAdvPstn;
   private double targetDistance;
   private double servoCmd;
   
-  /** Creates a new ManualShootLo - Low Goal. */
-  public AutoShootLo(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
+  /** Creates a new CA_ShootHi - Low Goal. */
+  public CA_ShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.cameraSubsystem = cameraSubsystem;
+    timeSinceBallsLeftAdvPstn = new Timer();
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Robot, Shoot! Low Goal.");
-    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
+    System.out.println("Robot, Shoot! High Goal.");
+    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalAuto);
     timeSinceBallsLeftAdvPstn.reset();
     timeSinceBallsLeftAdvPstn.stop();
   }
@@ -44,10 +45,10 @@ public class AutoShootLo extends CommandBase {
   public void execute() {
     // Determine servo percent command as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    servoCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, false);
+    servoCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, true);
 
     // When shooter is at speed, feed the balls for shot, otherwise wait and command servo position.
-    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
+    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalAuto);
 
     if (shooterSubsystem.isShooterAtSpd()) {
       System.out.println("Command Intakes!");
@@ -71,7 +72,7 @@ public class AutoShootLo extends CommandBase {
 
     if (K_SHOT.KeSHOT_b_DebugEnbl == true) {
       SmartDashboard.putNumber("Shooter Speed: ",      (shooterSubsystem.getSpd()));
-      SmartDashboard.putNumber("Shooter Target: ",     (K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal));
+      SmartDashboard.putNumber("Shooter Target: ",     (K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalAuto));
       SmartDashboard.putBoolean("Shooter At Speed: ",  (shooterSubsystem.isShooterAtSpd()));
       SmartDashboard.putNumber("Shooter Tgt Dist: ",   (targetDistance));
       SmartDashboard.putNumber("Shooter Servo Cmd: ",  (servoCmd));

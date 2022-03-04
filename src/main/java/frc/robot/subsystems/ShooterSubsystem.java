@@ -88,7 +88,7 @@ private boolean shooterAtSpeed;
       if (targetSpdError < K_SHOT.KeSHOT_n_AtTgtDB)
         shooterAtSpeed = true;
     } else {
-      if (targetSpdError > K_SHOT.KeSHOT_n_AtTgtDB + 200)
+      if (targetSpdError > K_SHOT.KeSHOT_n_AtTgtDB + K_SHOT.KeSHOT_n_AtTgtDB_Hystersis)
         shooterAtSpeed = false;
     }
   }
