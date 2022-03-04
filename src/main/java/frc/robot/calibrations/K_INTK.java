@@ -83,14 +83,6 @@ public class K_INTK {
      */
     public static final double KeINTK_t_IntakeFullOverrideTmeOut = 0.500;
 
-    /** KeINTK_t_IntakeArmRaiseDlyShoot: Ball Intake System Delay
-     * Time Prior to Commanding to Raise the Intake Arms after
-     * the Balls are no longer detected at the neither Advance
-     * Position 1 Nor Position 2 when in the Ball Shoot Command.
-     * Allows for some Debounce Filtering.
-     */
-    public static final double KeINTK_t_IntakeArmRaiseDlyShoot = 0.100;
-
     /** KeINTK_t_IntakeArmRaiseLowerDlyCmd: Ball Intake System Delay
      * Time To Keep Command Active before terminating when requesting
      * to Raise or Lower the Intake Arms.

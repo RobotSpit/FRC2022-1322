@@ -29,7 +29,13 @@ public class K_SHOT {
   /*  Shooter System General System Calibrations    */
  	/**************************************************/	 	
 
-
+    /** KeSHOT_t_IntakeArmRaiseDlyShoot: Shooter System - Delay
+     * Time Prior to Commanding to Raise the Intake Arms after
+     * the Balls are no longer detected at the neither Advance
+     * Position 1 Nor Position 2 when in the Ball Shoot Command.
+     * Allows for some Debounce Filtering.
+     */
+    public static final double KeSHOT_t_IntakeArmRaiseDlyShoot = 0.100;
 
 
 
@@ -89,7 +95,7 @@ public class K_SHOT {
      * have left the Ball Feed Advance Positions (assuming
      * the Controller Button is still not being held). 
      */
-    public static final double KeSHOT_t_PostLaunchRunTime = 3.0;
+    public static final double KeSHOT_t_PostLaunchRunTime = 2.0;
 
 
 

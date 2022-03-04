@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -64,7 +63,7 @@ public class ManualShootHi extends CommandBase {
       raiseArmTmr.reset();
       raiseArmTmr.stop();        
     }
-    if (raiseArmTmr.get() >= K_INTK.KeINTK_t_IntakeArmRaiseDlyShoot) {
+    if (raiseArmTmr.get() >= K_SHOT.KeSHOT_t_IntakeArmRaiseDlyShoot) {
       intakeSubsystem.raiseIntakeArms();
     }
 

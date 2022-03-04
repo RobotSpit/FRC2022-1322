@@ -12,7 +12,7 @@ import frc.robot.Constants;
 import frc.robot.calibrations.old.K_SWRV;
 import frc.robot.subsystems.SwerveDrivetrain;
 
-public class SwerveLongDistTicks extends CommandBase {
+public class SwerveLongDistEncdr extends CommandBase {
   private SwerveDrivetrain swerveDrivetrain;
   private Timer delayTmr = new Timer();
   private double tgtDistInches;
@@ -31,7 +31,7 @@ public class SwerveLongDistTicks extends CommandBase {
 
 
   /** Creates a new DriveLongDistTicks. */
-  public SwerveLongDistTicks(SwerveDrivetrain swerveDrivetrain,double tgtDistInches, boolean isDirctnFwd) {
+  public SwerveLongDistEncdr(SwerveDrivetrain swerveDrivetrain,double tgtDistInches, boolean isDirctnFwd) {
     this.swerveDrivetrain = swerveDrivetrain;
     this.tgtDistInches = tgtDistInches;
     this.isDirctnFwd = isDirctnFwd; 
@@ -56,7 +56,7 @@ public class SwerveLongDistTicks extends CommandBase {
     distTravelledB = swerveDrivetrain.getDrvDistTravelled(caddyIndexB, zeroEncdrCntB);
 
     if (delayTmr.get() >= 0.100) {
-      double yAxis = 0.3;
+      double yAxis = 0.4;
       double xAxis = 0.0;
       double rAxis = 0.0;
 
@@ -70,12 +70,12 @@ public class SwerveLongDistTicks extends CommandBase {
     }
 
     if (K_SWRV.KeSWRV_b_DebugEnbl == true) {
-      SmartDashboard.putNumber("Zero Encdr CntA: ",   (zeroEncdrCntA));
-      SmartDashboard.putNumber("Zero Encdr CntB: ",   (zeroEncdrCntB));
-      SmartDashboard.putNumber("Dist TravelledA: ",   (distTravelledA));
-      SmartDashboard.putNumber("Dist TravelledB: ",   (distTravelledB));
-      SmartDashboard.putNumber("Curr Encdr CntA: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA)));
-      SmartDashboard.putNumber("Curr Encdr CntB: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB)));
+      SmartDashboard.putNumber("Encdr Cnt Zero A: ",   (zeroEncdrCntA));
+      SmartDashboard.putNumber("Encdr Cnt Zero B: ",   (zeroEncdrCntB));
+      SmartDashboard.putNumber("Encdr Cnt Curr A: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA)));
+      SmartDashboard.putNumber("Encdr Cnt Curr B: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB)));
+      SmartDashboard.putNumber("Dist Travelled A: ",   (distTravelledA));
+      SmartDashboard.putNumber("Dist Travelled B: ",   (distTravelledB));
     }
 
   }
@@ -90,8 +90,8 @@ public class SwerveLongDistTicks extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean condMetA = distTravelledA >= tgtDistInches;
-    boolean condMetB = distTravelledB >= tgtDistInches;
+    boolean condMetA = Math.abs(distTravelledA) >= tgtDistInches;
+    boolean condMetB = Math.abs(distTravelledB) >= tgtDistInches;
     return (condMetA && condMetB);
   }
 }

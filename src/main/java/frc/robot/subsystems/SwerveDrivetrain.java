@@ -214,15 +214,15 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public double getDrvInchesPerEncdrCnts(double drvEncdrCnts) {
         double drvWhlDistInches;
-        drvWhlDistInches = ((drvEncdrCnts / Constants.SwerveDrivetrain.DRIVE_CNTS_PER_REV) / 
-        Constants.SwerveDrivetrain.DRIVE_GEAR_RATIO) * Constants.SwerveDrivetrain.WHEEL_CIRCUMFERENCE;
+        drvWhlDistInches = (drvEncdrCnts / Constants.SwerveDrivetrain.DRIVE_CNTS_PER_REV) 
+        * Constants.SwerveDrivetrain.WHEEL_CIRCUMFERENCE;
         return (drvWhlDistInches);
     }  
     
     public double getDrvEncdrCntsPerInches(double drvWhlDistInches) {
         double drvEncdrCnts;  
         drvEncdrCnts = (drvWhlDistInches / Constants.SwerveDrivetrain.WHEEL_CIRCUMFERENCE) * 
-        Constants.SwerveDrivetrain.DRIVE_GEAR_RATIO * Constants.SwerveDrivetrain.DRIVE_CNTS_PER_REV;
+        Constants.SwerveDrivetrain.DRIVE_CNTS_PER_REV;
         return (Math.round(drvEncdrCnts));
       }
         
