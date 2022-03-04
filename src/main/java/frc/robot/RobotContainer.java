@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.calibrations.K_INTK;
-import frc.robot.commandgroups.CG_DrvBack3;
-import frc.robot.commandgroups.CG_ShootLowDrvBack3;
+import frc.robot.commandgroups.CG_DrvBack;
+import frc.robot.commandgroups.CG_ShootLowDrvBack;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -51,13 +51,13 @@ public class RobotContainer {
   public RobotContainer() {
   // Configure Autonomous Selections Available
      m_chooser.setDefaultOption("Default Auto", new IntakeArmsRaise(intakeSubsystem));
-     m_chooser.addOption("Test Drive", new Auto_Drive_Deadrecken(swerveSubsystem, 0, 0.5, 0, 1));
+//     m_chooser.addOption("Test Drive", new Auto_Drive_Deadrecken(swerveSubsystem, 0, 0.5, 0, 1));
      m_chooser.addOption("Test Drive Encoder Reverse", new SwerveLongDistEncdr(swerveSubsystem, 36, false));  
      m_chooser.addOption("Test Drive Encoder Right", new SwerveLatDistEncdr(swerveSubsystem, 36, true));
      m_chooser.addOption("Do Nothing", new IntakeArmsRaise(intakeSubsystem));
      m_chooser.addOption("Just Shoot", new AutoShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem));
-     m_chooser.addOption("Drive Back 3 Ft", new CG_DrvBack3(swerveSubsystem, intakeSubsystem));
-     m_chooser.addOption("Shoot and Drive Back 3 Ft", new CG_ShootLowDrvBack3(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
+     m_chooser.addOption("Drive Back", new CG_DrvBack(swerveSubsystem, intakeSubsystem));
+     m_chooser.addOption("Shoot and Drive Back", new CG_ShootLowDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
      SmartDashboard.putData("Auto choices: ", m_chooser);
      
 

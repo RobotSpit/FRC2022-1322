@@ -60,7 +60,7 @@ public class SwerveLatDistEncdr extends CommandBase {
       double xAxis = 0.4;
       double rAxis = 0.0;
 
-      if (!isDirctnRt) {
+      if (isDirctnRt) {
         xAxis = -xAxis;
       }
 

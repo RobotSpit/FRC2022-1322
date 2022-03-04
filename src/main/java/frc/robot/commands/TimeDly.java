@@ -20,6 +20,7 @@ public class TimeDly extends CommandBase {
 
   public TimeDly(double Le_t_DlyPeriod) {
     Xe_t_DlyPeriod = Le_t_DlyPeriod;
+    Xe_t_DlyTmr = new Timer();
     addRequirements();
   }
 

@@ -46,7 +46,7 @@ public class K_SHOT {
 	  /** KeSHOT_n_ShooterSpd: Shooter System Control 
      * Commmanded Shooter Speed. 
      */
-    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 4500;
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 5000;
 
 	  /** KeSHOT_n_ShooterSpd: Shooter System Control 
      * Commmanded Shooter Speed. 
