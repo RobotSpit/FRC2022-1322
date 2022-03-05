@@ -5,12 +5,14 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -36,6 +38,7 @@ public class CA_ShootLo extends CommandBase {
   public void initialize() {
     System.out.println("Robot, Shoot! Low Goal.");
     shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoalAuto);
+    intakeSubsystem.getAdvanceMtr().setNeutralMode(NeutralMode.Coast);
     timeSinceBallsLeftAdvPstn.reset();
     timeSinceBallsLeftAdvPstn.stop();
   }
@@ -86,7 +89,7 @@ public class CA_ShootLo extends CommandBase {
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
-     timeSinceBallsLeftAdvPstn.stop(); 
+     timeSinceBallsLeftAdvPstn.stop();
   }
 
   // Returns true when the command should end.

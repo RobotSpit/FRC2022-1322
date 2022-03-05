@@ -21,7 +21,7 @@ public class K_LIFT {
 	  /** KeLIFT_b_DebugEnbl: Lift System Enable
      *  Calibration to send data to dashbord to debug.
      */
-    public static final boolean KeLIFT_b_DebugEnbl = false;
+    public static final boolean KeLIFT_b_DebugEnbl = true;
 
 
 
@@ -30,11 +30,20 @@ public class K_LIFT {
  	/***************************************************/
    
  	  /** KeLIFT_r_CntlrDeadBandThrsh: Lift System: Normalized
-   * Power Dead-Band Threshold that must be met before a X-Box Controller
-   * Joystick Input is recognized.  If the Absolute value of the Input
-   * is below the Threshold it will be ignored (i.e. set to Zero).
-   */
-  public static final double KeLIFT_r_CntlrDeadBandThrsh = 0.1;
+     * Power Dead-Band Threshold that must be met before a X-Box Controller
+     * Joystick Input is recognized.  If the Absolute value of the Input
+     * is below the Threshold it will be ignored (i.e. set to Zero).
+     */
+    public static final double KeLIFT_r_CntlrDeadBandThrsh = 0.2;
+
+ 	  /** KeLIFT_t_RaiseTrackRearSwDlyTme: Lift System: Delay time
+     * after tripping the rear track switch before the command
+     * to raise the front track section will be issued.  To
+     * allow the swinging of the robot to dampen before raising
+     * the track so the front of track does not extend above the
+     * next bar.
+     */
+    public static final double KeLIFT_t_RaiseTrackRearSwDlyTme = 1.0;
 
   
 

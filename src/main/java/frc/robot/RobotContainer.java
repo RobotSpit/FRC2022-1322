@@ -41,12 +41,6 @@ public class RobotContainer {
   private Command m_autoCommandSelected;
   
 
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
   // Configure Autonomous Selections Available

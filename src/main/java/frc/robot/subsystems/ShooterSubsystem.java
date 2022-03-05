@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.calibrations.K_SHOT;
-import frc.robot.subsystems.RFSLIB;
 
 
 import com.ctre.phoenix.motorcontrol.*;

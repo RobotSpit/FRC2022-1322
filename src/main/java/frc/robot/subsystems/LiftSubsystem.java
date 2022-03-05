@@ -16,9 +16,10 @@ public class LiftSubsystem extends SubsystemBase {
 
 public enum controlState {
   Init,
-  ExtendFwd,
+  ExtendFwdArmDwn,
+  ExtendFwdArmUp,
   RetractMid,
-  RetractRear  
+  RetractRear
 }
 
 private WPI_TalonFX LiftMotor = new WPI_TalonFX(Constants.LIFT_MTR, "rio");

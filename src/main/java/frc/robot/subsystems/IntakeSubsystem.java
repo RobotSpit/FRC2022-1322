@@ -126,7 +126,7 @@ public class IntakeSubsystem extends SubsystemBase {
     IntakeMotor.configFactoryDefault();
     IntakeMotor.setSensorPhase(true);
     IntakeMotor.setInverted(true);	
-    IntakeMotor.setNeutralMode(NeutralMode.Brake);
+    IntakeMotor.setNeutralMode(NeutralMode.Coast);
 
     IntakeMotor.config_kP(0, K_INTK.KeINTK_K_InProp);
     IntakeMotor.config_kI(0, K_INTK.KeINTK_K_InIntgl);

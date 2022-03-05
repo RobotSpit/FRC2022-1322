@@ -29,7 +29,7 @@ public class CG_ShootLowDrvBack extends SequentialCommandGroup {
     addCommands(
       (new CA_ShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem)),
       (new CC_TimeDly(0.5)),
-      (new CA_SwerveLatDistEncdr(swerveDrivetrain, 48, false)),
+      (new CA_SwerveLatDistEncdr(swerveDrivetrain, 30, false)),
       (new CC_TimeDly(1.0)),
       (new CA_SwerveLongDistEncdr(swerveDrivetrain, 6, true)),
       (new CC_TimeDly(0.25)),

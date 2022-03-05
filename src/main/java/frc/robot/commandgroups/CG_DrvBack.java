@@ -22,12 +22,12 @@ public class CG_DrvBack extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      (new CA_SwerveLatDistEncdr(swerveDrivetrain, 48, false)),
+      (new CA_SwerveLatDistEncdr(swerveDrivetrain, 30, false)),
       (new CC_TimeDly(1.0)),
       (new CA_SwerveLongDistEncdr(swerveDrivetrain, 6, true)),
       (new CC_TimeDly(0.5)),
       (new CC_IntakeArmsRaise(intakeSubsystem))
     );
-    System.out.println("CG_DrvBack3 Autonomous Invoked.");
+    System.out.println("CG_DrvBack Autonomous Invoked.");
   }
 }

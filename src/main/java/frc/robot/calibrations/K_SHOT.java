@@ -51,8 +51,9 @@ public class K_SHOT {
 	  /** KeSHOT_n_TgtLaunchCmdLoGoalAuto: Shooter System Control 
      * Commmanded Shooter Speed during Auto Command. 
      */
-    public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 7000;
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 5500;
 
+    
 
 	  /** KeSHOT_n_TgtLaunchCmdHiGoal: Shooter System Control 
      * Commmanded Shooter Speed during Tele-Op. 

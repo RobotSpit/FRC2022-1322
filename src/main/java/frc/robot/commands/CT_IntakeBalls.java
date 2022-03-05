@@ -8,7 +8,7 @@ import frc.robot.calibrations.K_INTK;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.controlState;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,6 +39,7 @@ public class CT_IntakeBalls extends CommandBase {
   public void initialize() {
     System.out.println("Robot, Grab Balls!");
     intakeSubsystem.runIntakeAtPwr(K_INTK.KeINTK_r_TgtIntakePwrFeed);
+    intakeSubsystem.getAdvanceMtr().setNeutralMode(NeutralMode.Brake);
     safetyTmr.reset();
     safetyTmr.stop();
     intakeSubsystem.setBallIntakeCtrlSt(controlState.Init);

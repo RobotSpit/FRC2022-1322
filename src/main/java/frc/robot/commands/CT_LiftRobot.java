@@ -8,7 +8,7 @@ import frc.robot.subsystems.RFSLIB;
 import frc.robot.subsystems.LiftSubsystem.controlState;
 import frc.robot.calibrations.K_LIFT;
 import frc.robot.subsystems.LiftSubsystem;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class CT_LiftRobot extends CommandBase {
   private LiftSubsystem liftSubsystem;
   private XboxController auxStick;
+  private Timer delayTmr;
 
   private double liftPwr;
   private int dPadPos;
@@ -26,6 +27,7 @@ public class CT_LiftRobot extends CommandBase {
     this.liftSubsystem = liftSubsystem;
     this.auxStick = auxStick;
     liftPwr = 0;
+    delayTmr = new Timer();
     addRequirements(liftSubsystem);
   }
 
@@ -34,6 +36,8 @@ public class CT_LiftRobot extends CommandBase {
   public void initialize() {
     System.out.println("Robot Lift is Armed!");
     liftSubsystem.setLiftControlState(controlState.Init);
+    delayTmr.stop();
+    delayTmr.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,19 +52,17 @@ public class CT_LiftRobot extends CommandBase {
     switch (liftSubsystem.getLiftControlState()) {
       case Init: {
         if ((dPadPos > 350 || dPadPos < 10) && dPadPos != -1){ // D-Pad Up
-          liftSubsystem.setLiftControlState(controlState.ExtendFwd);
+          liftSubsystem.setLiftControlState(controlState.ExtendFwdArmUp);
           liftSubsystem.getLiftTrackSlnd().set(true);
           liftSubsystem.getCameraSlnd().set(true);
         }
-
         break;
       }
 
-      case ExtendFwd: {
+      case ExtendFwdArmUp: {
         if (liftSubsystem.detectTrackLimitFront() == true){ 
           liftSubsystem.setLiftControlState(controlState.RetractMid);
         }
-
         break;
       }
 
@@ -69,16 +71,24 @@ public class CT_LiftRobot extends CommandBase {
           liftSubsystem.setLiftControlState(controlState.RetractRear);
           liftSubsystem.getLiftTrackSlnd().set(false);
         }
-
         break;
        }
 
       case RetractRear: {
         if (liftSubsystem.detectTrackLimitRear() == true){ 
-          liftSubsystem.setLiftControlState(controlState.ExtendFwd);
-          liftSubsystem.getLiftTrackSlnd().set(true);
+          liftSubsystem.setLiftControlState(controlState.ExtendFwdArmDwn);
+          delayTmr.start();
         }
+        break;
+      }
 
+      case ExtendFwdArmDwn: {
+        if (delayTmr.get() >= K_LIFT.KeLIFT_t_RaiseTrackRearSwDlyTme){ 
+          liftSubsystem.setLiftControlState(controlState.ExtendFwdArmUp);
+          liftSubsystem.getLiftTrackSlnd().set(true);
+          delayTmr.stop();
+          delayTmr.reset();
+        }
         break;
       }
 

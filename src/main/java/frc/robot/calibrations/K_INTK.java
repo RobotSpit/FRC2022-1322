@@ -21,7 +21,7 @@ public class K_INTK {
 	  /** KeINTK_b_DebugEnbl: Ball Intake System Enable
      *  Calibration to send data to dashbord to debug.
      */
-    public static final boolean KeINTK_b_DebugEnbl = false;
+    public static final boolean KeINTK_b_DebugEnbl = true;
 
 
 

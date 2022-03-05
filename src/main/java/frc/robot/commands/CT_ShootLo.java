@@ -10,6 +10,9 @@ import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -35,6 +38,7 @@ public class CT_ShootLo extends CommandBase {
   public void initialize() {
     System.out.println("Robot, Shoot! Low Goal.");
     shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal);
+    intakeSubsystem.getAdvanceMtr().setNeutralMode(NeutralMode.Coast);
     raiseArmTmr.reset();
     raiseArmTmr.stop();
   }
