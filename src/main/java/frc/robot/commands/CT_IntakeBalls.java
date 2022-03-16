@@ -86,7 +86,7 @@ public class CT_IntakeBalls extends CommandBase {
       }
   
       case GrabBall1: {
-        if (intakeSubsystem.getBallAdvPstn1Filt() == true) {
+        if (intakeSubsystem.getBallAdvPstn1() == true) {
           intakeSubsystem.setBallIntakeCtrlSt(controlState.HoldBall1);
           intakeSubsystem.runAdvanceAtPwr(K_INTK.KeINTK_r_TgtAdvancePwrFeed);
           intakeSubsystem.raiseIntakeArms();
@@ -102,6 +102,13 @@ public class CT_IntakeBalls extends CommandBase {
           intakeSubsystem.stopAdvanceMtr();
         }
   
+        if (intakeSubsystem.getBallArmArrayFilt() == true) {
+          intakeSubsystem.setBallIntakeCtrlSt(controlState.GrabBall2);
+          intakeSubsystem.stopAdvanceMtr();
+          intakeSubsystem.lowerIntakeArms();
+          intakeSubsystem.setBallCaptureInProgress(true);
+        }
+
         break;
       }
   

@@ -66,14 +66,17 @@ public final class Constants {
 
 
 
+   /* PNEUMATIC HUB CAN ADDRESS ASSIGNMENTS */
+    public static final int PNEU_HUB_CAN         =  1;
+
     /* PNEUMATIC ACTUATOR ADDRESS ASSIGNMENTS */
+    public static final int PNEU_PRESSURE_SENSOR  =  0;
     public static final int PNEU_BALL_INTAKE_LT   = 11;
     public static final int PNEU_BALL_INTAKE_RT   =  9;
     public static final int PNEU_BALL_INTAKE_FT   = 10;
     public static final int PNEU_BALL_INTAKE_RR   = 12;
     public static final int PNEU_LIFT_TRACK       = 13;
     public static final int PNEU_SHOOTER_CAMERA   =  8;
-   
 
 
     /* ANALOG INPUT ADDRESS ASSIGNMENTS */

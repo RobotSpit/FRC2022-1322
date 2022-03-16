@@ -117,7 +117,7 @@ public class SwerveModule {
       this.driveMotor.set(TalonFXControlMode.Disabled, 0);
     }
     
-    public double getDrvEncdrCurrentPostion() {
+    public double getDrvEncdrCurrentPstn() {
       double encdrCnts = this.driveMotor.getSelectedSensorPosition();
       return encdrCnts;
     }

@@ -132,6 +132,20 @@ private boolean shooterAtSpeed;
     return (double)percentServoCmd;
   }
 
+  public double dtrmnShooterSpd(double distToTgt, boolean highTgt) {
+    float tgtShooterSpd;
+    float axisLookUp;
+      if (highTgt) {
+        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisHi, (int)10);   
+        tgtShooterSpd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_n_ShooterSpdCmdTgtHi, axisLookUp, (int)10);
+      } else {
+        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisLo, (int)10);   
+        tgtShooterSpd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_n_ShooterSpdCmdTgtLo, axisLookUp, (int)10);
+      }          
+    return (double)tgtShooterSpd;
+  }
+
+
 
 
   /**

@@ -228,12 +228,12 @@ public class SwerveDrivetrain extends SubsystemBase {
         
     public double getDrvDistTravelled(int mtrIdx, double zeroPstnRefCnts) { 
         double drvEncdrCntDelt;  
-        drvEncdrCntDelt = Math.round(getSwerveModule(mtrIdx).getDrvEncdrCurrentPostion() - zeroPstnRefCnts);
+        drvEncdrCntDelt = Math.round(getSwerveModule(mtrIdx).getDrvEncdrCurrentPstn() - zeroPstnRefCnts);
         return (getDrvInchesPerEncdrCnts(drvEncdrCntDelt));
       }
     
     public double getDrvCaddyEncdrPstn(int mtrIdx) {  
-        double drvEncdrCnt = Math.round(getSwerveModule(mtrIdx).getDrvEncdrCurrentPostion());
+        double drvEncdrCnt = Math.round(getSwerveModule(mtrIdx).getDrvEncdrCurrentPstn());
         return drvEncdrCnt;
       }
 

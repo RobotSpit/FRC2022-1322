@@ -22,7 +22,7 @@ public class CA_ShootHi extends CommandBase {
   private Camera cameraSubsystem;
   private Timer timeSinceBallsLeftAdvPstn;
   private double targetDistance;
-  private double servoCmd;
+  private double dsrdShooterSpeed;
   
   /** Creates a new CA_ShootHi - Low Goal. */
   public CA_ShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
@@ -37,33 +37,34 @@ public class CA_ShootHi extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("Robot, Shoot! High Goal.");
-    shooterSubsystem.runShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalAuto);
     intakeSubsystem.getAdvanceMtr().setNeutralMode(NeutralMode.Coast);
     timeSinceBallsLeftAdvPstn.reset();
     timeSinceBallsLeftAdvPstn.stop();
+
+    // Determine Desired Target Speed as a function of target distance
+    targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
+    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, true);
+
+    // Command Shooter to Desired Shooter Target Speed
+    shooterSubsystem.runShooterAtSpd(dsrdShooterSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Determine servo percent command as a function of target distance
-    targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    servoCmd = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, true);
-
-    // When shooter is at speed, feed the balls for shot, otherwise wait and command servo position.
-    shooterSubsystem.dtrmnShooterAtSpd(K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalAuto);
+    // When shooter is at speed, feed the balls for shot, otherwise wait.
+    shooterSubsystem.dtrmnShooterAtSpd(dsrdShooterSpeed);
 
     if (shooterSubsystem.isShooterAtSpd()) {
       System.out.println("Command Intakes!");
       intakeSubsystem.runAdvanceAtPwr(0.9);
       intakeSubsystem.runIntakeAtPwr(0.9);
     } else {
-      shooterSubsystem.aimShooter(servoCmd);
       intakeSubsystem.stopAdvanceMtr();
       intakeSubsystem.stopIntakeMtr();
     }
     
-    if ((intakeSubsystem.getBallAdvPstn1() == false) && (intakeSubsystem.getBallAdvPstn1() == false)) {
+    if ((intakeSubsystem.getBallAdvPstn1() == false) && (intakeSubsystem.getBallAdvPstn2() == false)) {
       timeSinceBallsLeftAdvPstn.start();      
     } else {
       timeSinceBallsLeftAdvPstn.reset();
@@ -74,11 +75,10 @@ public class CA_ShootHi extends CommandBase {
     }
 
     if (K_SHOT.KeSHOT_b_DebugEnbl == true) {
-      SmartDashboard.putNumber("Shooter Speed: ",      (shooterSubsystem.getSpd()));
-      SmartDashboard.putNumber("Shooter Target: ",     (K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalAuto));
-      SmartDashboard.putBoolean("Shooter At Speed: ",  (shooterSubsystem.isShooterAtSpd()));
+      SmartDashboard.putNumber("Shooter Act Spd: ",    (shooterSubsystem.getSpd()));
+      SmartDashboard.putNumber("Shooter Tgt Spd: ",    (dsrdShooterSpeed));
+      SmartDashboard.putBoolean("Shooter At Spd: ",    (shooterSubsystem.isShooterAtSpd()));
       SmartDashboard.putNumber("Shooter Tgt Dist: ",   (targetDistance));
-      SmartDashboard.putNumber("Shooter Servo Cmd: ",  (servoCmd));
     }
   }
 
@@ -89,7 +89,7 @@ public class CA_ShootHi extends CommandBase {
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
-     timeSinceBallsLeftAdvPstn.stop(); 
+     timeSinceBallsLeftAdvPstn.stop();
   }
 
   // Returns true when the command should end.

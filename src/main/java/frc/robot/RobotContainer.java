@@ -30,6 +30,7 @@ public class RobotContainer {
   public  final RFSLIB prfsLIB = new RFSLIB();
   private final SendableChooser<Command> m_chooser = new SendableChooser<Command>();
   // private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
+  private final CompressorSubsystem compressorSubsystem = new CompressorSubsystem();
   private final SwerveDrivetrain swerveSubsystem = new SwerveDrivetrain();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();

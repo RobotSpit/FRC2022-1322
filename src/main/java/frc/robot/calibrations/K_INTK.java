@@ -46,33 +46,33 @@ public class K_INTK {
     /** KeINTK_t_IntakeArmDtctTme: Ball Intake System Ball 
      * present minimun detection time for Intake Arms.
      */
-    public static final double KeINTK_t_IntakeArmDtctTme = 0.060;
+    public static final double KeINTK_t_IntakeArmDtctTme = 0.040;
 
 
     /** KeINTK_t_IntakeAdv1DtctTme: Ball Intake System Ball 
      * present minimun detection time for Intake Advance
      * Position 1.
      */
-    public static final double KeINTK_t_IntakeAdv1DtctTme = 0.060;
+    public static final double KeINTK_t_IntakeAdv1DtctTme = 0.020;
 
     /** KeINTK_t_IntakeAdv1CaptTme: Ball Intake System Ball 
      * present minimun capture time for Intake Advance
      * Position 1.
      */
-    public static final double KeINTK_t_IntakeAdv1CaptTme = 0.100;
+    public static final double KeINTK_t_IntakeAdv1CaptTme = 0.050;
 
 
     /** KeINTK_t_IntakeAdv2DtctTme: Ball Intake System Ball 
      * present minimun detection time for Intake Advance
      * Position 2.
      */
-    public static final double KeINTK_t_IntakeAdv2DtctTme = 0.060;
+    public static final double KeINTK_t_IntakeAdv2DtctTme = 0.020;
 
     /** KeINTK_t_IntakeAdv2CaptTme: Ball Intake System Ball 
      * present minimun capture time for Intake Advance
      * Position 2.
      */
-    public static final double KeINTK_t_IntakeAdv2CaptTme = 0.100;
+    public static final double KeINTK_t_IntakeAdv2CaptTme = 0.050;
 
 
     /** KeINTK_t_IntakeFullOverrideTmeOut: Ball Intake

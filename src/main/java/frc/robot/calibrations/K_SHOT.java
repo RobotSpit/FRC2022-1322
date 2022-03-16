@@ -86,13 +86,20 @@ public class K_SHOT {
      * for the high goal. 
      */
     public static final float[] KtSHOT_Pct_LaunchServoCmdHi =  
-    {   1,   1,   1,   1,   1,   1,   1,   1,   1,   1};
+    {     1,     1,     1,    1,     1,      1,     1,     1,     1,     1};
+
+	  /** KtSHOT_n_ShooterSpdCmdTgtHi: Shooter System Target
+     * Motor Speed to as a function of distance to the goal
+     * for the high goal. 
+     */
+    public static final float[] KtSHOT_n_ShooterSpdCmdTgtHi =  
+    {  9000,  9000,  9000,  9000,  9000,  9000,  9000,  9000,  9000,  9000};
 
 	  /** KnSHOT_l_LaunchServoAxisHi: Shooter System Servo Percent
      * Command Target Distance Axis for High Goal. 
      */
     public static final float KnSHOT_l_LaunchServoAxisHi[] =
-    {   5,   8,  10,  15,  20,  25,  30,  35,  40,  50};
+    {     5,     8,    10,    15,    20,    25,    30,    35,    40,    50};
 
 
 	  /** KtSHOT_Pct_LaunchServoCmdLo: Shooter System Servo Percent
@@ -101,13 +108,20 @@ public class K_SHOT {
      * for the high goal. 
      */
     public static final float KtSHOT_Pct_LaunchServoCmdLo[] =
-    {   1,   1,   1,   1,   1,   1,   1,   1,   1,   1};
+    {     1,     1,     1,     1,     1,     1,     1,     1,     1,     1};
+
+	  /** KtSHOT_n_ShooterSpdCmdTgtLo: Shooter System Target
+     * Motor Speed to as a function of distance to the goal
+     * for the low goal. 
+     */
+    public static final float[] KtSHOT_n_ShooterSpdCmdTgtLo =  
+    {  5500,  5500,  5500,  5500,  5500,  5500,  5500,  5500,  5500,  5500};
 
 	  /** KnSHOT_l_LaunchServoAxisLo: Shooter System Servo Percent
      * Command Target Distance Axis for High Goal. 
      */
     public static final float KnSHOT_l_LaunchServoAxisLo[] =
-    {   2,   5,   8,  10,  12,  15,  18,  20,  22,  25};
+    {     2,     5,     8,    10,    12,    15,    18,    20,    22,    25};
 
 
     /** KeSHOT_t_PostLaunchRunTime: The amount of time
