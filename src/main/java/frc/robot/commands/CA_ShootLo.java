@@ -43,7 +43,7 @@ public class CA_ShootLo extends CommandBase {
 
     // Determine Desired Target Speed as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterServoCmd(targetDistance, false);
+    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance, false);
 
     // Command Shooter to Desired Shooter Target Speed
     shooterSubsystem.runShooterAtSpd(dsrdShooterSpeed);

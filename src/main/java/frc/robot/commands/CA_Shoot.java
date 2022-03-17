@@ -16,19 +16,21 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CA_ShootHi extends CommandBase {
+public class CA_Shoot extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private Camera cameraSubsystem;
+  private boolean isHighGoal; // if true, Shooter is targeting high goal, if false, low goal.
   private Timer timeSinceBallsLeftAdvPstn;
   private double targetDistance;
   private double dsrdShooterSpeed;
   
-  /** Creates a new CA_ShootHi - Low Goal. */
-  public CA_ShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
+  /** Creates a new CA_Shoot - Either High or Low Goal, selection passed as an argument. */
+  public CA_Shoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem, boolean isHighGoal) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.cameraSubsystem = cameraSubsystem;
+    this.isHighGoal = isHighGoal;
     timeSinceBallsLeftAdvPstn = new Timer();
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
@@ -36,14 +38,14 @@ public class CA_ShootHi extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Robot, Shoot! High Goal.");
+    System.out.println("Robot, Shoot! Autonomous.");
     intakeSubsystem.getAdvanceMtr().setNeutralMode(NeutralMode.Coast);
     timeSinceBallsLeftAdvPstn.reset();
     timeSinceBallsLeftAdvPstn.stop();
 
     // Determine Desired Target Speed as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance, true);
+    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance, this.isHighGoal);
 
     // Command Shooter to Desired Shooter Target Speed
     shooterSubsystem.runShooterAtSpd(dsrdShooterSpeed);

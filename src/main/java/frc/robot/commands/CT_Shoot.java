@@ -16,34 +16,36 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CA_ShootHi extends CommandBase {
+public class CT_Shoot extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private Camera cameraSubsystem;
-  private Timer timeSinceBallsLeftAdvPstn;
+  private boolean isHighGoal; // if true, Shooter is targeting high goal, if false, low goal.
+  private Timer raiseArmTmr;
   private double targetDistance;
   private double dsrdShooterSpeed;
   
-  /** Creates a new CA_ShootHi - Low Goal. */
-  public CA_ShootHi(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem) {
+  /** Creates a new CT_Shoot - Either High or Low Goal, selection passed as an argument. */
+  public CT_Shoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem, boolean isHighGoal) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.cameraSubsystem = cameraSubsystem;
-    timeSinceBallsLeftAdvPstn = new Timer();
+    this.isHighGoal = isHighGoal;
+    raiseArmTmr = new Timer();
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Robot, Shoot! High Goal.");
+    System.out.println("Robot, Shoot! Tele-Op.");
     intakeSubsystem.getAdvanceMtr().setNeutralMode(NeutralMode.Coast);
-    timeSinceBallsLeftAdvPstn.reset();
-    timeSinceBallsLeftAdvPstn.stop();
+    raiseArmTmr.reset();
+    raiseArmTmr.stop();
 
     // Determine Desired Target Speed as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance, true);
+    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance, this.isHighGoal);
 
     // Command Shooter to Desired Shooter Target Speed
     shooterSubsystem.runShooterAtSpd(dsrdShooterSpeed);
@@ -56,7 +58,6 @@ public class CA_ShootHi extends CommandBase {
     shooterSubsystem.dtrmnShooterAtSpd(dsrdShooterSpeed);
 
     if (shooterSubsystem.isShooterAtSpd()) {
-      System.out.println("Command Intakes!");
       intakeSubsystem.runAdvanceAtPwr(0.9);
       intakeSubsystem.runIntakeAtPwr(0.9);
     } else {
@@ -65,12 +66,12 @@ public class CA_ShootHi extends CommandBase {
     }
     
     if ((intakeSubsystem.getBallAdvPstn1() == false) && (intakeSubsystem.getBallAdvPstn2() == false)) {
-      timeSinceBallsLeftAdvPstn.start();      
+      raiseArmTmr.start();      
     } else {
-      timeSinceBallsLeftAdvPstn.reset();
-      timeSinceBallsLeftAdvPstn.stop();        
+      raiseArmTmr.reset();
+      raiseArmTmr.stop();
     }
-    if (timeSinceBallsLeftAdvPstn.get() >= K_SHOT.KeSHOT_t_IntakeArmRaiseDlyShoot) {
+    if (raiseArmTmr.get() >= K_SHOT.KeSHOT_t_IntakeArmRaiseDlyShoot) {
       intakeSubsystem.raiseIntakeArms();
     }
 
@@ -80,6 +81,7 @@ public class CA_ShootHi extends CommandBase {
       SmartDashboard.putBoolean("Shooter At Spd: ",    (shooterSubsystem.isShooterAtSpd()));
       SmartDashboard.putNumber("Shooter Tgt Dist: ",   (targetDistance));
     }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -89,12 +91,12 @@ public class CA_ShootHi extends CommandBase {
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
-     timeSinceBallsLeftAdvPstn.stop();
+     raiseArmTmr.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timeSinceBallsLeftAdvPstn.get() >= K_SHOT.KeSHOT_t_PostLaunchRunTime);
+    return false;
   }
 }

@@ -5,7 +5,7 @@
 package frc.robot.commandgroups;
 
 import frc.robot.commands.CC_TimeDly;
-import frc.robot.commands.CA_ShootLo;
+import frc.robot.commands.CA_Shoot;
 import frc.robot.commands.CC_IntakeArmsRaise;
 import frc.robot.commands.CA_SwerveLatDistEncdr;
 import frc.robot.commands.CA_SwerveLongDistEncdr;
@@ -27,7 +27,7 @@ public class CG_ShootLowDrvBack extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      (new CA_ShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem)),
+      (new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, false)),
       (new CC_TimeDly(0.5)),
       (new CA_SwerveLatDistEncdr(swerveDrivetrain, 30, false)),
       (new CC_TimeDly(1.0)),
