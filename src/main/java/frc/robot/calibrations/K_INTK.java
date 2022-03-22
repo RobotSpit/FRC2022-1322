@@ -113,7 +113,7 @@ public class K_INTK {
      * Commmanded Intake Motor Normalized Power Command (0 to 1)
      * during Ball Shoot.
      */
-    public static final double KeINTK_r_TgtIntakePwrShoot = 0.8;
+    public static final double KeINTK_r_TgtIntakePwrShoot = 0.3;
 
 
 	  /** KeINTK_r_TgtAdvancePwrShoot: Ball Intake System Control 

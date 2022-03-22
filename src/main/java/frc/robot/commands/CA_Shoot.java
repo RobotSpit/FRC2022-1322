@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -45,7 +46,12 @@ public class CA_Shoot extends CommandBase {
 
     // Determine Desired Target Speed as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance, this.isHighGoal);
+    if (isHighGoal) {
+      dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance);
+    } else {
+      dsrdShooterSpeed = K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoalAuto;
+    }
+
 
     // Command Shooter to Desired Shooter Target Speed
     shooterSubsystem.runShooterAtSpd(dsrdShooterSpeed);
@@ -59,8 +65,8 @@ public class CA_Shoot extends CommandBase {
 
     if (shooterSubsystem.isShooterAtSpd()) {
       System.out.println("Command Intakes!");
-      intakeSubsystem.runAdvanceAtPwr(0.9);
-      intakeSubsystem.runIntakeAtPwr(0.9);
+      intakeSubsystem.runAdvanceAtPwr(K_INTK.KeINTK_r_TgtAdvancePwrShoot);
+      intakeSubsystem.runIntakeAtPwr(K_INTK.KeINTK_r_TgtIntakePwrShoot);
     } else {
       intakeSubsystem.stopAdvanceMtr();
       intakeSubsystem.stopIntakeMtr();

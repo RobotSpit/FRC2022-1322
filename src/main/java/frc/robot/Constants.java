@@ -34,13 +34,13 @@ public final class Constants {
     // NOTE: These are tentative and are subject to change
     // Drive Motors (FALCON 500)
     public static final int DRV_MTR_FT_LT         =  2;  //  Front Left
-    public static final int DRV_MTR_RR_LT         =  8;  //  Rear  Left
     public static final int DRV_MTR_FT_RT         =  7;  //  Front Right
+    public static final int DRV_MTR_RR_LT         =  8;  //  Rear  Left
     public static final int DRV_MTR_RR_RT         =  6;  //  Rear Right
     // Swerve Steer Motors (FALCON 500)
     public static final int SWRV_MTR_FT_LT        =  3;  //  Front Left
-    public static final int SWRV_MTR_RR_LT        =  1;  //  Rear  Left
     public static final int SWRV_MTR_FT_RT        =  4;  //  Front Right
+    public static final int SWRV_MTR_RR_LT        =  1;  //  Rear  Left
     public static final int SWRV_MTR_RR_RT        =  5;  //  Rear Right
 
 

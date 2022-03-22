@@ -21,7 +21,7 @@ public class K_SHOT {
 	  /** KeSHOT_b_DebugEnbl: Shooter System Enable
      *  Calibration to send data to dashbord to debug.
      */
-    public static final boolean KeSHOT_b_DebugEnbl = false;
+    public static final boolean KeSHOT_b_DebugEnbl = true;
 
 
 
@@ -43,28 +43,6 @@ public class K_SHOT {
   /*  Shooter System Launch Calibrations            */
  	/**************************************************/
 
-	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
-     * Commmanded Shooter Speed during Tele-Op. 
-     */
-    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 5500;
-
-	  /** KeSHOT_n_TgtLaunchCmdLoGoalAuto: Shooter System Control 
-     * Commmanded Shooter Speed during Auto Command. 
-     */
-    public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 5500;
-
-    
-
-	  /** KeSHOT_n_TgtLaunchCmdHiGoal: Shooter System Control 
-     * Commmanded Shooter Speed during Tele-Op. 
-     */
-    public static final double KeSHOT_n_TgtLaunchCmdHiGoal = 9000;
-
- 	  /** KeSHOT_n_TgtLaunchCmdHiGoalAuto: Shooter System Control 
-     * Commmanded Shooter Speed during Auto Command. 
-     */
-    public static final double KeSHOT_n_TgtLaunchCmdHiGoalAuto = 9000;
-   
 
 	  /** KeSHOT_n_AtTgtDB: Deadband Speed around the
      * Commanded Target that it will be assumed that
@@ -77,51 +55,59 @@ public class K_SHOT {
      * once entered to that Intake Motor jitter does not
      * occur.
      */
-    public static final double KeSHOT_n_AtTgtDB_Hystersis = 300;
+    public static final double KeSHOT_n_AtTgtDB_Hystersis = 500;
 
 
-	  /** KtSHOT_Pct_LaunchServoCmdHi: Shooter System Servo Percent
-     * Command to deflect the shooter deflector shield to
-     * aim the shooter as a function of distance to the goal
-     * for the high goal. 
+
+	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
+     * Commmanded Shooter Speed during Tele-Op. 
      */
-    public static final float[] KtSHOT_Pct_LaunchServoCmdHi =  
-    {     1,     1,     1,    1,     1,      1,     1,     1,     1,     1};
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 4500;
+
+
+	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
+     * Commmanded Shooter Speed during Tele-Op. 
+     */
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 4500;
+
+
+
 
 	  /** KtSHOT_n_ShooterSpdCmdTgtHi: Shooter System Target
      * Motor Speed to as a function of distance to the goal
      * for the high goal. 
      */
     public static final float[] KtSHOT_n_ShooterSpdCmdTgtHi =  
-    {  9000,  9000,  9000,  9000,  9000,  9000,  9000,  9000,  9000,  9000};
+    {  7400,    //  30 
+       7800,    //  40
+       8000,    //  50
+       8700,    //  55
+       9100,    //  60
+       9500,    //  70
+      10000,    //  80
+      11000,    //  90
+      12000,    // 100
+      13000,    // 110
+      14000,    // 120
+      14500};   // 130
 
 	  /** KnSHOT_l_LaunchServoAxisHi: Shooter System Servo Percent
      * Command Target Distance Axis for High Goal. 
      */
     public static final float KnSHOT_l_LaunchServoAxisHi[] =
-    {     5,     8,    10,    15,    20,    25,    30,    35,    40,    50};
+    {   30,  //  1
+        40,  //  2
+        50,  //  3
+        55,  //  4
+        60,  //  5
+        70,  //  6
+        80,  //  7
+        90,  //  8
+       100,  //  9
+       110,  // 10
+       120,  // 11
+       130}; // 12
 
-
-	  /** KtSHOT_Pct_LaunchServoCmdLo: Shooter System Servo Percent
-     * Command to deflect the shooter deflector shield to
-     * aim the shooter as a function of distance to the goal
-     * for the high goal. 
-     */
-    public static final float KtSHOT_Pct_LaunchServoCmdLo[] =
-    {     1,     1,     1,     1,     1,     1,     1,     1,     1,     1};
-
-	  /** KtSHOT_n_ShooterSpdCmdTgtLo: Shooter System Target
-     * Motor Speed to as a function of distance to the goal
-     * for the low goal. 
-     */
-    public static final float[] KtSHOT_n_ShooterSpdCmdTgtLo =  
-    {  5500,  5500,  5500,  5500,  5500,  5500,  5500,  5500,  5500,  5500};
-
-	  /** KnSHOT_l_LaunchServoAxisLo: Shooter System Servo Percent
-     * Command Target Distance Axis for High Goal. 
-     */
-    public static final float KnSHOT_l_LaunchServoAxisLo[] =
-    {     2,     5,     8,    10,    12,    15,    18,    20,    22,    25};
 
 
     /** KeSHOT_t_PostLaunchRunTime: The amount of time

@@ -119,32 +119,13 @@ private boolean shooterAtSpeed;
 
   
   
-  public double dtrmnShooterServoCmd(double distToTgt, boolean highTgt) {
-    float percentServoCmd;
-    float axisLookUp;
-      if (highTgt) {
-        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisHi, (int)10);   
-        percentServoCmd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_Pct_LaunchServoCmdHi, axisLookUp, (int)10);
-      } else {
-        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisLo, (int)10);   
-        percentServoCmd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_Pct_LaunchServoCmdLo, axisLookUp, (int)10);
-      }          
-    return (double)percentServoCmd;
-  }
-
-  public double dtrmnShooterSpd(double distToTgt, boolean highTgt) {
+  public double dtrmnShooterSpd(double distToTgt) {
     float tgtShooterSpd;
     float axisLookUp;
-      if (highTgt) {
-        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisHi, (int)10);   
-        tgtShooterSpd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_n_ShooterSpdCmdTgtHi, axisLookUp, (int)10);
-      } else {
-        axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisLo, (int)10);   
-        tgtShooterSpd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_n_ShooterSpdCmdTgtLo, axisLookUp, (int)10);
-      }          
+      axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisHi, (int)12);   
+      tgtShooterSpd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_n_ShooterSpdCmdTgtHi, axisLookUp, (int)12);       
     return (double)tgtShooterSpd;
   }
-
 
 
 
