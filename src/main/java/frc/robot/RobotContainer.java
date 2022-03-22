@@ -50,7 +50,7 @@ public class RobotContainer {
 //     m_chooser.addOption("Test Drive Encoder Reverse", new SwerveLongDistEncdr(swerveSubsystem, 36, false));  
 //     m_chooser.addOption("Test Drive Encoder Right", new SwerveLatDistEncdr(swerveSubsystem, 36, true));
      m_chooser.addOption("Do Nothing", new CC_IntakeArmsRaise(intakeSubsystem));
-     m_chooser.addOption("Just Shoot", new CA_ShootLo(shooterSubsystem, intakeSubsystem, cameraSubsystem));
+     m_chooser.addOption("Just Shoot", new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, false));
      m_chooser.addOption("Drive Back", new CG_DrvBack(swerveSubsystem, intakeSubsystem));
      m_chooser.addOption("Shoot and Drive Back", new CG_ShootLowDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
      SmartDashboard.putData("Auto choices: ", m_chooser);
