@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CC_IntakeArmsRaise extends CommandBase {
-
+  private IntakeSubsystem intakeSubsystem; 
   private Timer exitTmr;
-  private IntakeSubsystem intakeSubsystem;  
 
   /** Creates a new CC_IntakeArmsRaise. */
   public CC_IntakeArmsRaise(IntakeSubsystem intakeSubsystem) {
