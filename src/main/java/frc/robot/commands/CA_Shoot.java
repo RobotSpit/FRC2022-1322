@@ -47,7 +47,7 @@ public class CA_Shoot extends CommandBase {
     // Determine Desired Target Speed as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
     if (isHighGoal) {
-      dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance);
+      dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpdAuto(targetDistance);
     } else {
       dsrdShooterSpeed = K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoalAuto;
     }

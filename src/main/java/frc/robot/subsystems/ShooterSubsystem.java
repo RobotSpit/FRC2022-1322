@@ -119,11 +119,20 @@ private boolean shooterAtSpeed;
 
   
   
-  public double dtrmnShooterSpd(double distToTgt) {
+  public double dtrmnShooterSpdTeleOp(double distToTgt) {
     float tgtShooterSpd;
     float axisLookUp;
-      axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_LaunchServoAxisHi, (int)12);   
+      axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_ShooterDistAxis, (int)12);   
       tgtShooterSpd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_n_ShooterSpdCmdTgtHi, axisLookUp, (int)12);       
+    return (double)tgtShooterSpd;
+  }
+
+  
+  public double dtrmnShooterSpdAuto(double distToTgt) {
+    float tgtShooterSpd;
+    float axisLookUp;
+      axisLookUp = RFSLIB.AxisPieceWiseLinear_flt((float)distToTgt, K_SHOT.KnSHOT_l_ShooterDistAxisAuto, (int)9);   
+      tgtShooterSpd = RFSLIB.XY_Lookup_flt(K_SHOT.KtSHOT_n_ShooterSpdCmdTgtHiAuto, axisLookUp, (int)9);       
     return (double)tgtShooterSpd;
   }
 

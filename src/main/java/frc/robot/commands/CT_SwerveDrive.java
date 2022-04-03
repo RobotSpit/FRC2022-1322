@@ -35,18 +35,16 @@ public class CT_SwerveDrive extends CommandBase {
         // double xAxis = -controller.getLeftX();
         // double rAxis = -controller.getRightX();
 
-        double yAxis = -controller.getRawAxis(1);
-        double xAxis = -controller.getRawAxis(0);
+        double xAxis = -controller.getRawAxis(1);  // Field-Oriented Operator Robot X-Axis Input
+        double yAxis =  controller.getRawAxis(0);  // Field-Oriented Operator Robot Y-Axis Input
         double rAxis = -controller.getRawAxis(4);
         
         /* Deadbands */
-//        yAxis = (Math.abs(yAxis) < DEADBAND) ? 0 : yAxis;
-//        xAxis = (Math.abs(xAxis) < DEADBAND) ? 0 : xAxis;
-//        rAxis = (Math.abs(rAxis) < DEADBAND) ? 0 : rAxis;
         yAxis = RFSLIB.ApplyDB_Scld(yAxis, DEADBAND, 1.0);
         xAxis = RFSLIB.ApplyDB_Scld(xAxis, DEADBAND, 1.0);
         rAxis = RFSLIB.ApplyDB_Scld(rAxis, DEADBAND, 1.0);
 
+        // What the Operator Considers X-Y Axes is Different than Actual Robot Field Orientation
         translation = new Translation2d(yAxis, xAxis).times(Constants.SwerveDrivetrain.MAX_SPEED);
         rotation = rAxis * Constants.SwerveDrivetrain.MAX_ANGULAR_VELOCITY;
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);

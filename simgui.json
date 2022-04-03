@@ -44,5 +44,13 @@
       "/SmartDashboard/Auto choices: ": "String Chooser",
       "/SmartDashboard/Field": "Field2d"
     }
+  },
+  "NetworkTables": {
+    "Shuffleboard": {
+      "Drivetrain": {
+        "open": true
+      },
+      "open": true
+    }
   }
 }

@@ -47,7 +47,7 @@ public class CT_Shoot extends CommandBase {
     // Determine Desired Target Speed as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
     if (isHighGoal) {
-      dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpd(targetDistance);
+      dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpdTeleOp(targetDistance);
     } else {
       dsrdShooterSpeed = K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoal;
     }

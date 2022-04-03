@@ -90,6 +90,24 @@ public class K_INTK {
     public static final double KeINTK_t_IntakeArmRaiseLowerDlyCmd = 0.025;
 
 
+    /** KeINTK_t_AutoBallSeekTimeOut: Ball Intake
+     * System Autonmous Ball Seek Time Out.  If in Autonomuous
+     * Ball Pick Up a Ball is not detected the Ball Intake 
+     * command will Time-Out after this time expires.
+     */
+    public static final double KeINTK_t_AutoBallSeekTmeOut = 4.00;
+
+        /** KeINTK_t_AutoBallHoldEndDly: Ball Intake
+     * System Autonomous Ball Hold Time out.  Once
+     * the a Ball is detected by the First Intake Advance
+     * Sensor a timer is started. If the Ball Intake Command
+     * will Time-Out after this time, used if the ball does
+     * not advance to the 2nd Intake Adance Sensor. 
+     */
+    public static final double KeINTK_t_AutoBallHoldEndTmeOut = 1.00;
+
+
+
 
   /**************************************************/
   /*  Ball Feed Motor Power Calibrations            */

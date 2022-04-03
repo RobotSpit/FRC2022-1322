@@ -48,7 +48,7 @@ public class K_SHOT {
      * Commanded Target that it will be assumed that
      * the Shooter Motor is at the Commanded Target.. 
      */
-    public static final double KeSHOT_n_AtTgtDB = 300;
+    public static final double KeSHOT_n_AtTgtDB = 200;
 
 	  /** KeSHOT_n_AtTgtDB_Hystersis: Deadband Speed 
      * Hystersis to determine when to exit the Deadband
@@ -75,38 +75,69 @@ public class K_SHOT {
 
 	  /** KtSHOT_n_ShooterSpdCmdTgtHi: Shooter System Target
      * Motor Speed to as a function of distance to the goal
-     * for the high goal. 
+     * for the high goal got Tele-Op. 
      */
     public static final float[] KtSHOT_n_ShooterSpdCmdTgtHi =  
-    {  7400,    //  30 
-       7800,    //  40
+    {  7800,    //  40 
        8000,    //  50
        8700,    //  55
-       9100,    //  60
-       9500,    //  70
-      10000,    //  80
-      11000,    //  90
-      12000,    // 100
-      13000,    // 110
-      14000,    // 120
-      14500};   // 130
+       9000,    //  60
+       9150,    //  65
+       9300,    //  70
+       9450,    //  75
+       9700,    //  80
+      10500,    //  85
+      12000,    //  90
+      14000,    // 100
+      15500};   // 110
 
-	  /** KnSHOT_l_LaunchServoAxisHi: Shooter System Servo Percent
-     * Command Target Distance Axis for High Goal. 
+      
+	  /** KnSHOT_l_ShooterDistAxis: Shooter System Command
+     * Target Distance Axis for High Goal for Tele-Op. 
      */
-    public static final float KnSHOT_l_LaunchServoAxisHi[] =
-    {   30,  //  1
-        40,  //  2
-        50,  //  3
-        55,  //  4
-        60,  //  5
+    public static final float KnSHOT_l_ShooterDistAxis[] =
+    {   40,  //  1
+        50,  //  2
+        55,  //  3
+        60,  //  4
+        65,  //  5
         70,  //  6
-        80,  //  7
-        90,  //  8
-       100,  //  9
-       110,  // 10
-       120,  // 11
-       130}; // 12
+        75,  //  7
+        80,  //  8
+        85,  //  9
+        90,  // 10
+       100,  // 11
+       110}; // 12
+
+
+	  /** KtSHOT_n_ShooterSpdCmdTgtHiAuto: Shooter System Target
+     * Motor Speed to as a function of distance to the goal
+     * for the high goal for Autonomous. 
+     */
+    public static final float[] KtSHOT_n_ShooterSpdCmdTgtHiAuto =  
+    { 10000,    //  60
+      10200,    //  65
+      10500,    //  70
+      10700,    //  75
+      11000,    //  80
+      12000,    //  85
+      13000,    //  90
+      15000,    // 100
+      17000};   // 110
+
+	  /** KnSHOT_l_ShooterDistAxisAuto: Shooter System Command
+     * Target Distance Axis for High Goal for Autonomous. 
+     */
+    public static final float KnSHOT_l_ShooterDistAxisAuto[] =
+    {   60,  //  1
+        65,  //  2
+        70,  //  3
+        75,  //  4
+        80,  //  5
+        85,  //  6
+        90,  //  7
+       100,  //  8
+       110}; //  9
 
 
 
@@ -127,7 +158,7 @@ public class K_SHOT {
 	  /** KeSHOT_K_Prop: Shooter System Control Proporational
      * Control Gain. 
      */
-    public static final double KeSHOT_K_Prop = 0.062;
+    public static final double KeSHOT_K_Prop = 0.070; // 0.062 Base Gain
 
 
 	  /** KeSHOT_K_Intgl: Shooter System Control Integral 
@@ -145,7 +176,7 @@ public class K_SHOT {
 	  /** KeSHOT_K_FdFwd: Shooter System Control Feed
      * Fowrward Control Gain. 
      */
-    public static final double KeSHOT_K_FdFwd = 0.0475;
+    public static final double KeSHOT_K_FdFwd = 0.0500;  // 0.0475 Base Gain
 
 	  /** KeSHOT_r_IntglErrMaxEnbl: Shooter System Control
      * Maximum Error Signal Threshold (absolute value) that

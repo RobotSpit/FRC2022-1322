@@ -8,10 +8,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.commands.*;
+import frc.robot.commandgroups.*;
 import frc.robot.subsystems.*;
 import frc.robot.calibrations.K_INTK;
-import frc.robot.commandgroups.CG_DrvBack;
-import frc.robot.commandgroups.CG_ShootLowDrvBack;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -50,9 +49,10 @@ public class RobotContainer {
 //     m_chooser.addOption("Test Drive Encoder Reverse", new SwerveLongDistEncdr(swerveSubsystem, 36, false));  
 //     m_chooser.addOption("Test Drive Encoder Right", new SwerveLatDistEncdr(swerveSubsystem, 36, true));
      m_chooser.addOption("Do Nothing", new CC_IntakeArmsRaise(intakeSubsystem));
-     m_chooser.addOption("Just Shoot", new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, false));
+     m_chooser.addOption("Just Shoot Low", new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, false));
      m_chooser.addOption("Drive Back", new CG_DrvBack(swerveSubsystem, intakeSubsystem));
-     m_chooser.addOption("Shoot and Drive Back", new CG_ShootLowDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
+     m_chooser.addOption("Shoot Low & Drive Back", new CG_ShootLowDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
+     m_chooser.addOption("Shoot High 2-Ball", new CG_ShootHighDrvTrajA(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
      SmartDashboard.putData("Auto choices: ", m_chooser);
      
 
@@ -69,6 +69,7 @@ public class RobotContainer {
    * at the initialization of the Autonomous Period.
    */
   public void autonomousInit() {
+    swerveSubsystem.init_periodic();
     liftSubsystem.init_periodic();
     intakeSubsystem.init_periodic();
     shooterSubsystem.init_periodic();
@@ -80,6 +81,7 @@ public class RobotContainer {
    * at the initialization of the Tele-Op Period.
    */
   public void teleopInit() {
+    swerveSubsystem.init_periodic();
     liftSubsystem.init_periodic();
     intakeSubsystem.init_periodic();
     shooterSubsystem.init_periodic();
@@ -96,8 +98,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* BEGIN DRIVER STICK BUTTON ASSIGNMENTS */
     final JoystickButton driverButton_Start = new JoystickButton (driverStick, Constants.BUTTON_START);
+    final JoystickButton driverButton_BumpLT = new JoystickButton(driverStick, Constants.BUMPER_LEFT);
 
     driverButton_Start.whenPressed(new CT_LiftRobot(liftSubsystem, auxStick));
+    driverButton_BumpLT.whenPressed(new CG_ResetAndZeroEncdrs(swerveSubsystem));
 
 
     /* BEGIN AUXILLARY STICK BUTTON ASSIGNMENTS */
@@ -125,7 +129,7 @@ public class RobotContainer {
     // CommandScheduler.getInstance().setDefaultCommand(swerveSubsystem, new ManualDrive(swerveSubsystem, driverStick));
 
                                                    // Subsystem, Control Joystick, fieldCentric, openLoop
-    swerveSubsystem.setDefaultCommand(new CT_SwerveDrive(swerveSubsystem, driverStick, false, true));
+    swerveSubsystem.setDefaultCommand(new CT_SwerveDrive(swerveSubsystem, driverStick, true, true));
     cameraSubsystem.setDefaultCommand(new CC_CameraTrackTarget(cameraSubsystem));
   }
 

@@ -10,6 +10,7 @@ import frc.lib.math.Conversions;
 import frc.lib.util.CTREModuleState;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.subsystems.IntakeSubsystem.controlState;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -70,7 +71,7 @@ public class SwerveModule {
 
     public void resetToAbsolute() {
         double absolutePosition = Conversions.degreesToFalcon(this.getCanCoder().getDegrees() - angleOffset, Constants.SwerveDrivetrain.ANGLE_GEAR_RATIO);
-        this.angleMotor.set(ControlMode.Position, absolutePosition);
+        this.angleMotor.set(TalonFXControlMode.Position, absolutePosition);
     }
 
     private void configAngleEncoder() {
@@ -101,7 +102,7 @@ public class SwerveModule {
         double raw = angleEncoder.get();
         double temp = raw * 360;
         SmartDashboard.putNumber("Encoder for Module " + this.moduleNumber + " Position: ", temp);
-        SmartDashboard.putNumber("Encoder for Module " + this.moduleNumber + " Raw Position: ", raw);
+        SmartDashboard.putNumber("Encoder for Module " + this.moduleNumber + " Raw Position: ", raw);      
         return Rotation2d.fromDegrees(temp);
     }
 
@@ -113,21 +114,34 @@ public class SwerveModule {
 
 
 
-    public void stopDriveMotor() {
-      this.driveMotor.set(TalonFXControlMode.Disabled, 0);
+    public void stopDrvMotor() {
+        this.driveMotor.set(TalonFXControlMode.Disabled, 0);
     }
     
     public double getDrvEncdrCurrentPstn() {
-      double encdrCnts = this.driveMotor.getSelectedSensorPosition();
-      return encdrCnts;
+        double encdrCnts = this.driveMotor.getSelectedSensorPosition();
+        return encdrCnts;
+    }
+
+    public void resetDrvEncdrPstn() {
+        this.driveMotor.setSelectedSensorPosition(0);
     }
 
 
-    public void stopAngleMotor() {
-        this.angleMotor.set(TalonFXControlMode.Disabled, 0);
-      }
-  
+    
 
+    public void stopRotMotor() {
+        this.angleMotor.set(TalonFXControlMode.Disabled, 0);
+    }
+  
+    public void resetRotEncdrPstn() {
+        this.angleMotor.setSelectedSensorPosition(0);
+    }
+
+    public void zeroRotEncdrPstn() {
+        double zeroPstnOffset = Conversions.degreesToFalcon(this.getCanCoder().getDegrees() - angleOffset, Constants.SwerveDrivetrain.ANGLE_GEAR_RATIO);
+        this.angleMotor.set(TalonFXControlMode.Position, zeroPstnOffset);
+    }
     
     
 }

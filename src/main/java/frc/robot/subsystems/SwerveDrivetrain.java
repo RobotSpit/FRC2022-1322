@@ -61,7 +61,10 @@ public class SwerveDrivetrain extends SubsystemBase {
         this.swerveModules[2].getCanCoder();
         this.swerveModules[3].getCanCoder();
         
-        SmartDashboard.putNumber("Fixed Gyro: ", this.getYaw().getDegrees());
+        SmartDashboard.putNumber("Field X-Coord: ",   this.field.getRobotPose().getX());
+        SmartDashboard.putNumber("Field Y-Coord: ",   this.field.getRobotPose().getY());  
+        SmartDashboard.putNumber("Fixed Gyro: ",      this.getYaw().getDegrees());
+
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -131,6 +134,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     }
 
     /* Odometry */
+
     public Pose2d getPose() {
         return this.swerveOdometry.getPoseMeters();
     }
@@ -142,6 +146,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         this.swerveOdometry.resetPosition(pose, this.getYaw());
     }
+
 
     // public boolean runUntilZero() {
     //     double encoder0 = this.swerveModules[0].getCanCoder().getDegrees() - this.swerveModules[0].getAngleOffset();
@@ -176,6 +181,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     //     return allAtZero;
     // }
 
+
     /* Module States */
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] states = new SwerveModuleState[4];
@@ -185,6 +191,7 @@ public class SwerveDrivetrain extends SubsystemBase {
         return states;
     }
 
+
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveDrivetrain.MAX_SPEED);
         for (SwerveModule mod : this.swerveModules) {
@@ -192,23 +199,45 @@ public class SwerveDrivetrain extends SubsystemBase {
         }
     }
 
-  
 
 
-    public void stopSwerveDriveMotors() {
+    public void resetSwerveDrvEncdrs() {
+        for (int i = 0; i < 4; i++) {
+          getSwerveModule(i).resetDrvEncdrPstn();;
+        }
+      }
+
+
+      public void resetSwerveRotEncdrs() {
+        for (int i = 0; i < 4; i++) {
+          getSwerveModule(i).resetRotEncdrPstn();;
+        }
+      }  
+
+
+      public void zeroSwerveRotEncdrs() {
+        for (int i = 0; i < 4; i++) {
+          getSwerveModule(i).zeroRotEncdrPstn();;
+        }
+      }  
+
+
+    public void stopSwerveDrvMotors() {
       for (int i = 0; i < 4; i++) {
-        getSwerveModule(i).stopDriveMotor();
+        getSwerveModule(i).stopDrvMotor();
       }
     }
+ 
     
-    public void stopSwerveAngleMotors() {
+    public void stopSwerveRotMotors() {
       for (int i = 0; i < 4; i++) {
-        getSwerveModule(i).stopAngleMotor();
+        getSwerveModule(i).stopRotMotor();
       }
     }
+
 
     public void stopSwerveCaddyDrvMotor(int mtrIdx) {
-      getSwerveModule(mtrIdx).stopDriveMotor();
+      getSwerveModule(mtrIdx).stopDrvMotor();
     }  
 
 
@@ -219,19 +248,22 @@ public class SwerveDrivetrain extends SubsystemBase {
         return (drvWhlDistInches);
     }  
     
+
     public double getDrvEncdrCntsPerInches(double drvWhlDistInches) {
         double drvEncdrCnts;  
         drvEncdrCnts = (drvWhlDistInches / Constants.SwerveDrivetrain.WHEEL_CIRCUMFERENCE) * 
         Constants.SwerveDrivetrain.DRIVE_CNTS_PER_REV;
         return (Math.round(drvEncdrCnts));
       }
-        
+    
+      
     public double getDrvDistTravelled(int mtrIdx, double zeroPstnRefCnts) { 
         double drvEncdrCntDelt;  
         drvEncdrCntDelt = Math.round(getSwerveModule(mtrIdx).getDrvEncdrCurrentPstn() - zeroPstnRefCnts);
         return (getDrvInchesPerEncdrCnts(drvEncdrCntDelt));
       }
     
+      
     public double getDrvCaddyEncdrPstn(int mtrIdx) {  
         double drvEncdrCnt = Math.round(getSwerveModule(mtrIdx).getDrvEncdrCurrentPstn());
         return drvEncdrCnt;
@@ -245,10 +277,21 @@ public class SwerveDrivetrain extends SubsystemBase {
         tab.add(this);
         tab.addNumber("Gyro Angle ???", this::getGyroAngleDegrees).withWidget(BuiltInWidgets.kGyro);
         tab.addNumber("Gyro Angle (GRAPH) ???", this::getGyroAngleDegrees).withWidget(BuiltInWidgets.kGraph);
+        tab.add("Field X-Coord ", this.field.getRobotPose().getX()).withWidget(BuiltInWidgets.kGraph);
+        tab.add("Field Y-Coord ", this.field.getRobotPose().getY()).withWidget(BuiltInWidgets.kGraph);
         SmartDashboard.putData(this.field);
         // SmartDashboard.putData("ANGLE PID", data);
         // SmartDashboard.putData("DRIVE PID", data);
     }
+
+
+
+
+
+    public void init_periodic() {
+        // This method will be called once per robot periodic/autonmous session at initiation
+      }    
+
 
     @Override
     public void periodic() {

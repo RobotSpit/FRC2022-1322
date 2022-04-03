@@ -128,7 +128,7 @@ public final class Constants {
 
         /* Gyro */
         public static final SPI.Port GYRO_ID = SPI.Port.kMXP;
-        public static final boolean INVERT_GYRO = false;
+        public static final boolean INVERT_GYRO = true;
 
         /* Drivetrain */
         public static final double TRACK_WIDTH          = Units.inchesToMeters(23.25);
@@ -164,7 +164,7 @@ public final class Constants {
         /* Angle Motor PID Values */
         public static final double ANGLE_kP = 0.6;   // 0.6
         public static final double ANGLE_kI = 0.0;   // 0.0
-        public static final double ANGLE_kD = 12.0;   // 12.0
+        public static final double ANGLE_kD = 12.0;  // 12.0
         public static final double ANGLE_kF = 0.0;   // 0.0
 
         /* Drive Motor PID Values */
@@ -236,6 +236,11 @@ public final class Constants {
     }
 
     public static final class Auton {
+        
+        /* Drive Motor Characterization Values (Ramsete) */
+        public static final double RAMSETE_B                = 7;
+        public static final double RAMSETE_ZETA             = 2;
+
         public static final double MAX_SPEED_MPS            = 7.0;    // meters per second
         public static final double MAX_ACCELERATION_MPSS    = 5.0;    // meters per second squared
 
