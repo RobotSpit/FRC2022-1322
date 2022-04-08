@@ -7,12 +7,11 @@ package frc.robot.commandgroups;
 import frc.robot.commands.CC_TimeDly;
 import frc.robot.commands.CA_IntakeBall;
 import frc.robot.commands.CA_Shoot;
-import frc.robot.commands.CC_IntakeArmsRaise;
-import frc.robot.commands.CA_SwerveLatDistEncdr;
-import frc.robot.commands.CA_SwerveLongDistEncdr;
+import frc.robot.commands.CC_IntakeRunArmMotor;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.*;
 import frc.robot.subsystems.SwerveDrivetrain;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -28,13 +27,13 @@ public class CG_ShootHighDrvTrajA extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      (new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, true)),
+      (new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, slctGoal.HiGoalClose)),
       (new CC_TimeDly(0.5)),
+      (new CC_IntakeRunArmMotor(intakeSubsystem, 0.4)),
       (new CG_DrvTrajectoryA(swerveDrivetrain)),
       (new CA_IntakeBall(intakeSubsystem)),
-      (new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, true)),
-      (new CC_TimeDly(0.5)),
-      (new CG_DrvTrajectoryB(swerveDrivetrain))
+      (new CC_TimeDly(0.25)),
+      (new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, slctGoal.HiGoalMid))
     );
     System.out.println("CG_ShootHighDrvTrajA Autonomous Invoked.");
   }

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
 import frc.robot.commandgroups.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.ShooterSubsystem.*;
 import frc.robot.calibrations.K_INTK;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,10 +50,11 @@ public class RobotContainer {
 //     m_chooser.addOption("Test Drive Encoder Reverse", new SwerveLongDistEncdr(swerveSubsystem, 36, false));  
 //     m_chooser.addOption("Test Drive Encoder Right", new SwerveLatDistEncdr(swerveSubsystem, 36, true));
      m_chooser.addOption("Do Nothing", new CC_IntakeArmsRaise(intakeSubsystem));
-     m_chooser.addOption("Just Shoot Low", new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, false));
+     m_chooser.addOption("Just Shoot Low", new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, slctGoal.LoGoal));
      m_chooser.addOption("Drive Back", new CG_DrvBack(swerveSubsystem, intakeSubsystem));
      m_chooser.addOption("Shoot Low & Drive Back", new CG_ShootLowDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
-     m_chooser.addOption("Shoot High 2-Ball", new CG_ShootHighDrvTrajA(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
+     m_chooser.addOption("Shoot High 2-Ball Encdr", new CG_ShootHighDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
+     m_chooser.addOption("Shoot High 2-Ball TrajPath", new CG_ShootHighDrvTrajA(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
      SmartDashboard.putData("Auto choices: ", m_chooser);
      
 

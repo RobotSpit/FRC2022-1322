@@ -43,14 +43,11 @@ public class CG_DrvTrajectoryB extends SequentialCommandGroup {
 
     var initStart = new Pose2d(Units.feetToMeters(0.0), Units.feetToMeters(0.0),
         Rotation2d.fromDegrees(0));
-    var firstBall = new Pose2d(Units.feetToMeters(9.0), Units.feetToMeters(-4.0),
+    var firstBall = new Pose2d(Units.feetToMeters(9.0), Units.feetToMeters(0.0),
         Rotation2d.fromDegrees(0));
 
     var interiorWaypoints = new ArrayList<Translation2d>();
-        interiorWaypoints.add(new Translation2d(Units.feetToMeters(2.0), Units.feetToMeters(-1.5)));
-        interiorWaypoints.add(new Translation2d(Units.feetToMeters(4.0), Units.feetToMeters(-2.5)));
-        interiorWaypoints.add(new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(-3.0)));
-        interiorWaypoints.add(new Translation2d(Units.feetToMeters(8.0), Units.feetToMeters(-3.5)));
+        interiorWaypoints.add(new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(0.0)));
 
                       
     // 2. Generate trajectory

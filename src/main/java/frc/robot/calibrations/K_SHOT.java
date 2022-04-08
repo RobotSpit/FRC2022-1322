@@ -46,7 +46,7 @@ public class K_SHOT {
 
 	  /** KeSHOT_n_AtTgtDB: Deadband Speed around the
      * Commanded Target that it will be assumed that
-     * the Shooter Motor is at the Commanded Target.. 
+     * the Shooter Motor is at the Commanded Target.
      */
     public static final double KeSHOT_n_AtTgtDB = 200;
 
@@ -60,17 +60,33 @@ public class K_SHOT {
 
 
 	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
-     * Commmanded Shooter Speed during Tele-Op. 
+     * Commmanded Shooter Speed during Tele-Op - Low Goal
      */
     public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 4500;
 
 
 	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
-     * Commmanded Shooter Speed during Tele-Op. 
+     * Commmanded Shooter Speed during Autonomous - Low Goal. 
      */
     public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 4500;
 
+	  /** KeSHOT_n_TgtLaunchCmdHiGoalCloseAuto: Shooter System Control
+     * Commmanded Shooter Speed during Autonomous - High Goal Close
+     * Distance. 
+     */
+    public static final double KeSHOT_n_TgtLaunchCmdHiGoalCloseAuto = 8500;
 
+	  /** KeSHOT_n_TgtLaunchCmdHiGoalCloseAuto: Shooter System Control
+     * Commmanded Shooter Speed during Autonomous - High Goal Mid
+     * Distance. 
+     */
+    public static final double KeSHOT_n_TgtLaunchCmdHiGoalMidAuto = 10000;
+
+	  /** KeSHOT_n_TgtLaunchCmdHiGoalCloseAuto: Shooter System Control
+     * Commmanded Shooter Speed during Autonomous - High Goal Mid
+     * Distance. 
+     */
+    public static final double KeSHOT_n_TgtLaunchCmdHiGoalFarAuto = 15000;
 
 
 	  /** KtSHOT_n_ShooterSpdCmdTgtHi: Shooter System Target
@@ -78,18 +94,18 @@ public class K_SHOT {
      * for the high goal got Tele-Op. 
      */
     public static final float[] KtSHOT_n_ShooterSpdCmdTgtHi =  
-    {  7800,    //  40 
-       8000,    //  50
-       8700,    //  55
-       9000,    //  60
-       9150,    //  65
-       9300,    //  70
-       9450,    //  75
-       9700,    //  80
-      10500,    //  85
-      12000,    //  90
-      14000,    // 100
-      15500};   // 110
+    {  7800,    //  40  -  1 
+       8000,    //  50  -  2
+       8700,    //  55  -  3
+       9000,    //  60  -  4
+       9150,    //  65  -  5
+       9300,    //  70  -  6
+       9450,    //  75  -  7
+       9700,    //  80  -  8
+      10500,    //  85  -  9
+      12000,    //  90  - 10
+      14000,    // 100  - 11
+      15500};   // 110  - 12
 
       
 	  /** KnSHOT_l_ShooterDistAxis: Shooter System Command
@@ -115,15 +131,15 @@ public class K_SHOT {
      * for the high goal for Autonomous. 
      */
     public static final float[] KtSHOT_n_ShooterSpdCmdTgtHiAuto =  
-    { 10000,    //  60
-      10200,    //  65
-      10500,    //  70
-      10700,    //  75
-      11000,    //  80
-      12000,    //  85
-      13000,    //  90
-      15000,    // 100
-      17000};   // 110
+    {  8500,    //  60  -  1
+       9000,    //  65  -  2
+       9500,    //  70  -  3
+      10000,    //  75  -  4
+      11000,    //  80  -  5
+      13000,    //  85  -  6
+      15000,    //  90  -  7
+      18000,    // 100  -  8
+      20000};   // 110  -  9
 
 	  /** KnSHOT_l_ShooterDistAxisAuto: Shooter System Command
      * Target Distance Axis for High Goal for Autonomous. 

@@ -18,6 +18,15 @@ public enum slctMtr {
     Right;
 }
 
+public enum slctGoal {
+  LoGoal,
+  HiGoalClose,
+  HiGoalMid,
+  HiGoalFar,
+  HiGoalCamera;
+}
+
+
 private WPI_TalonFX[] ShooterMotor = new WPI_TalonFX[] {
   new WPI_TalonFX(Constants.SHOOTER_MTR_LT, "rio"),
   new WPI_TalonFX(Constants.SHOOTER_MTR_RT, "rio")  

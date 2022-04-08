@@ -5,18 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.calibrations.old.K_SWRV;
+import frc.robot.calibrations.K_SWRV;
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class CA_SwerveLatDistEncdr extends CommandBase {
   private SwerveDrivetrain swerveDrivetrain;
-  private Timer delayTmr;
+  private double mtrPwrCmnd;
   private double tgtDistInches;
-  private boolean isDirctnRt;
+  private boolean isDirctnLeft;
   private int caddyIndexA;
   private int caddyIndexB;
   private double zeroEncdrCntA;
@@ -25,29 +24,29 @@ public class CA_SwerveLatDistEncdr extends CommandBase {
   private double distTravelledB;
   private double rotation;
   private Translation2d translation;
-  private boolean fieldRelative;
-  private boolean openLoop;
-
 
 
   /** Creates a new CA_SwerveLatDistEncdr. */
-  public CA_SwerveLatDistEncdr(SwerveDrivetrain swerveDrivetrain,double tgtDistInches, boolean isDirctnRt) {
+  public CA_SwerveLatDistEncdr(SwerveDrivetrain swerveDrivetrain, double mtrPwrCmnd, double tgtDistInches, boolean isDirctnLeft) {
     this.swerveDrivetrain = swerveDrivetrain;
+    this.mtrPwrCmnd = mtrPwrCmnd;
     this.tgtDistInches = tgtDistInches;
-    this.isDirctnRt = isDirctnRt;
-    delayTmr = new Timer();
+    this.isDirctnLeft = isDirctnLeft;
     addRequirements(swerveDrivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    delayTmr.reset();
-    delayTmr.start();
     caddyIndexA = 0; 
     caddyIndexB = 1;
     zeroEncdrCntA = swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA);
     zeroEncdrCntB = swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB);
+
+    if (this.mtrPwrCmnd < 0)
+      this.mtrPwrCmnd = 0;
+    if (this.mtrPwrCmnd > 1)
+      this.mtrPwrCmnd = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,19 +55,17 @@ public class CA_SwerveLatDistEncdr extends CommandBase {
     distTravelledA = swerveDrivetrain.getDrvDistTravelled(caddyIndexA, zeroEncdrCntA);
     distTravelledB = swerveDrivetrain.getDrvDistTravelled(caddyIndexB, zeroEncdrCntB);
 
-    if (delayTmr.get() >= 0.100) {
-      double yAxis = 0.0;
-      double xAxis = 0.4;
-      double rAxis = 0.0;
+    double yAxis = this.mtrPwrCmnd;
+    double xAxis = 0.0;
+    double rAxis = 0.0;
 
-      if (isDirctnRt) {
-        xAxis = -xAxis;
-      }
-
-      translation = new Translation2d(yAxis, xAxis).times(Constants.SwerveDrivetrain.MAX_SPEED);
-      rotation = rAxis * Constants.SwerveDrivetrain.MAX_ANGULAR_VELOCITY;
-      swerveDrivetrain.drive(translation, rotation, fieldRelative, openLoop);
+    if (isDirctnLeft) {
+        yAxis = -yAxis;
     }
+
+    translation = new Translation2d(yAxis, xAxis).times(Constants.SwerveDrivetrain.MAX_SPEED);
+    rotation = rAxis * Constants.SwerveDrivetrain.MAX_ANGULAR_VELOCITY;
+    swerveDrivetrain.drive(translation, rotation, false, true);
 
     if (K_SWRV.KeSWRV_b_DebugEnbl == true) {
       SmartDashboard.putNumber("Encdr Cnt Zero A: ",   (zeroEncdrCntA));
@@ -85,7 +82,6 @@ public class CA_SwerveLatDistEncdr extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     swerveDrivetrain.stopSwerveDrvMotors();
-    delayTmr.stop();
   }
 
   // Returns true when the command should end.

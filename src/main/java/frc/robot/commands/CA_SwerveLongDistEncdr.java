@@ -5,18 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.calibrations.old.K_SWRV;
+import frc.robot.calibrations.K_SWRV;
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class CA_SwerveLongDistEncdr extends CommandBase {
   private SwerveDrivetrain swerveDrivetrain;
-  private Timer delayTmr;
+  private double mtrPwrCmnd;
   private double tgtDistInches;
-  private boolean isDirctnFwd;
+  private boolean isDirctnRwd;
   private int caddyIndexA;
   private int caddyIndexB;
   private double zeroEncdrCntA;
@@ -25,29 +24,29 @@ public class CA_SwerveLongDistEncdr extends CommandBase {
   private double distTravelledB;
   private double rotation;
   private Translation2d translation;
-  private boolean fieldRelative;
-  private boolean openLoop;
-
 
 
   /** Creates a new CA_SwerveLongDistEncdr. */
-  public CA_SwerveLongDistEncdr(SwerveDrivetrain swerveDrivetrain,double tgtDistInches, boolean isDirctnFwd) {
+  public CA_SwerveLongDistEncdr(SwerveDrivetrain swerveDrivetrain, double mtrPwrCmnd, double tgtDistInches, boolean isDirctnRwd) {
     this.swerveDrivetrain = swerveDrivetrain;
+    this.mtrPwrCmnd = mtrPwrCmnd;
     this.tgtDistInches = tgtDistInches;
-    this.isDirctnFwd = isDirctnFwd;
-    delayTmr = new Timer();
+    this.isDirctnRwd = isDirctnRwd;
     addRequirements(swerveDrivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    delayTmr.reset();
-    delayTmr.start();
     caddyIndexA = 0; 
     caddyIndexB = 1;
     zeroEncdrCntA = swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA);
     zeroEncdrCntB = swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB);
+
+    if (this.mtrPwrCmnd < 0)
+      this.mtrPwrCmnd = 0;
+    if (this.mtrPwrCmnd > 1)
+      this.mtrPwrCmnd = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,27 +55,26 @@ public class CA_SwerveLongDistEncdr extends CommandBase {
     distTravelledA = swerveDrivetrain.getDrvDistTravelled(caddyIndexA, zeroEncdrCntA);
     distTravelledB = swerveDrivetrain.getDrvDistTravelled(caddyIndexB, zeroEncdrCntB);
 
-    if (delayTmr.get() >= 0.100) {
-      double yAxis = 0.4;
-      double xAxis = 0.0;
-      double rAxis = 0.0;
+      double yAxis =  0.0;
+      double xAxis =  this.mtrPwrCmnd;
+      double rAxis =  0.0;
 
-      if (!isDirctnFwd) {
-        yAxis = -yAxis;
+      if (!isDirctnRwd) {
+        xAxis = -xAxis;
       }
 
       translation = new Translation2d(yAxis, xAxis).times(Constants.SwerveDrivetrain.MAX_SPEED);
       rotation = rAxis * Constants.SwerveDrivetrain.MAX_ANGULAR_VELOCITY;
-      swerveDrivetrain.drive(translation, rotation, fieldRelative, openLoop);
-    }
+      swerveDrivetrain.drive(translation, rotation, false, true);
 
     if (K_SWRV.KeSWRV_b_DebugEnbl == true) {
-      SmartDashboard.putNumber("Encdr Cnt Zero A: ",   (zeroEncdrCntA));
-      SmartDashboard.putNumber("Encdr Cnt Zero B: ",   (zeroEncdrCntB));
-      SmartDashboard.putNumber("Encdr Cnt Curr A: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA)));
-      SmartDashboard.putNumber("Encdr Cnt Curr B: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB)));
-      SmartDashboard.putNumber("Dist Travelled A: ",   (distTravelledA));
-      SmartDashboard.putNumber("Dist Travelled B: ",   (distTravelledB));
+      SmartDashboard.putNumber("Auto EncdrCnt ZeroA: ",   (zeroEncdrCntA));
+      SmartDashboard.putNumber("Auto EncdrCnt ZeroB: ",   (zeroEncdrCntB));
+      SmartDashboard.putNumber("Auto EncdrCnt CurrA: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA)));
+      SmartDashboard.putNumber("Auto EncdrCnt CurrB: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB)));
+      SmartDashboard.putNumber("Auto DsrdDistTrav: ",     (tgtDistInches));
+      SmartDashboard.putNumber("Auto DistTrav A: ",       (distTravelledA));
+      SmartDashboard.putNumber("Auto DistTrav B: ",       (distTravelledB));
     }
 
   }
@@ -85,7 +83,6 @@ public class CA_SwerveLongDistEncdr extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     swerveDrivetrain.stopSwerveDrvMotors();
-    delayTmr.stop();
   }
 
   // Returns true when the command should end.

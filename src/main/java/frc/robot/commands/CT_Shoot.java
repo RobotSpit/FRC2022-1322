@@ -92,7 +92,7 @@ public class CT_Shoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.print("Shooter dead");
+    System.out.println("Shooter Cancel.");
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();

@@ -43,13 +43,14 @@ public class CG_DrvTrajectoryA extends SequentialCommandGroup {
 
     var initStart = new Pose2d(Units.feetToMeters(0.0), Units.feetToMeters(0.0),
         Rotation2d.fromDegrees(0));
-    var firstBall = new Pose2d(Units.feetToMeters(0.3), Units.feetToMeters(3.85),
-        Rotation2d.fromDegrees(-3.0));
+    var firstBall = new Pose2d(Units.feetToMeters(0.3), Units.feetToMeters(4.2),
+        Rotation2d.fromDegrees(-2.0));
 
     var interiorWaypoints = new ArrayList<Translation2d>();
-        interiorWaypoints.add(new Translation2d(Units.feetToMeters(0.10), Units.feetToMeters(1.0)));
-        interiorWaypoints.add(new Translation2d(Units.feetToMeters(0.20), Units.feetToMeters(2.0)));
-        interiorWaypoints.add(new Translation2d(Units.feetToMeters(0.25), Units.feetToMeters(3.0)));
+        interiorWaypoints.add(new Translation2d(Units.feetToMeters(0.00), Units.feetToMeters(0.3)));
+        interiorWaypoints.add(new Translation2d(Units.feetToMeters(0.05), Units.feetToMeters(1.0)));
+        interiorWaypoints.add(new Translation2d(Units.feetToMeters(0.10), Units.feetToMeters(2.0)));
+        interiorWaypoints.add(new Translation2d(Units.feetToMeters(0.20), Units.feetToMeters(3.0)));
 
                       
     // 2. Generate trajectory
@@ -91,8 +92,8 @@ public class CG_DrvTrajectoryA extends SequentialCommandGroup {
       //Run trajectory
       new InstantCommand(() -> this.drive.resetOdometry(trajectory.getInitialPose())),
       swerveControllerCommand,
-      new InstantCommand(() -> this.drive.stopSwerveDrvMotors()),
-      new InstantCommand(() -> this.drive.stopSwerveRotMotors())        
+      new InstantCommand(() -> this.drive.stopSwerveDrvMotors())
+      //new InstantCommand(() -> this.drive.stopSwerveRotMotors())        
     );
   }
 }

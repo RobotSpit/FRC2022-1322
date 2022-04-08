@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.*;
 import frc.robot.calibrations.K_INTK;
 import frc.robot.calibrations.K_SHOT;
 import frc.robot.subsystems.Camera;
@@ -21,17 +22,17 @@ public class CA_Shoot extends CommandBase {
   private ShooterSubsystem shooterSubsystem;
   private IntakeSubsystem intakeSubsystem;
   private Camera cameraSubsystem;
-  private boolean isHighGoal; // if true, Shooter is targeting high goal, if false, low goal.
+  private slctGoal slctTgtGoal; // if true, Shooter is targeting high goal, if false, low goal.
   private Timer timeSinceBallsLeftAdvPstn;
   private double targetDistance;
   private double dsrdShooterSpeed;
   
   /** Creates a new CA_Shoot - Either High or Low Goal, selection passed as an argument. */
-  public CA_Shoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem, boolean isHighGoal) {
+  public CA_Shoot(ShooterSubsystem shooterSubsystem,  IntakeSubsystem intakeSubsystem, Camera cameraSubsystem, slctGoal slctTgtGoal) {
     this.shooterSubsystem = shooterSubsystem;
     this.intakeSubsystem = intakeSubsystem;
     this.cameraSubsystem = cameraSubsystem;
-    this.isHighGoal = isHighGoal;
+    this.slctTgtGoal = slctTgtGoal;
     timeSinceBallsLeftAdvPstn = new Timer();
     addRequirements(intakeSubsystem, shooterSubsystem);
   }
@@ -46,12 +47,17 @@ public class CA_Shoot extends CommandBase {
 
     // Determine Desired Target Speed as a function of target distance
     targetDistance = cameraSubsystem.getDistanceToCenterOfHoop();
-    if (isHighGoal) {
+    if (slctTgtGoal == slctGoal.HiGoalCamera) {
       dsrdShooterSpeed = shooterSubsystem.dtrmnShooterSpdAuto(targetDistance);
+    } else if (slctTgtGoal == slctGoal.HiGoalFar) {
+      dsrdShooterSpeed = K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalCloseAuto;
+    } else if (slctTgtGoal == slctGoal.HiGoalMid) {
+      dsrdShooterSpeed = K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalMidAuto;
+    } else if (slctTgtGoal == slctGoal.HiGoalClose) {
+      dsrdShooterSpeed = K_SHOT.KeSHOT_n_TgtLaunchCmdHiGoalCloseAuto;
     } else {
       dsrdShooterSpeed = K_SHOT.KeSHOT_n_TgtLaunchCmdLoGoalAuto;
     }
-
 
     // Command Shooter to Desired Shooter Target Speed
     shooterSubsystem.runShooterAtSpd(dsrdShooterSpeed);
@@ -93,7 +99,7 @@ public class CA_Shoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.print("Shooter dead");
+    System.out.println("Shooter Cancel.");
      intakeSubsystem.stopAdvanceMtr();
      intakeSubsystem.stopIntakeMtr();
      shooterSubsystem.stopShooterMtr();
