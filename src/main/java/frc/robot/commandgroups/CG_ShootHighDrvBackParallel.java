@@ -7,7 +7,6 @@ package frc.robot.commandgroups;
 import frc.robot.commands.CC_TimeDly;
 import frc.robot.commands.CA_IntakeBall;
 import frc.robot.commands.CA_Shoot;
-import frc.robot.commands.CC_IntakeRunArmMotor;
 import frc.robot.commands.CA_SwerveLongDistEncdr;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -19,18 +18,18 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CG_ShootHighDrvBack extends SequentialCommandGroup {
-  /** Creates a new CG_ShootLowDrvBack. */
-  public CG_ShootHighDrvBack(SwerveDrivetrain swerveDrivetrain,
-                             ShooterSubsystem shooterSubsystem,
-                             IntakeSubsystem intakeSubsystem,
-                             Camera cameraSubsystem) {
+public class CG_ShootHighDrvBackParallel extends SequentialCommandGroup {
+  /** Creates a new CG_ShootLowDrvBackParallel. */
+  public CG_ShootHighDrvBackParallel(SwerveDrivetrain swerveDrivetrain,
+                                     ShooterSubsystem shooterSubsystem,
+                                     IntakeSubsystem intakeSubsystem,
+                                     Camera cameraSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       (new CA_Shoot(shooterSubsystem, intakeSubsystem, cameraSubsystem, slctGoal.HiGoalClose)),
       (new CC_TimeDly(0.5)),
-      (new CC_IntakeRunArmMotor(intakeSubsystem, 0.4)),
+      (new CG_DriveAndGrabBall(swerveDrivetrain, intakeSubsystem)),
       (new CA_SwerveLongDistEncdr(swerveDrivetrain, 0.3, 1, true)),
       (new CA_IntakeBall(intakeSubsystem)),
       (new CC_TimeDly(0.25)),

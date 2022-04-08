@@ -68,12 +68,13 @@ public class CA_SwerveLatDistEncdr extends CommandBase {
     swerveDrivetrain.drive(translation, rotation, false, true);
 
     if (K_SWRV.KeSWRV_b_DebugEnbl == true) {
-      SmartDashboard.putNumber("Encdr Cnt Zero A: ",   (zeroEncdrCntA));
-      SmartDashboard.putNumber("Encdr Cnt Zero B: ",   (zeroEncdrCntB));
-      SmartDashboard.putNumber("Encdr Cnt Curr A: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA)));
-      SmartDashboard.putNumber("Encdr Cnt Curr B: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB)));
-      SmartDashboard.putNumber("Dist Travelled A: ",   (distTravelledA));
-      SmartDashboard.putNumber("Dist Travelled B: ",   (distTravelledB));
+      SmartDashboard.putNumber("Auto EncdrCnt ZeroA: ",   (zeroEncdrCntA));
+      SmartDashboard.putNumber("Auto EncdrCnt ZeroB: ",   (zeroEncdrCntB));
+      SmartDashboard.putNumber("Auto EncdrCnt CurrA: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexA)));
+      SmartDashboard.putNumber("Auto EncdrCnt CurrB: ",   (swerveDrivetrain.getDrvCaddyEncdrPstn(caddyIndexB)));
+      SmartDashboard.putNumber("Auto DsrdDistTrav: ",     (tgtDistInches));
+      SmartDashboard.putNumber("Auto DistTrav A: ",       (distTravelledA));
+      SmartDashboard.putNumber("Auto DistTrav B: ",       (distTravelledB));
     }
 
   }
