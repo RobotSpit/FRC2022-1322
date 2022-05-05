@@ -102,6 +102,17 @@ public class Camera extends SubsystemBase {
     return output;
   }
 
+  /** errorToTargetPan: Pan Angle Error to the Target.  A postive
+   *  error value indicates the center of the target is to the right
+   *  of the cross-hair of the shooter. A negative error value
+   *  indicate the center of the target is to the left of the
+   *  cross-hair of the shooter.
+   */
+  public double errorToTargetPan(){
+    double errorTargetPan = getCameraTargetXAngle();
+    return errorTargetPan;
+  }
+
   private double clipSpeed(double value, double min, double max){
     return (value - max > 0 ? max : (min - value > 0 ? min : value));
   }

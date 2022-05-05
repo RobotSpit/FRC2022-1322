@@ -332,8 +332,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         tab.add(this);
         tab.addNumber("Gyro Angle ???", this::getGyroAngleDegrees).withWidget(BuiltInWidgets.kGyro);
         tab.addNumber("Gyro Angle (GRAPH) ???", this::getGyroAngleDegrees).withWidget(BuiltInWidgets.kGraph);
-        tab.add("Field X-Coord ", this.field.getRobotPose().getX()).withWidget(BuiltInWidgets.kGraph);
-        tab.add("Field Y-Coord ", this.field.getRobotPose().getY()).withWidget(BuiltInWidgets.kGraph);
+        tab.add("Field X-Coord ", this.field.getRobotPose().getX());
+        tab.add("Field Y-Coord ", this.field.getRobotPose().getY());
         SmartDashboard.putData(this.field);
         // SmartDashboard.putData("ANGLE PID", data);
         // SmartDashboard.putData("DRIVE PID", data);

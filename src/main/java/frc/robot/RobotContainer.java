@@ -54,7 +54,7 @@ public class RobotContainer {
      m_chooser.addOption("Drive Back", new CG_DrvBack(swerveSubsystem, intakeSubsystem));
      m_chooser.addOption("Shoot Low & Drive Back", new CG_ShootLowDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
      m_chooser.addOption("Shoot High 2-Ball", new CG_ShootHighDrvBack(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
-     m_chooser.addOption("Shoot High 2-Ball Parallel", new CG_ShootHighDrvBackParallel(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
+//     m_chooser.addOption("Shoot High 2-Ball Parallel", new CG_ShootHighDrvBackParallel(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
 //     m_chooser.addOption("Shoot High 2-Ball TrajPath", new CG_ShootHighDrvTrajA(swerveSubsystem, shooterSubsystem, intakeSubsystem, cameraSubsystem));
      SmartDashboard.putData("Auto choices: ", m_chooser);
      

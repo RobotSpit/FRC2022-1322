@@ -21,7 +21,7 @@ public class CG_DriveAndGrabBall extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      (new CA_SwerveLongDistEncdr(swerveDrivetrain, 0.3, 10, true)),
+      (new CA_SwerveLongDistEncdr(swerveDrivetrain, 0.3, 1, true)),
       (new CA_IntakeBall(intakeSubsystem))
     );
   }

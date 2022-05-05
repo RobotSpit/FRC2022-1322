@@ -7,7 +7,6 @@ package frc.robot.commandgroups;
 import frc.robot.commands.CC_TimeDly;
 import frc.robot.commands.CC_IntakeArmsRaise;
 import frc.robot.commands.CA_SwerveLongDistEncdr;
-import frc.robot.commands.CA_SwerveLatDistEncdr;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveDrivetrain;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -22,9 +21,7 @@ public class CG_DrvBack extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      (new CA_SwerveLongDistEncdr(swerveDrivetrain, 0.3, 24, true)),
-      (new CC_TimeDly(1.0)),
-      (new CA_SwerveLatDistEncdr(swerveDrivetrain, 0.3, 2, false)),
+      (new CA_SwerveLongDistEncdr(swerveDrivetrain, 0.3, 3, true)),
       (new CC_TimeDly(0.25)),
       (new CC_IntakeArmsRaise(intakeSubsystem))
     );

@@ -60,15 +60,15 @@ public class K_SHOT {
 
 
 	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
-     * Commmanded Shooter Speed during Tele-Op - Low Goal
+     * Commmanded Shooter Speed during Tele-Op - Low Goal.
      */
-    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 4500;
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoal = 4250;
 
 
 	  /** KeSHOT_n_TgtLaunchCmdLoGoal: Shooter System Control 
      * Commmanded Shooter Speed during Autonomous - Low Goal. 
      */
-    public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 4500;
+    public static final double KeSHOT_n_TgtLaunchCmdLoGoalAuto = 4250;
 
 	  /** KeSHOT_n_TgtLaunchCmdHiGoalCloseAuto: Shooter System Control
      * Commmanded Shooter Speed during Autonomous - High Goal Close
@@ -94,18 +94,18 @@ public class K_SHOT {
      * for the high goal got Tele-Op. 
      */
     public static final float[] KtSHOT_n_ShooterSpdCmdTgtHi =  
-    {  7800,    //  40  -  1 
-       8000,    //  50  -  2
-       8700,    //  55  -  3
-       9000,    //  60  -  4
-       9150,    //  65  -  5
-       9300,    //  70  -  6
-       9450,    //  75  -  7
-       9700,    //  80  -  8
-      10500,    //  85  -  9
-      12000,    //  90  - 10
-      14000,    // 100  - 11
-      15500};   // 110  - 12
+    {  7500,    //  40  -  1 
+       7700,    //  50  -  2
+       8400,    //  55  -  3
+       8700,    //  60  -  4
+       8850,    //  65  -  5
+       9000,    //  70  -  6
+       9150,    //  75  -  7
+       9400,    //  80  -  8
+      10200,    //  85  -  9
+      11700,    //  90  - 10
+      13700,    // 100  - 11
+      15200};   // 110  - 12
 
       
 	  /** KnSHOT_l_ShooterDistAxis: Shooter System Command

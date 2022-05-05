@@ -38,6 +38,7 @@ public class CC_CameraTrackTarget extends CommandBase {
       m_camera.setNeutral();
     }
     SmartDashboard.putBoolean("Target Aligned", m_camera.isTargetValid() && m_camera.isPanInTolerance());
+    SmartDashboard.putNumber("Target Error", m_camera.errorToTargetPan());
 
   }
 
